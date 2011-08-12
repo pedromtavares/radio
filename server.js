@@ -19,20 +19,21 @@
  */
 require("colors");
 var fs = require("fs");
+var util = require("util");
 var http = require("http");
 var spawn = require("child_process").spawn;
 var icecast = require("icecast-stack");
 var nodeStatic = require('node-static');
-var url = 'http://stream.pedromtavares.com:10000'
-
-console.error("Radio connected!".green.italic.bold);
+var faye = require('faye');
+var domain = 'stream.pedromtavares.com'
+var port = '10000';
+var url = 'http://' + domain + ':' + port;
 
 // Connect to the remote radio stream, and pass the raw audio data to any
 // client requesting the "/stream" URL (will be an <audio> tag).
 //var stream = require('icecast-stack/client').createClient(station.url);
 var stream = require('radio-stream').createReadStream(url);
-var streamOnline = true;
-
+var streamOnline = false;
 // If the remote connection to the radio stream closes, then just shutdown the
 // server and print an error. Do something more elegant in a real world scenario.
 // stream.on("close", function() {
@@ -74,24 +75,55 @@ function currentBocSize() {
   return size;
 }
 
+var bayeux = new faye.NodeAdapter({
+  mount: '/faye',
+  timeout: 45
+});
+
+
+function publish(track){
+  console.log(streamOnline);
+  if (!streamOnline){
+    track = 'offline';
+  }
+  bayeux.getClient().publish('/track', {
+    track: track
+  });
+}
+
+stream.on("connect", function() {
+  // Send Request
+  var request = http.createClient(port, domain).request('GET', "/currentsong?sid=1", {});
+  request.on('response', function(response) {
+        response.on('data', function(chunk) {
+                streamOnline = true;
+        });
+  });
+  request.end();
+  
+  console.error("Radio connected!".green.italic.bold);
+});
+
 // We have to keep track of the currently playing song, so that we can
 // respond when "/metadata" is requested with an "X-Current-Track" header.
 var currentTrack;
 stream.on("metadata", function(metadata) {
   currentTrack = icecast.parseMetadata(metadata).StreamTitle;
+  publish(currentTrack);
   console.error(("Received 'metadata' event: ".bold + currentTrack).blue);
 });
+
 
 
 // Now we create the HTTP server.
 http.createServer(function(req, res) {
   
+  bayeux.attach(this);
+  
   stream.on('close', function() {
-    currentTrack = "offline";
+    publish('offline');
     streamOnline = false;
     console.error(("Connection to was closed!").red.bold);
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end(currentTrack);
   });
 
   // Does the client support icecast metadata?
@@ -125,7 +157,12 @@ http.createServer(function(req, res) {
   // If "/stream.mp3" is requested, fire up an MP3 encoder (lame), and start
   // streaming the MP3 data to the client.
   } else if (req.url == "/stream.mp3") {
-
+    
+    publish(currentTrack)
+    if (!streamOnline){
+      req.connection.emit('close');
+    }
+    
     var headers = {
       "Content-Type": "audio/mpeg",
       "Connection": "close",
@@ -195,6 +232,10 @@ http.createServer(function(req, res) {
   // If "/stream.ogg" is requested, fire up an OGG encoder (oggenc), and start
   // streaming the OGG vorbis data to the client.
   } else if (req.url == "/stream.ogg") {
+    publish(currentTrack)
+    if (!streamOnline){
+      req.connection.emit('close');
+    }
 
     var headers = {
       "Content-Type": "application/ogg",
@@ -262,28 +303,20 @@ http.createServer(function(req, res) {
       }
     });
 
-  // If "/metadata" is requested, then hold of on sending any response, but
-  // request the `icecast.ReadStream` instance to notify the request of the next
-  // 'metadata' event.
-  } else if (req.url == "/metadata") {
-    req.connection.setTimeout(0); // Disable timeouts
-    if (req.headers['x-current-track'] && currentTrack) {
-      res.writeHead(200, {
-        'Content-Type': 'text/plain',
-        'Content-Length': Buffer.byteLength(currentTrack)
-      });
-      res.end(currentTrack);
-    } else {
-      stream.once("metadata", function(metadata) {
-        var response = icecast.parseMetadata(metadata).StreamTitle;
-        res.writeHead(200, {
-          'Content-Type': 'text/plain',
-          'Content-Length': Buffer.byteLength(response)
-        });
-        res.end(response);
-      });
+  // Return the currentTrack in plain text
+  } else if (req.url == "/track") {
+    if (!currentTrack){
+      currentTrack = icecast.parseMetadata(metadata).StreamTitle;
     }
-  // Otherwise just serve the "index.html" file.
+    res.writeHead(200, {'Content-Type': 'text/plain'})
+    res.end(currentTrack);
+  // Return stream status in plain text
+  } else if (req.url == "/status"){
+    var result = streamOnline ? "online" : "offline";
+    res.writeHead(200, {'Content-Type': 'text/plain'})
+    res.end(result);
+    
+  // Otherwise serve static files.
     }else {
       var file = new nodeStatic.Server('./public', {
         cache: false

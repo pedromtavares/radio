@@ -1,0 +1,163 @@
+=== 0.6.3 / 2011-07-10
+TestSwarm build: http://swarm.jcoglan.com/job/69/
+
+* Use sequential message IDs to reduce memory usage on the client side
+* Only send advice with handshake and connect responses
+* Stop trying to publish /meta/* messages - no-one is listening and it breaks /**
+* Fix bug causing invalid listeners to appear after a client reconnection
+* Stop loading 'rubygems' within our library code
+* Make sure we only queue a message for each client once in the Redis engine
+* Use lists instead of sets for message queues in Redis
+* Improve clean-up of expired clients in Redis engine
+
+
+=== 0.6.2 / 2011-06-19
+
+* Add authentication, database selection and namespacing to Redis engine
+* Clean up all client data when removing clients from Redis
+* Fix cross-origin-long-polling for OPTIONS-aware browsers
+* Update secure WebSocket detection for recent Node versions
+* Reinstate 'faye.client' field in Rack environment
+
+
+=== 0.6.1 / 2011-06-06
+TestSwarm build: http://swarm.jcoglan.com/job/37/
+
+* Fix cross-origin-long-polling support in RackAdapter
+* Plug some potential memory leaks in Memory engine
+
+
+=== 0.6.0 / 2011-05-21
+TestSwarm build: http://swarm.jcoglan.com/job/27/
+
+* Extract core logic into the Engine class to support swappable backends
+* Introduce a Redis-backed engine to support clustered web front-ends
+* Use CORS for cross-domain long-polling
+* Make server more resilient against bad requests, including empty message lists
+* Perform subscription validation on the server and use errbacks to signal errors
+* Prohibit publishing to wildcard channels
+* Unsubscribing from a channel is now O(1) instead of O(N)
+* Much more thorough and consistent unit test coverage of both versions
+* Automatic integration tests using Terminus and TestSwarm
+
+
+=== 0.5.5 / 2011-01-16
+
+* Open a real socket to check for WebSocket usability, not just object detection
+* Catch server-side errors when handshaking with WebSockets
+
+
+=== 0.5.4 / 2010-12-19
+
+* Add a #callback method to Subscriptions to detect when they become active
+* Add :extensions option to RackAdapter to make it easier to extend middleware
+* Detect secure WebSocket requests through the HTTP_X_FORWARDED_PROTO header
+* Handle socket errors when sending WebSocket messages from NodeAdapter
+* Use exponential backoff to reconnect client-side WebSockets to reduce CPU load
+
+
+=== 0.5.3 / 2010-10-21
+
+* Improve detection of wss: requirement for secure WebSocket connections
+* Correctly use default ports (80,443) for server-side HTTP connections
+* Support legacy application/x-www-form-urlencoded POST requests
+* Delete unused Channel objects that have all their subscribers removed
+* Fix resend/reconnect logic in WebSocket transport
+* Keep client script in memory rather than reading it from disk every time
+* Prevent error-adding extensions from breaking the core protocol
+
+
+=== 0.5.2 / 2010-08-12
+
+* Support draft-76 of the WebSocket protocol (FF4, Chrome 6)
+* Reduce Connection::MAX_DELAY to improve latency
+
+
+=== 0.5.1 / 2010-07-21
+
+* Fix a publishing problem in Ruby LocalTransport
+
+
+=== 0.5.0 / 2010-07-17 
+
+* Handle multiple event listeners bound to a channel
+* Add extension system for adding domain-specific logic to the protocol
+* Improve handling of client reconnections if the server goes down
+* Change default polling interval to 0 (immediate reconnect)
+* Add support for WebSockets (draft75 only) as a network transport
+* Remove support for Ruby servers other than Thin
+* Make client and server compatible with CometD (1.x and 2.0) components
+* Improve clean-up of unused server-side connections
+* Change Node API for adding Faye service to an HTTP server
+
+
+=== 0.3.4 / 2010-06-20
+
+* Stop local clients going into an infinite loop if a subscription block causes a reconnect
+
+
+=== 0.3.3 / 2010-06-07
+
+* Bring Node APIs up to date with 0.1.97
+* Catch ECONNREFUSED errors in Node clients to withstand server outages
+* Refactor the Server internals
+
+
+=== 0.3.2 / 2010-04-04
+
+* Fix problems with JSON serialization when Prototype, MooTools present
+* Make the client reconnect if it doesn't hear from the server after a timeout
+* Stop JavaScript server returning NaN for advice.interval
+* Make Ruby server return an integer for advice.interval
+* Ensure EventMachine is running before handling messages
+* Handle 'data' and 'end' events properly in Node HTTP API
+* Switch to application/json for content types and stop using querystring format in POST bodies
+* Respond to any URL path under the mount point, not just the exact match
+
+
+=== 0.3.1 / 2010-03-09
+
+* Pass client down through Rack stack as env['faye.client']
+* Refactor some JavaScript internals to mirror Ruby codebase
+
+
+=== 0.3.0 / 2010-03-01
+
+* Add server-side clients for Node.js and Ruby environments
+* Clients support both HTTP and in-process transports
+* Fix ID generation in JavaScript version to 128-bit IDs
+* Fix bug in interpretation of ** channel wildcard
+* Users don't have to call #connect() on clients any more
+* Fix timeout race conditions that were killing active connections
+* Support new Node APIs from 0.1.29.
+
+
+=== 0.2.2 / 2010-02-10
+
+* Kick out requests with malformed JSON as 400s
+
+
+=== 0.2.1 / 2010-02-04
+
+* Fix server-side flushing of callback-polling connections
+* Backend can be used cross-domain if running on Node or Thin
+
+
+=== 0.2.0 / 2010-02-02
+
+* Port server to JavaScript with an adapter for Node.js
+* Support Thin's async responses in the Ruby version for complete non-blocking
+* Fix some minor client-side bugs in transport choice
+
+
+=== 0.1.1 / 2009-07-26
+
+* Fix a broken client build
+
+
+=== 0.1.0 / 2009-06-15
+
+* Ruby Bayeux server and Rack adapter
+* Internally evented using EventMachine, web frontend blocks
+* JavaScript client with long-polling and callback-polling
+
