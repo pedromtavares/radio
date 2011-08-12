@@ -87,7 +87,7 @@ stream.on("metadata", function(metadata) {
 http.createServer(function(req, res) {
   
   stream.on('close', function() {
-    currentTrack = "Stream is currently offline";
+    currentTrack = "offline";
     streamOnline = false;
     console.error(("Connection to was closed!").red.bold);
     res.writeHead(200, {'Content-Type': 'text/plain'});

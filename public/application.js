@@ -11,10 +11,14 @@ $(function(){
         if (data) {
           $('#track').html(data);
         }
-        poll();
+        // stop polling if there is no stream
+        if (data != 'offline'){
+          poll();
+        }
       },
       error: function(){
         $('h1').html('Stream currently offline');
+        poll();
       },
       headers: headers
     });
