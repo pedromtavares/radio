@@ -1,4 +1,5 @@
 $(function(){
+  var offlineMsg = 'Stream currently offline'
   // This 'poll()' function polls for 'metadata' events from the radio stream
   function poll(force) {
     var headers = {};
@@ -9,17 +10,20 @@ $(function(){
       url: '/metadata',
       success: function(data) {
         if (data) {
-          setTimeout(function(){
-            $('#track').html(data);
-          }, 20*1000)
-        }
-        // stop polling if there is no stream
-        if (data != 'offline'){
-          poll();
+          if (data == 'offline'){
+            // stop polling if there is no stream
+            $('#track').html(offlineMsg)
+          }else{
+            setTimeout(function(){
+              $('#track').html(data);
+              poll();
+            }, 20*1000) 
+          }
+          
         }
       },
       error: function(){
-        $('#track').html('Stream currently offline');
+        $('#track').html(offlineMsg);
         poll();
       },
       headers: headers
