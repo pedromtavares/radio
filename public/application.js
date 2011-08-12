@@ -9,7 +9,9 @@ $(function(){
       url: '/metadata',
       success: function(data) {
         if (data) {
-          $('#track').html(data);
+          setTimeout(function(){
+            $('#track').html(data);
+          }, 20*1000)
         }
         // stop polling if there is no stream
         if (data != 'offline'){
