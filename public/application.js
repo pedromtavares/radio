@@ -19,7 +19,7 @@ $(function(){
         }
       },
       error: function(){
-        $('h1').html('Stream currently offline');
+        $('#track').html('Stream currently offline');
         poll();
       },
       headers: headers
