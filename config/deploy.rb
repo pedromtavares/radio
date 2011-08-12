@@ -76,6 +76,5 @@ UPSTART
 end
 
 before 'deploy:setup', 'deploy:create_deploy_to_with_sudo'
-# don't execute upstart script because the app still needs to be started manually
-#after 'deploy:setup', 'deploy:write_upstart_script'
+after 'deploy:setup', 'deploy:write_upstart_script'
 #after "deploy:finalize_update", "deploy:update_submodules", "deploy:symlink_configs", "deploy:check_packages"
