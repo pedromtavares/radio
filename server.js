@@ -1,21 +1,17 @@
 /**
  * Original example at: https://github.com/TooTallNate/node-icecast-stack/blob/master/examples/simpleProxy/proxy.js
- * Modified by Pedro Mateus Tavares for my personal needs.
+ * Modified by me (Pedro Mateus Tavares) for my personal needs.
  
  * This example script demonstrates a basic proxy of the audio and metadata
  * through a Node HTTP server. The command-line tools `lame` and `oggenc` are
  * required for this to work. Invoking this script will start the HTTP server
  * on port 9000. If the browser requests:
  *
- *    "/"           - The index page will be returned.
  *    "/stream"     - Returns the raw PCM data from the transcoded input radio stream.
  *    "/stream.mp3" - Returns the radio stream, fed through `lame` and sent to the
  *                    client as MP3 audio data.
  *    "/stream.ogg" - Returns the radio stream, fed through `oggenc` and sent to
  *                    the client as OGG Vorbis audio data.
- *    "/metadata"   - A long-polling URI, which will return the value of the
- *                    metadata when a 'metadata' event happens on the
- *                    associated radio stream.
  */
 require("colors");
 var fs = require("fs");
@@ -34,12 +30,7 @@ var url = 'http://' + domain + ':' + port;
 //var stream = require('icecast-stack/client').createClient(station.url);
 var stream = require('radio-stream').createReadStream(url);
 var streamOnline = false;
-// If the remote connection to the radio stream closes, then just shutdown the
-// server and print an error. Do something more elegant in a real world scenario.
-// stream.on("close", function() {
-//   console.error(("Connection to '"+station.name+"' was closed!").red.bold);
-//   process.exit(1);
-// });
+
 
 // Decode the MP3 stream to raw PCM data, signed 16-bit Little-endian
 var pcm = spawn("lame", [
@@ -75,6 +66,7 @@ function currentBocSize() {
   return size;
 }
 
+// I'm using Faye to exchange messages with the client, such as which is the current track playing (instead of the example's original polling through constant AJAX requests)
 var bayeux = new faye.NodeAdapter({
   mount: '/faye',
   timeout: 45
@@ -82,7 +74,6 @@ var bayeux = new faye.NodeAdapter({
 
 
 function publish(track){
-  console.log(streamOnline);
   if (!streamOnline){
     track = 'offline';
   }
@@ -91,21 +82,7 @@ function publish(track){
   });
 }
 
-stream.on("connect", function() {
-  // Send Request
-  var request = http.createClient(port, domain).request('GET', "/currentsong?sid=1", {});
-  request.on('response', function(response) {
-        response.on('data', function(chunk) {
-                streamOnline = true;
-        });
-  });
-  request.end();
-  
-  console.error("Radio connected!".green.italic.bold);
-});
-
-// We have to keep track of the currently playing song, so that we can
-// respond when "/metadata" is requested with an "X-Current-Track" header.
+// Keep track of the current track playing, which gets updated when the stream receives metadata.
 var currentTrack;
 stream.on("metadata", function(metadata) {
   currentTrack = icecast.parseMetadata(metadata).StreamTitle;
@@ -113,6 +90,19 @@ stream.on("metadata", function(metadata) {
   console.error(("Received 'metadata' event: ".bold + currentTrack).blue);
 });
 
+
+stream.on("connect", function() {
+  // Request the stream to see if there is a song playing, this way we can immediately message the user that the stream is offline because as soon as /stream.ogg or /stream.mp3 is requested, publish() is called
+  var request = http.createClient(port, domain).request('GET', "/currentsong?sid=1", {});
+  request.on('response', function(response) {
+        response.on('data', function(data) {
+                streamOnline = true;
+                currentTrack = ""+data;
+                console.error("Stream successfully connected!".green.italic.bold);
+        });
+  });
+  request.end();
+});
 
 
 // Now we create the HTTP server.
@@ -158,7 +148,7 @@ http.createServer(function(req, res) {
   // streaming the MP3 data to the client.
   } else if (req.url == "/stream.mp3") {
     
-    publish(currentTrack)
+    publish(currentTrack);
     if (!streamOnline){
       req.connection.emit('close');
     }
@@ -232,7 +222,7 @@ http.createServer(function(req, res) {
   // If "/stream.ogg" is requested, fire up an OGG encoder (oggenc), and start
   // streaming the OGG vorbis data to the client.
   } else if (req.url == "/stream.ogg") {
-    publish(currentTrack)
+    publish(currentTrack);
     if (!streamOnline){
       req.connection.emit('close');
     }
