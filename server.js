@@ -90,7 +90,8 @@ stream.on("metadata", function(metadata) {
   console.error(("Received 'metadata' event: ".bold + currentTrack).blue);
 });
 
-
+// Keep track of the current DJ sending the stream, which gets set when the stream is connected.
+var currentDJ;
 stream.on("connect", function() {
   // Request the stream to see if there is a song playing, this way we can immediately message the user that the stream is offline because as soon as /stream.ogg or /stream.mp3 is requested, publish() is called
   var request = http.createClient(port, domain).request('GET', "/currentsong?sid=1", {});
@@ -98,6 +99,7 @@ stream.on("connect", function() {
         response.on('data', function(data) {
                 streamOnline = true;
                 currentTrack = ""+data;
+                currentDJ = stream.headers['icy-name'];
                 console.error("Stream successfully connected!".green.italic.bold);
         });
   });
@@ -303,6 +305,11 @@ http.createServer(function(req, res) {
   // Return stream status in plain text
   } else if (req.url == "/status"){
     var result = streamOnline ? "online" : "offline";
+    res.writeHead(200, {'Content-Type': 'text/plain'})
+    res.end(result);
+  // Return current DJ in plain text
+  } else if (req.url == "/dj"){
+    var result = streamOnline ? currentDJ : "offline";
     res.writeHead(200, {'Content-Type': 'text/plain'})
     res.end(result);
     
