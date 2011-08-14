@@ -1,7 +1,7 @@
 $(function(){
 
-  var url = "http://localhost:9000/faye"
-  //var url = "http://radio.pedromtavares.com/faye"
+  //var url = "http://localhost:9000/faye"
+  var url = "http://radio.pedromtavares.com/faye"
   
   var client = new Faye.Client(url, {
     timeout: 120
