@@ -42,7 +42,7 @@ div.jp-interface {
 	background-color:#eee;
 	/* width:418px; */
 	width:100%;
-	border:1px solid #009be3;
+	border:1px solid #CCC;
 }
 div.jp-audio div.jp-type-single div.jp-interface {
 	height:80px;
@@ -353,7 +353,7 @@ div.jp-playlist {
 	/* width:418px; */
 	width:100%;
 	background-color:#ccc;
-	border:1px solid #009be3;
+	border:1px solid #CCC;
 	border-top:none;
 }
 div.jp-playlist ul {
