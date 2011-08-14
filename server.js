@@ -29,7 +29,6 @@ var url = 'http://' + domain + ':' + port;
 // client requesting the "/stream" URL (will be an <audio> tag).
 //var stream = require('icecast-stack/client').createClient(station.url);
 var stream = require('radio-stream').createReadStream(url);
-var streamOnline = false;
 
 
 // Decode the MP3 stream to raw PCM data, signed 16-bit Little-endian
@@ -74,13 +73,22 @@ var bayeux = new faye.NodeAdapter({
 
 
 function publish(track){
-  if (!streamOnline){
+  if (!currentDJ){
     track = 'offline';
   }
   bayeux.getClient().publish('/track', {
     track: track
   });
 }
+
+// Keep track of the current DJ sending the stream, which gets set when the stream is connected.
+var currentDJ;
+stream.on("connect", function() {
+  currentDJ = stream.headers['icy-name'];
+  if (currentDJ){
+    console.error("Stream successfully connected!".green.italic.bold);
+  }
+});
 
 // Keep track of the current track playing, which gets updated when the stream receives metadata.
 var currentTrack;
@@ -90,20 +98,11 @@ stream.on("metadata", function(metadata) {
   console.error(("Received 'metadata' event: ".bold + currentTrack).blue);
 });
 
-// Keep track of the current DJ sending the stream, which gets set when the stream is connected.
-var currentDJ;
-stream.on("connect", function() {
-  // Request the stream to see if there is a song playing, this way we can immediately message the user that the stream is offline because as soon as /stream.ogg or /stream.mp3 is requested, publish() is called
-  var request = http.createClient(port, domain).request('GET', "/currentsong?sid=1", {});
-  request.on('response', function(response) {
-        response.on('data', function(data) {
-                streamOnline = true;
-                currentTrack = ""+data;
-                currentDJ = stream.headers['icy-name'];
-                console.error("Stream successfully connected!".green.italic.bold);
-        });
-  });
-  request.end();
+// Null the currentDJ when the stream is closed
+stream.on('close', function() {
+  currentDJ = false;
+  publish('offline');
+  console.error(("Connection to was closed!").red.bold);
 });
 
 
@@ -111,12 +110,6 @@ stream.on("connect", function() {
 http.createServer(function(req, res) {
   
   bayeux.attach(this);
-  
-  stream.on('close', function() {
-    publish('offline');
-    streamOnline = false;
-    console.error(("Connection to was closed!").red.bold);
-  });
 
   // Does the client support icecast metadata?
   var acceptsMetadata = req.headers['icy-metadata'] == 1;
@@ -151,7 +144,7 @@ http.createServer(function(req, res) {
   } else if (req.url == "/stream.mp3") {
     
     publish(currentTrack);
-    if (!streamOnline){
+    if (!currentDJ){
       req.connection.emit('close');
     }
     
@@ -199,7 +192,7 @@ http.createServer(function(req, res) {
     });
 
     // First, send what's inside the "Burst-on-Connect" buffers.
-    if (streamOnline){
+    if (currentDJ){
       for (var i=0, l=bocData.length; i<l; i++) {
         mp3.stdin.write(bocData[i]);
       }
@@ -225,7 +218,7 @@ http.createServer(function(req, res) {
   // streaming the OGG vorbis data to the client.
   } else if (req.url == "/stream.ogg") {
     publish(currentTrack);
-    if (!streamOnline){
+    if (!currentDJ){
       req.connection.emit('close');
     }
 
@@ -273,7 +266,7 @@ http.createServer(function(req, res) {
     });
 
     // First, send what's inside the "Burst-on-Connect" buffers.
-    if (streamOnline){
+    if (currentDJ){
       for (var i=0, l=bocData.length; i<l; i++) {
         ogg.stdin.write(bocData[i]);
       }
@@ -302,14 +295,9 @@ http.createServer(function(req, res) {
     }
     res.writeHead(200, {'Content-Type': 'text/plain'})
     res.end(currentTrack);
-  // Return stream status in plain text
-  } else if (req.url == "/status"){
-    var result = streamOnline ? "online" : "offline";
-    res.writeHead(200, {'Content-Type': 'text/plain'})
-    res.end(result);
   // Return current DJ in plain text
   } else if (req.url == "/dj"){
-    var result = streamOnline ? currentDJ : "offline";
+    var result = currentDJ ? currentDJ : "";
     res.writeHead(200, {'Content-Type': 'text/plain'})
     res.end(result);
     

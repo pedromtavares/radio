@@ -245,7 +245,7 @@ a.jp-unmute {
 div.jp-audio div.jp-type-single a.jp-mute,
 div.jp-audio div.jp-type-single a.jp-unmute {
 	top:32px;
-	left:274px;
+	left:134px;
 }
 div.jp-audio div.jp-type-playlist a.jp-mute,
 div.jp-audio div.jp-type-playlist a.jp-unmute {
@@ -295,7 +295,7 @@ div.jp-volume-bar {
 }
 div.jp-audio div.jp-type-single div.jp-volume-bar {
 	top:37px;
-	left:302px;
+	left:162px;
 }
 div.jp-audio div.jp-type-playlist div.jp-volume-bar {
 	top:37px;
@@ -332,8 +332,8 @@ div.jp-duration {
 }
 div.jp-audio div.jp-type-single div.jp-current-time,
 div.jp-audio div.jp-type-single div.jp-duration {
-	top:49px;
-	left:130px;
+	top:60px;
+	left:160px;
 	width:122px;
 }
 div.jp-audio div.jp-type-playlist div.jp-current-time,
