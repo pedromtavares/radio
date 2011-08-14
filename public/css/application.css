@@ -2,3 +2,15 @@
   text-align:center;
   color: #AAA;
 }
+
+#players{
+  width: 380px;
+  position:absolute;
+  left:210px;
+  text-align:center;
+  color: #AAA;
+}
+
+#players img{
+  margin: 0 20px;
+}
