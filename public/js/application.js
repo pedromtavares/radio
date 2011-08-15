@@ -1,6 +1,42 @@
-$(function(){
+function RadioClient(){
+  if (! (this instanceof arguments.callee)){
+    return new arguments.callee(arguments);
+  }
+  var self = this;
   
-  function startPlayer(){
+  this.init = function(){
+    self.setupBayeuxHandlers();
+    self.getDJ();
+  };
+  
+  this.setupBayeuxHandlers = function() {
+    $.getJSON("/config", function (config) {
+      self.client = new Faye.Client("http://" + window.location.hostname + ':' + config.port + '/faye', {
+        timeout: 120
+      });
+
+      self.client.subscribe('/track', function (message) {
+        var track = message.track;
+        if (track == 'offline'){
+          self.goOffline();
+        }else{
+          self.nextTrack(track);
+        }
+      });
+    });
+  };
+  
+  this.getDJ = function(){
+    $.get('/dj', function(data) {
+      if (data == ''){
+        self.goOffline();
+      }else{
+        self.goOnline(data);
+      }
+    });
+  };
+  
+  this.startPlayer = function(){
     $("#jplayer").jPlayer({
       ready: function () {
         $(this).jPlayer("setMedia", {
@@ -11,24 +47,24 @@ $(function(){
       swfPath: "/public",
       supplied: "mp3, oga"
     });
-  }
+  };
   
-  function stopPlayer(){
+  this.stopPlayer = function(){
     $("#jplayer").jPlayer("clearMedia");
-  }
+  };
   
-  function goOnline(dj){
+  this.goOnline = function(dj){
     $('#dj').html(dj);
-    startPlayer();
-  }
+    self.startPlayer();
+  };
   
-  function goOffline(){
+  this.goOffline = function(){
     $('#current_dj').hide();
-    $('#current_track').html("Rádio está offline. Tente recarregar o navegador ou tente mais tarde.");
-    stopPlayer();
-  }
+    $('#current_track').html("A rádio está offline. Tente recarregar o navegador ou tente mais tarde.");
+    self.stopPlayer();
+  };
   
-  function nextTrack(track){
+  this.nextTrack = function(track){
     // Don't show the next track immediately since the stream delay is about 15 seconds, so we don't want to spoil out 
     // what the next track is gonna be 15 seconds before it actually starts. It's ok to show it immediately if 
     // there was nothing playing (or if you just connected to the stream).
@@ -38,31 +74,11 @@ $(function(){
       $('#track').html(track);
     }, time * 1000)
     console.log(track);
-  }
-
-  //var url = "http://localhost:9000/faye"
-  var url = "http://radio.pedromtavares.com/faye"
-    
-  var client = new Faye.Client(url, {
-    timeout: 120
-  });
-    
-  $.get('/dj', function(data) {
-    if (data == ''){
-      goOffline();
-    }else{
-      goOnline(data);
-    }
-  });
+  };
   
-  client.subscribe('/track', function (message) {
-    var track = message.track;
-    if (track == 'offline'){
-      goOffline();
-    }else{
-      nextTrack(track);
-    }
-  });
-  
+  this.init();
+}
 
+$(function(){
+  new RadioClient();
 });
