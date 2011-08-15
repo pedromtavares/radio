@@ -13,5 +13,6 @@ var Radio = require('./lib/radio');
 
 new Radio({
   url: "http://stream.pedromtavares.com:10000",
-  port: 9000
+  port: 9000,
+  reconnectTime: 30 // in seconds
 });

@@ -6,6 +6,8 @@ function RadioClient(){
   
   this.init = function(){
     self.setupBayeuxHandlers();
+    self.currentDJ = false;
+    self.setPlayer();
     self.getDJ();
   };
   
@@ -32,11 +34,12 @@ function RadioClient(){
         self.goOffline();
       }else{
         self.goOnline(data);
+        self.currentDJ = data;
       }
     });
   };
   
-  this.startPlayer = function(){
+  this.setPlayer = function(){
     $("#jplayer").jPlayer({
       ready: function () {
         $(this).jPlayer("setMedia", {
@@ -49,22 +52,34 @@ function RadioClient(){
     });
   };
   
+  this.startPlayer = function(){
+    $("#jplayer").jPlayer("play");
+  };
+  
   this.stopPlayer = function(){
-    $("#jplayer").jPlayer("clearMedia");
+    $("#jplayer").jPlayer("stop");
   };
   
   this.goOnline = function(dj){
+    $('#offline_msg').hide();
+    $('#current_dj').show();
+    $('#current_track').show();
     $('#dj').html(dj);
     self.startPlayer();
   };
   
   this.goOffline = function(){
+    $('#offline_msg').show();
     $('#current_dj').hide();
-    $('#current_track').html("A rádio está offline. Tente recarregar o navegador ou tente mais tarde.");
+    $('#current_track').hide();
+    self.currentDJ = false;
     self.stopPlayer();
   };
   
   this.nextTrack = function(track){
+    if (!self.currentDJ){
+      self.getDJ();
+    }
     // Don't show the next track immediately since the stream delay is about 15 seconds, so we don't want to spoil out 
     // what the next track is gonna be 15 seconds before it actually starts. It's ok to show it immediately if 
     // there was nothing playing (or if you just connected to the stream).
