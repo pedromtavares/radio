@@ -13,7 +13,7 @@ default_run_options[:pty] = true
 
 set :node_env, "production"
 set :branch, "master"
-set :application_port, "11000"
+set :application_port, "9000"
 
 role :app, "66.228.47.42"
 
