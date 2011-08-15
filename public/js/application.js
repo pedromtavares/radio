@@ -7,7 +7,6 @@ function RadioClient(){
   this.init = function(){
     self.setupBayeuxHandlers();
     self.currentDJ = false;
-    self.setPlayer();
     self.getDJ();
   };
   
@@ -39,7 +38,7 @@ function RadioClient(){
     });
   };
   
-  this.setPlayer = function(){
+  this.startPlayer = function(){
     $("#jplayer").jPlayer({
       ready: function () {
         $(this).jPlayer("setMedia", {
@@ -52,18 +51,11 @@ function RadioClient(){
     });
   };
   
-  this.startPlayer = function(){
-    $("#jplayer").jPlayer("play");
-  };
-  
   this.stopPlayer = function(){
-    $("#jplayer").jPlayer("stop");
+    $("#jplayer").jPlayer("clearMedia");
   };
   
   this.goOnline = function(dj){
-    $('#offline_msg').hide();
-    $('#current_dj').show();
-    $('#current_track').show();
     $('#dj').html(dj);
     self.startPlayer();
   };
@@ -78,7 +70,7 @@ function RadioClient(){
   
   this.nextTrack = function(track){
     if (!self.currentDJ){
-      self.getDJ();
+      window.location.reload();
     }
     // Don't show the next track immediately since the stream delay is about 15 seconds, so we don't want to spoil out 
     // what the next track is gonna be 15 seconds before it actually starts. It's ok to show it immediately if 
