@@ -29,6 +29,10 @@ namespace :deploy do
   task :restart do
     run "sudo restart #{application}_#{node_env} || sudo start #{application}_#{node_env}"
   end
+  
+  task :reset_shoutcast do
+    run "killall sc_serv && /root/shoutcast/sc_serv daemon /root/shoutcast/sc_serv_basic.conf"
+  end
 
   # desc "Symlink config files"
   # task :symlink_configs, :roles => :app do
@@ -75,6 +79,7 @@ UPSTART
 
 end
 
+after 'deploy', 'deploy:symlink_db'
 before 'deploy:setup', 'deploy:create_deploy_to_with_sudo'
 after 'deploy:setup', 'deploy:write_upstart_script'
 #after "deploy:finalize_update", "deploy:update_submodules", "deploy:symlink_configs", "deploy:check_packages"
