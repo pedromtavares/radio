@@ -31,7 +31,7 @@ namespace :deploy do
   end
   
   task :reset_shoutcast do
-    run "killall sc_serv && /root/shoutcast/sc_serv daemon /root/shoutcast/sc_serv_basic.conf"
+    run "killall -9 sc_serv && /home/deployer/shoutcast/sc_serv daemon /home/deployer/shoutcast/sc_serv_basic.conf "
   end
 
   # desc "Symlink config files"
