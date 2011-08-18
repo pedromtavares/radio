@@ -33,18 +33,6 @@ namespace :deploy do
     run "killall -9 sc_serv && /home/deployer/shoutcast/sc_serv daemon /home/deployer/shoutcast/sc_serv_basic.conf "
   end
 
-  # desc "Symlink config files"
-  # task :symlink_configs, :roles => :app do
-  #   %w[app_config.yml].each do |f|
-  #     run "ln -sf #{shared_path}/config/#{f} #{release_path}/config/#{f}"
-  #   end
-  # end
-
-  # desc "Check required packages and install if packages are not installed"
-  # task :check_packages, roles => :app do
-  #   run "cd #{release_path} && jake depends"
-  # end
-
   task :create_deploy_to_with_sudo, :roles => :app do
     sudo "mkdir -p #{deploy_to}"
     sudo "chown #{runner} #{deploy_to}"
@@ -63,7 +51,7 @@ namespace :deploy do
       export NODE_ENV="#{node_env}"
 
       cd #{current_path}
-      exec sudo -u #{runner} sh -c "NODE_ENV=#{node_env} /usr/local/bin/node #{current_path}/#{node_file} >> #{shared_path}/log/#{node_env}.log 2>&1"
+      exec sudo -u root sh -c "NODE_ENV=#{node_env} /usr/local/bin/node #{current_path}/#{node_file} >> #{shared_path}/log/#{node_env}.log 2>&1"
   end script
   respawn
 UPSTART
@@ -71,14 +59,9 @@ UPSTART
     sudo "mv /tmp/#{application}_upstart.conf /etc/init/#{application}_#{node_env}.conf"
   end
 
-  # desc "Update submodules"
-  # task :update_submodules, :roles => :app do
-  #   run "cd #{release_path}; git submodule init && git submodule update"
-  # end
 
 end
 
 before 'deploy', 'deploy:reset_shoutcast'
 before 'deploy:setup', 'deploy:create_deploy_to_with_sudo'
 after 'deploy:setup', 'deploy:write_upstart_script'
-#after "deploy:finalize_update", "deploy:update_submodules", "deploy:symlink_configs", "deploy:check_packages"
