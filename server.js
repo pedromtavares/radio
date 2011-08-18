@@ -21,7 +21,7 @@ process.addListener('uncaughtException', function (err, stack) {
 new Radio({
   url: "http://stream.pedromtavares.com:10000",
   port: 80,
-  host: 'radio',
+  host: '173.255.227.12',
   reconnectTime: 60 // in seconds
 });
 
