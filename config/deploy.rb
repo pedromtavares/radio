@@ -13,7 +13,6 @@ default_run_options[:pty] = true
 
 set :node_env, "production"
 set :branch, "master"
-set :application_port, "80"
 
 role :app, "173.255.227.12"
 
@@ -47,8 +46,8 @@ namespace :deploy do
   # end
 
   task :create_deploy_to_with_sudo, :roles => :app do
-    run "sudo mkdir -p #{deploy_to}"
-    run "sudo chown #{runner} #{deploy_to}"
+    sudo "mkdir -p #{deploy_to}"
+    sudo "chown #{runner} #{deploy_to}"
   end
 
   task :write_upstart_script, :roles => :app do
@@ -64,12 +63,12 @@ namespace :deploy do
       export NODE_ENV="#{node_env}"
 
       cd #{current_path}
-      exec sudo -u #{runner} sh -c "NODE_ENV=#{node_env} /usr/local/bin/node #{current_path}/#{node_file} #{application_port} >> #{shared_path}/log/#{node_env}.log 2>&1"
+      exec sudo -u #{runner} sh -c "NODE_ENV=#{node_env} /usr/local/bin/node #{current_path}/#{node_file} >> #{shared_path}/log/#{node_env}.log 2>&1"
   end script
   respawn
 UPSTART
   put upstart_script, "/tmp/#{application}_upstart.conf"
-    run "sudo mv /tmp/#{application}_upstart.conf /etc/init/#{application}_#{node_env}.conf"
+    sudo "mv /tmp/#{application}_upstart.conf /etc/init/#{application}_#{node_env}.conf"
   end
 
   # desc "Update submodules"
