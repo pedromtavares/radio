@@ -13,9 +13,9 @@ default_run_options[:pty] = true
 
 set :node_env, "production"
 set :branch, "master"
-set :application_port, "9000"
+set :application_port, "80"
 
-role :app, "66.228.47.42"
+role :app, "173.255.227.12"
 
 namespace :deploy do
   task :start do

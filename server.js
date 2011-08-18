@@ -11,8 +11,19 @@
 
 var Radio = require('./lib/radio');
 
+process.addListener('uncaughtException', function (err, stack) {
+  console.log('------------------------');
+  console.log('Exception: ' + err);
+  console.log(err.stack);
+  console.log('------------------------');
+});
+
 new Radio({
   url: "http://stream.pedromtavares.com:10000",
-  port: 9000,
+  port: 80,
+  host: 'radio',
   reconnectTime: 60 // in seconds
 });
+
+
+
