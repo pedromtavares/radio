@@ -19,15 +19,15 @@ role :app, "173.255.227.12"
 
 namespace :deploy do
   task :start do
-    run "sudo start #{application}_#{node_env}"
+    sudo "start #{application}_#{node_env}"
   end
 
   task :stop do
-    run "sudo stop #{application}_#{node_env}"
+    sudo "stop #{application}_#{node_env}"
   end
 
   task :restart do
-    run "sudo restart #{application}_#{node_env} || sudo start #{application}_#{node_env}"
+    sudo "restart #{application}_#{node_env} || start #{application}_#{node_env}"
   end
   
   task :reset_shoutcast do
