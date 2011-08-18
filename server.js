@@ -25,5 +25,11 @@ new Radio({
   reconnectTime: 60 // in seconds
 });
 
+// local testing
+// new Radio({
+//   url: "http://stream.pedromtavares.com:10000",
+//   port: 8000,
+//   reconnectTime: 5 // in seconds
+// });
 
 
