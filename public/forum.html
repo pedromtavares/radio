@@ -1,0 +1,33 @@
+<!doctype html>  
+  <head>
+  	<meta charset="utf-8" />
+  	<script src="js/libs/modernizr.min.js"></script>
+  	<link rel="stylesheet" href="css/graphite.css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lobster" />
+  </head>
+  <body>
+    <div style="width:260px">
+      <a href="/" target="_blank"><img src="images/logo-small.png" style="margin:0"/></a>  
+      <a id="info" href="/" target="_blank">
+        <p><strong><span id="track"></span></strong></p>
+        <p>by DJ <strong><span id="dj"></span></strong></p>
+      </a>
+      <a href="http://www.dotabr.xpg.com.br/forum/index.php/topic/41811-radio-da-galere-topico-oficial/" target="_blank">Quer ser DJ da rádio? Visite o tópico oficial aqui!</div></a>
+    </div>
+    <script type="text/javascript" src="js/libs/jquery.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        $.get('/dj', function(data) {
+          if (data == ''){
+            $('#info').html("<strong>Rádio está offline.</strong>");
+          }else{
+            $('#dj').html(data);
+            $.get('/track', function(track){
+              $('#track').html(track);
+            })
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
