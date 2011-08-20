@@ -19,7 +19,7 @@
       $(function(){
         $.get('/dj', function(data) {
           if (data == ''){
-            $('#info').html("<strong>Rádio está offline.</strong>");
+            $('#info').html("<strong>Rádio está offline.</strong><br/>");
           }else{
             $('#dj').html(data);
             $.get('/track', function(track){
