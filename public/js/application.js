@@ -16,8 +16,10 @@ function RadioClient(){
         timeout: 120
       });
 
-      self.client.subscribe('/track', function (message) {
+      self.client.subscribe('/radio', function (message) {
         var track = message.track;
+        var listeners = message.listeners;
+        $('#listeners').html(listeners);
         if (track == 'offline'){
           self.goOffline();
         }else{
