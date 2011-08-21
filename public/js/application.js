@@ -8,15 +8,16 @@ function RadioClient(){
     self.setupBayeuxHandlers();
     self.currentDJ = false;
     self.getDJ();
+    self.renderChatHistory();
   };
   
   this.setupBayeuxHandlers = function() {
     $.getJSON("/config", function (config) {
-      self.client = new Faye.Client("http://" + window.location.hostname + ':' + config.port + '/faye', {
+      self.fayeClient = new Faye.Client("http://" + window.location.hostname + ':' + config.port + '/faye', {
         timeout: 120
       });
 
-      self.client.subscribe('/radio', function (message) {
+      self.fayeClient.subscribe('/radio', function (message) {
         var track = message.track;
         var listeners = message.listeners;
         $('#listeners').html(listeners);
@@ -26,8 +27,33 @@ function RadioClient(){
           self.nextTrack(track);
         }
       });
+      
+      self.fayeClient.subscribe('/chat', function (message) {
+        $('#chatbox').append(self.renderChatRow(message));
+        $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+      });
     });
   };
+  
+  this.renderChatRow = function(message){
+    var ts = new Date(message.timestamp);
+    var author = "<div class='author'>"+message.author+"</div>";
+    var time = "<div class='time'>("+addZero(ts.getHours())+":"+addZero(ts.getMinutes())+")</div>";
+    var message = "<div class='message'>" + message.message + "</div>";
+    var row = "<div class='chat_row'>"+author+time+message+"</div>";
+    return row;
+  };
+  
+  this.renderChatHistory = function(){
+    $.get('/history', function(messages) {
+      messages = JSON.parse(messages);
+      for(index in messages){
+        if (messages[index].author){
+          $('#chatbox').append("<div style='color:lightgray'>"+self.renderChatRow(messages[index])+"</div>");
+        }
+      }
+    });
+  }
   
   this.getDJ = function(){
     $.get('/dj', function(data) {
@@ -89,5 +115,47 @@ function RadioClient(){
 }
 
 $(function(){
-  new RadioClient();
+  var client = new RadioClient();
+  
+  var message = $('#message');
+  var author = $('#author');
+  
+  
+  $('#submit').click(function(){
+    if(message.val() != '' && author.val() != ''){
+      client.fayeClient.publish('/broadchat', {
+        author: sanitizeHtml(author.val())
+      , message: sanitizeHtml(message.val()) 
+      });
+      message.val('');
+      message.focus();
+    }
+
+  });
+  
+  message.keypress(function(e){
+    if(e.which == 13){
+      $('#submit').click();
+     }
+  });
+  
+  author.keypress(function(e){
+    if(e.which == 13){
+      message.focus();
+     }
+  });
 });
+
+function sanitizeHtml(text){
+  return text.replace(/&/g,'&amp;').
+     replace(/</g,'&lt;').
+     replace(/"/g,'&quot;').
+     replace(/'/g,'&#039;');
+}
+
+function addZero(number){
+  if(number < 10){
+    return '0'+number;
+  }
+  return number;
+}

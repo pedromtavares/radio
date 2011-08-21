@@ -89,15 +89,13 @@
 		
 		</section>
 		
-		<section class="content hidden">
+		<section class="content">
 					
 			<ul class="tabs">
 	              
 	            <li><a href="#tab1">Chat</a></li>        
-	            <li><a href="#tab2">Social</a></li>
-	            <li><a href="#tab3">About</a></li>
-	            <li><a href="#tab4">Contact</a></li>
-	            <li><a href="#tab5">Work</a></li>
+	            <li><a href="#tab2">DJs</a></li>
+	            <li><a href="#tab3">Sobre</a></li>
 	    
 	        </ul>
 	        
@@ -106,45 +104,10 @@
 	          <div id="tab1" class="tab_content work">
 	            <p class="center spaced"><strong>Peça músicas e converse com outros ouvintes!</strong></p>
 	            <div id="chatbox">
-	              <div class="chat_row">
-  	              <div class="author">Pedro</div>
-  	              <div class="time">(12:30)</div>
-  	              <div class="message">ola sou pedro blz</div>
-  	            </div>
-  	            <div class="chat_row">
-  	              <div class="author">Pedro</div>
-  	              <div class="time">(12:30)</div>
-  	              <div class="message">ola sou pedro blz</div>
-  	            </div>
-  	            <div class="chat_row">
-  	              <div class="author">Pedro</div>
-  	              <div class="time">(12:30)</div>
-  	              <div class="message">ola sou pedro blz</div>
-  	            </div>
-  	            <div class="chat_row">
-  	              <div class="author">Pedro</div>
-  	              <div class="time">(12:30)</div>
-  	              <div class="message">ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou pedola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou ped</div>
-  	            </div>
-  	            <div class="chat_row">
-  	              <div class="author">Pedro</div>
-  	              <div class="time">(12:30)</div>
-  	              <div class="message">ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou pedola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou ped</div>
-  	            </div>
-  	            <div class="chat_row">
-  	              <div class="author">Pedro</div>
-  	              <div class="time">(12:30)</div>
-  	              <div class="message">ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou pedola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou ped</div>
-  	            </div>
-  	            <div class="chat_row">
-  	              <div class="author">Pedro</div>
-  	              <div class="time">(12:30)</div>
-  	              <div class="message">ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou pedola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou ola sou pedro blz ola sou pedro blz ola sou pedro blz ola sou ped</div>
-  	            </div>
 	            </div>
               <input type="text" name="author" maxlength=15 placeholder="Nome" class="text" id="author"/>
               <input type="text" name="message" maxlength=140 placeholder="Mensagem" class="text" id="message"/>
-              <input type="button" value="Enviar" class="submit">
+              <input type="button" value="Enviar" class="submit" id="submit">
             </div>
 	        
 	            <div id="tab2" class="tab_content social">
@@ -247,44 +210,6 @@
 					</table>
 	                
 	            </div><!--/tab2-->
-	            
-	            <div id="tab4" class="tab_content contact">
-	                
-	                <h2>Contact us</h2>
-	                
-	                <form method="post" class="contact" action="contact.php">
-	                	
-	                	<p class="input">
-	                		<label for="name">Name</label>
-	                		<input type="text" class="text" name="name" id="name" placeholder="Your Name" />
-	                	</p>
-	                	<p class="input">
-	                		<label for="email">Email</label>
-	                		<input type="text" class="text" name="email" id="email" placeholder="you@yourdomain.com" />
-	                	</p>
-	                	<p class="input">
-	                		<label for="message">Message</label>
-	                		<textarea name="message" class="text" id="message" placeholder="Your Message" rows="5" cols="20"></textarea>
-	                	</p>
-	                	<p class="input">
-	                		<input class="submit" type="submit" value="Send" />
-	                		<input type="text" class="honeypot" title="Leave Blank" name="honeypot" value="" />
-	                	</p>
-	                	
-	                </form>
-	                
-	            </div><!--/tab3-->
-	            
-	            <div id="tab5" class="tab_content work">
-	            	
-	            	<h2>Work</h2>
-	            	<p>Below is some examples of my work.</p>
-	            	
-	            	<ul class="works">
-	            		
-	            	</ul>
-	            	
-	            </div><!--/tab4-->
 	            
 	        </div><!--/tab_container-->
 		

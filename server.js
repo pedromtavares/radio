@@ -18,19 +18,19 @@ process.addListener('uncaughtException', function (err, stack) {
   console.log('------------------------');
 });
 
-new Radio({
-  url: "http://stream.pedromtavares.com:10000",
-  port: 80,
-  host: '173.255.227.12',
-  reconnectTime: 60 // in seconds
-});
+// new Radio({
+//   url: "http://stream.pedromtavares.com:10000",
+//   port: 80,
+//   host: '173.255.227.12',
+//   reconnectTime: 60 // in seconds
+// });
 
 // local testing
 
-// new Radio({
-//   url: "http://stream.pedromtavares.com:10000",
-//   port: 8000,
-//   reconnectTime: 5 // in seconds
-// });
+new Radio({
+  url: "http://stream.pedromtavares.com:10000",
+  port: 8000,
+  reconnectTime: 5 // in seconds
+});
 
 
