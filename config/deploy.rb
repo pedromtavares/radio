@@ -62,6 +62,6 @@ UPSTART
 
 end
 
-before 'deploy', 'deploy:reset_shoutcast'
+#before 'deploy', 'deploy:reset_shoutcast'
 before 'deploy:setup', 'deploy:create_deploy_to_with_sudo'
 after 'deploy:setup', 'deploy:write_upstart_script'
