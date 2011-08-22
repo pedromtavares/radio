@@ -35,25 +35,7 @@ function RadioClient(){
     });
   };
   
-  this.renderChatRow = function(message){
-    var ts = new Date(message.timestamp);
-    var author = "<div class='author'>"+message.author+"</div>";
-    var time = "<div class='time'>("+addZero(ts.getHours())+":"+addZero(ts.getMinutes())+")</div>";
-    var message = "<div class='message'>" + message.message + "</div>";
-    var row = "<div class='chat_row'>"+author+time+message+"</div>";
-    return row;
-  };
-  
-  this.renderChatHistory = function(){
-    $.get('/history', function(messages) {
-      messages = JSON.parse(messages);
-      for(index in messages){
-        if (messages[index].author){
-          $('#chatbox').append("<div style='color:lightgray'>"+self.renderChatRow(messages[index])+"</div>");
-        }
-      }
-    });
-  }
+  /* Player Related */
   
   this.getDJ = function(){
     $.get('/dj', function(data) {
@@ -111,6 +93,35 @@ function RadioClient(){
     console.log(track);
   };
   
+  /* Chat related */
+  
+  this.renderChatRow = function(message){
+    var ts = new Date(message.timestamp);
+    var author = "<div class='author'>"+message.author+"</div>";
+    var time = "<div class='time'>("+addZero(ts.getHours())+":"+addZero(ts.getMinutes())+")</div>";
+    var message = "<div class='message'>" + message.message + "</div>";
+    var row = "<div class='chat_row'>"+author+time+message+"</div>";
+    return row;
+  };
+  
+  this.renderChatHistory = function(){
+    $.get('/history', function(messages) {
+      messages = JSON.parse(messages);
+      for(index in messages){
+        if (messages[index].author){
+          $('#chatbox').append("<div style='color:lightgray'>"+self.renderChatRow(messages[index])+"</div>");
+        }
+      }
+    });
+  }
+  
+  this.sendChatMessage = function(author, message){
+    self.fayeClient.publish('/broadchat', {
+      author: author
+    , message: message
+    });
+  }
+  
   this.init();
 }
 
@@ -119,14 +130,12 @@ $(function(){
   
   var message = $('#message');
   var author = $('#author');
+  var submit = $('#submit');
   
   
-  $('#submit').click(function(){
+  submit.click(function(){
     if(message.val() != '' && author.val() != ''){
-      client.fayeClient.publish('/broadchat', {
-        author: sanitizeHtml(author.val())
-      , message: sanitizeHtml(message.val()) 
-      });
+      client.sendChatMessage(sanitizeHtml(author.val()), sanitizeHtml(message.val()));
       message.val('');
       message.focus();
     }
@@ -135,7 +144,7 @@ $(function(){
   
   message.keypress(function(e){
     if(e.which == 13){
-      $('#submit').click();
+      submit.click();
      }
   });
   

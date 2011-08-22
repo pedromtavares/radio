@@ -12,26 +12,7 @@
 		$(".tab_content:visible").slideUp('500', function() {
 			$(activeTab).slideDown('500'); // Slide in the active content
 		});
-		return false;
-	});
-	
-	// Contact form
-	$("form.contact").submit(function(){
-		$("form.contact .error, form.contact .success").remove();
-		$.ajax({
-			type: 'POST',
-			url: 'contact.php',
-			data: $("form.contact").serialize(),
-			success: function(result) {
-				if (result=="SUCCESS") {
-					$('#name, #email, #message').val('');
-					$("form.contact").prepend('<p class="success" style="display:none">Mail sent successfully</p>');
-				} else {
-					$("form.contact").prepend('<p class="error" style="display:none">' + result + '</p>');
-				}
-				$("form.contact .error, form.contact .success").slideDown('500');
-			}
-		});
+		$("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
 		return false;
 	});
 	
