@@ -134,9 +134,16 @@ $(function(){
     client.stopPlayer();
   }
   
+  var startStream = function(){
+    window.location.reload();
+  }
+  
   $('.jp-stop').click(stopStream);
   $('.jp-pause').click(stopStream);
-  $('.jp-play').click(function(){window.location.reload();});
+  $('.jp-mute').click(stopStream);
+  
+  $('.jp-play').click(startStream);
+  $('.jp-unmute').click(startStream);
   
   /* Chat Related */
   
