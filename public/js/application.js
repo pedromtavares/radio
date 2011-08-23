@@ -128,6 +128,18 @@ function RadioClient(){
 $(function(){
   var client = new RadioClient();
   
+  /* Player Related */
+  
+  var stopStream = function(){
+    client.stopPlayer();
+  }
+  
+  $('.jp-stop').click(stopStream);
+  $('.jp-pause').click(stopStream);
+  $('.jp-play').click(function(){window.location.reload();});
+  
+  /* Chat Related */
+  
   var message = $('#message');
   var author = $('#author');
   var submit = $('#submit');
