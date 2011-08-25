@@ -150,11 +150,13 @@ $(function(){
   var message = $('#message');
   var author = $('#author');
   var submit = $('#submit');
-  
-  
+    
   submit.click(function(){
     if(message.val() != '' && author.val() != ''){
       client.sendChatMessage(sanitizeHtml(author.val()), sanitizeHtml(message.val()));
+      // $.post('/register', {author: author.val()}, function() {
+      //   author.attr('readonly', true);
+      // });
       message.val('');
       message.focus();
     }
