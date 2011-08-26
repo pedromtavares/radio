@@ -4,11 +4,11 @@ function RadioClient(){
   }
   var self = this;
   
-  self.unreadMsgCount = 0;
-  
   this.init = function(){
     self.setupBayeuxHandlers();
     self.currentDJ = false;
+    self.unreadMsgCount = 0;
+    self.hasFocus = true;
     self.getDJ();
     self.renderChatHistory();
     self.getChatUser();
@@ -39,6 +39,9 @@ function RadioClient(){
         $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
         if (author=='' || author != message.author){
           self.unreadMsgCount+=1;
+          if (!self.hasFocus){
+            self.updateTitle();
+          }
         }
       });
     });
@@ -141,6 +144,12 @@ function RadioClient(){
     self.unreadMsgCount = 0;
   }
   
+  self.updateTitle = function(){
+    if (client.unreadMsgCount!=0){
+      document.title = 'Rádio da Galere ('+client.unreadMsgCount+')';
+    }
+  }
+  
   this.init();
 }
 
@@ -205,17 +214,12 @@ $(function(){
      }
   });
   
-  message.focus(function() {
-    
-  });
-  
   window.onblur = function() {
-    if (client.unreadMsgCount!=0){
-      document.title = 'Rádio da Galere ('+client.unreadMsgCount+')';
-    }
+    client.hasFocus = false;
   };
   
   window.onfocus = function(){
+    client.hasFocus = true;
     client.unreadMsgCount = 0;
     document.title = 'Rádio da Galere';
   }
