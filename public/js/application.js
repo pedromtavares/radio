@@ -9,6 +9,7 @@ function RadioClient(){
     self.currentDJ = false;
     self.unreadMsgCount = 0;
     self.hasFocus = true;
+    self.onlineChatUsers = [];
     self.getDJ();
     self.renderChatHistory();
     self.getChatUser();
@@ -142,11 +143,47 @@ function RadioClient(){
     , message: message
     });
     self.unreadMsgCount = 0;
+    self.addOnlineChatUser(author);
   }
   
   self.updateTitle = function(){
     if (self.unreadMsgCount!=0){
       document.title = 'Rádio da Galere ('+self.unreadMsgCount+')';
+    }
+  }
+  
+  self.getOnlineChatUser = function(name){
+    if (self.onlineChatUsers.length != 0){
+      for(var onlineChatUser in self.onlineChatUsers){
+        if(self.onlineChatUsers[onlineChatUser] && self.onlineChatUsers[onlineChatUser].name == name){
+          return self.onlineChatUsers[onlineChatUser];
+        }
+      }
+    }
+    return false;
+  }
+  
+  self.addOnlineChatUser = function(name){
+    var onlineChatUser = self.getOnlineChatUser(name);
+    var timeoutCallback = function() {
+      $('#user_'+name).detach();
+      var onlineChatUser = self.getOnlineChatUser(name);
+      var index = self.onlineChatUsers.indexOf(onlineChatUser);
+      if (index != -1){
+        self.onlineChatUsers.splice(index, 1);
+      }
+    };
+    var timer = setTimeout(timeoutCallback, 5 * 1000);
+    
+    if (onlineChatUser){
+      clearTimeout(onlineChatUser.timeout);
+      onlineChatUser.timeout = timer;
+    }else{
+      var li = "<li id='user_"+name+"'>"+name+"</li>"
+      var onlineChatUser = {name:name};
+      $('#online').append(li);
+      self.onlineChatUsers.push(onlineChatUser);
+      onlineChatUser.timeout = timer;
     }
   }
   
@@ -225,6 +262,8 @@ $(function(){
   }
 
 });
+
+/* Helper functions */
 
 function sanitizeHtml(text){
   return text.replace(/&/g,'&amp;').
