@@ -145,8 +145,8 @@ function RadioClient(){
   }
   
   self.updateTitle = function(){
-    if (client.unreadMsgCount!=0){
-      document.title = 'Rádio da Galere ('+client.unreadMsgCount+')';
+    if (self.unreadMsgCount!=0){
+      document.title = 'Rádio da Galere ('+self.unreadMsgCount+')';
     }
   }
   
