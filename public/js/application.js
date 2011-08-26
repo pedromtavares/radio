@@ -216,6 +216,7 @@ $(function(){
   };
   
   window.onfocus = function(){
+    client.undreadMsgCount = 0;
     document.title = 'Rádio da Galere';
   }
 
