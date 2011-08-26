@@ -173,7 +173,7 @@ function RadioClient(){
         self.onlineChatUsers.splice(index, 1);
       }
     };
-    var timer = setTimeout(timeoutCallback, 5 * 1000);
+    var timer = setTimeout(timeoutCallback, 5 * 60 * 1000);
     
     if (onlineChatUser){
       clearTimeout(onlineChatUser.timeout);
