@@ -111,7 +111,7 @@ function RadioClient(){
     var ts = new Date(message.timestamp);
     var author = "<div class='author'>"+message.author+"</div>";
     var time = "<div class='time'>("+addZero(ts.getHours())+":"+addZero(ts.getMinutes())+")</div>";
-    var message = "<div class='message'>" + message.message + "</div>";
+    var message = "<div class='message'>" + replaceLinks(message.message) + "</div>";
     var row = "<div class='chat_row'>"+author+time+message+"</div>";
     return row;
   };
@@ -238,4 +238,9 @@ function addZero(number){
     return '0'+number;
   }
   return number;
+}
+
+function replaceLinks(text) {
+    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    return text.replace(exp,"<a href='$1' target='_blank'>$1</a>"); 
 }
