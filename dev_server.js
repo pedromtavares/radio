@@ -9,7 +9,6 @@ process.addListener('uncaughtException', function (err, stack) {
 
 new Server({
   url: "http://stream.pedromtavares.com:10000",
-  port: 80,
-  host: '173.255.227.12',
-  reconnectTime: 60 // in seconds
+  port: 8000,
+  reconnectTime: 5 // in seconds
 });

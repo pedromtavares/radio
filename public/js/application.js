@@ -9,6 +9,9 @@ function RadioClient(){
     self.currentDJ = false;
     self.getDJ();
     self.renderChatHistory();
+    setTimeout(function() {
+      self.getChatUser();
+    }, 2000);
   };
   
   this.setupBayeuxHandlers = function() {
@@ -104,6 +107,15 @@ function RadioClient(){
     return row;
   };
   
+  this.getChatUser = function(){
+    $.get('/chat_user', function(data) {
+      if (data != ''){
+        $('#author').val(data);
+        $('#author').attr('readonly', true);
+      }
+    });
+  };
+  
   this.renderChatHistory = function(){
     $.get('/history', function(messages) {
       messages = JSON.parse(messages);
@@ -153,12 +165,23 @@ $(function(){
     
   submit.click(function(){
     if(message.val() != '' && author.val() != ''){
-      client.sendChatMessage(sanitizeHtml(author.val()), sanitizeHtml(message.val()));
-      // $.post('/register', {author: author.val()}, function() {
-      //   author.attr('readonly', true);
-      // });
-      message.val('');
-      message.focus();
+      if (author.attr('readonly') == 'readonly'){
+        client.sendChatMessage(sanitizeHtml(author.val()), sanitizeHtml(message.val()));
+        message.val('');
+        message.focus();
+      }else{
+        $.get('/register', {name: author.val()}, function(data) {
+          if (data == 'taken'){
+            alert('Este nome já foi registrado, tente outro.');
+            author.focus();
+          }else{
+            author.attr('readonly', true);
+            client.sendChatMessage(sanitizeHtml(author.val()), sanitizeHtml(message.val()));
+            message.val('');
+            message.focus();
+          }
+        });
+      }    
     }
 
   });
