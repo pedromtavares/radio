@@ -178,7 +178,7 @@ function RadioClient(){
   
   self.addOnlineChatUser = function(name){
     var onlineChatUser = self.getOnlineChatUser(name);
-    var timer = setTimeout(self.removeOnlineChatUser(name), 10 * 60 * 1000);
+    var timer = setTimeout(function() {self.removeOnlineChatUser(name)}, 10 * 60 * 1000);
     
     if (onlineChatUser){
       clearTimeout(onlineChatUser.timeout);
