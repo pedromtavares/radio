@@ -1,5 +1,3 @@
-<!-- Immediately load this so we redirect ASAP if on mobile browsers-->
-<script src="js/libs/detectmobilebrowser.js"></script>
 <!doctype html>  
 
 <!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
@@ -38,7 +36,6 @@
 	
 	<!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
 	<script src="js/libs/modernizr.min.js"></script>
-	<script src="js/libs/detectmobilebrowser.js"></script>
 	<!-- Google Analytics -->
 	<script type="text/javascript">
 
@@ -53,6 +50,7 @@
     })();
 
   </script>
+	
 </head>
 
 <body>
@@ -61,7 +59,8 @@
 	
 	<header class="header">
 		<hgroup>
-		<img src="images/logo.png">
+		<h1>Rádio da Galere</h1>
+		<h4>O melhor de todos os estilos</h4>
 		</hgroup>
 	</header>
 	
@@ -80,15 +79,15 @@
               <li><a href="#" class="jp-mute" tabindex="1">mute</a></li>
               <li><a href="#" class="jp-unmute" tabindex="1">unmute</a></li>
             </ul>
+            <div class="jp-progress">
+              <div class="jp-seek-bar">
+                <div class="jp-play-bar"></div>
+              </div>
+            </div>
             <div class="jp-volume-bar">
               <div class="jp-volume-bar-value"></div>
             </div>
             <div class="jp-current-time"></div>
-            <div id="players">Ouça no seu player preferido<br/>
-              <a href="http://stream.pedromtavares.com/listen.pls"><img src="/images/icons/itunes.png" title="iTunes"/></a>
-              <a href="http://stream.pedromtavares.com/listen.pls"><img src="/images/icons/winamp.png" title="Winamp"/></a>
-              <a href="http://stream.pedromtavares.com/listen.m3u"><img src="/images/icons/wmp.png" title="Windows Media Player"/></a>
-            </div>
           </div>
           <div id="jp_playlist_1" class="jp-playlist">
             <ul>
@@ -99,8 +98,7 @@
           </div>
         </div>
       </div>
-      
-			<div class="notice">
+      <div class="notice">
 			  Caso a música não esteja tocando, clique <a href="javascript:void(0)" onclick="window.location.reload()"> aqui</a>.
 			</div>
 			
@@ -114,30 +112,17 @@
       	  <a href="http://twitter.com/share" class="twitter-share-button" data-text="Tou curtindo o som da @radiodagalere, ouçam também em" data-count="horizontal" data-via="pedromtavares" data-lang="pt">Tweetar</a>
       	</div>
     	</section>
-
-		</section>
-		
-		<section class="content">
+    </section>
+    <section class="content">
 					
 			<ul class="tabs">   
-        <li><a href="#tab1">Chat</a></li>        
-        <li><a href="#tab2">DJs</a></li>
-        <li><a href="#tab3">Sobre</a></li>
+        <li><a href="#tab1">DJs</a></li>
+        <li><a href="#tab2">Sobre</a></li>
 	    </ul>
 	        
 	    <div class="tab_container">
-	          
-	          <div id="tab1" class="tab_content chat">
-	            <p class="center spaced"><strong>Peça músicas ao DJ e converse com outros ouvintes!</strong></p>
-	            <div id="chatbox"></div>
-	            <ul id="online"></ul>
-              <br clear="all"/>
-              <input type="text" name="author" maxlength=15 placeholder="Nome" class="text" id="author"/>
-              <input type="text" name="message" maxlength=140 placeholder="Mensagem" class="text" id="message"/>
-              <input type="button" value="Enviar" class="submit" id="submit">
-            </div><!--/tab2-->
-	        
-	            <div id="tab2" class="tab_content social">
+	      	        
+	            <div id="tab1" class="tab_content social">
 	                <ul>
 	                	<li class="odd">
 	                		<a href="http://soundcloud.com/pedromtavares" class="tooltip" title="Psytrance/DnB/Rock" target="_blank">
@@ -227,9 +212,9 @@
 	                </ul>
 
 	                
-	            </div><!--/tab2-->
+	            </div><!--/tab1-->
 	            
-	            <div id="tab3" class="tab_content about">
+	            <div id="tab2" class="tab_content about">
 	              <br/>
 	              <h4>O que é essa rádio?</h4>
 	              <p>A rádio é nada mais que uma galera junta tocando pra conhecidos, se você chegou aqui então provavelmente é amigo de alguém que toca aqui, porque a intenção da rádio não é ter uma grande divulgação pública por enquanto, só assim se consegue manter um ambiente amigável que é algo que damos muito valor.</p>
@@ -239,29 +224,24 @@
 	              <p> Tudo aqui é na brincadeira, ninguém é DJ profissional e todos que tocam aqui são voluntários que, no seu tempo vago, se dispõem a tocar uma seleção de músicas que eles mesmo fazem na hora. Mesmo ninguém sendo profissional, não existe playlist pronta aqui.</p>
 	              <h4>Posso ser DJ também?</h4>
                 <p>Pode sim! É necessário instalar e configurar o programa <a href="http://www.virtualdj.com/products/virtualdj/version7.html" target="_blank">VirtualDJ 7 Pro</a> para enviar as músicas para o <a href="http://stream.pedromtavares.com" target="_blank">servidor da rádio</a>. Depois de baixado, é necessário colocar uma determinada configuração e senha, pra isso, mande um e-mail pra mim em <a href="mailto:pedromateustavares@gmail.com">pedromateustavares@gmail.com</a> que explico tudo direitinho.</p>
-                
-                <h4>Problemas na transmissão?</h4>
-                <p>Se a transmissão tiver chiando, com falhas ou demoras, tente recarregar a página. Se isso não funcionar, pode ser que a internet do DJ esteja lenta ao enviar as músicas, então comunique isso a ele pelo chat.</p>
-              </div><!--/tab3-->
+              </div><!--/tab2-->
 	            
 	        </div><!--/tab_container-->
 		
 		</section>
-	
-	</div> <!--! end of #container -->
-	<footer id="footer">
-	
-	<p>Direitos Autorais &copy; 2011 <a href="http://pedromtavares.com">Pedro Mateus Tavares</a></p>
-	<p class="alt">Este projeto é <a href="https://github.com/pedromtavares/radio" title="GitHub Repo">open-source</a>.
-	
-	</footer>
-</div><!--/wrap-->
-	
+  </div> <!--! end of #container -->
+  <footer id="footer">
+
+  	<p>Copyright &copy; 2011 <a href="http://pedromtavares.com">Pedro Mateus Tavares</a></p>
+  	<p class="alt">Este projeto é <a href="https://github.com/pedromtavares/radio" title="GitHub Repo">open-source</a>.
+
+  	</footer>
+  </div><!--/wrap-->
 	<!-- Javascript at the bottom for fast page loading -->
 	<script type="text/javascript" src="faye.js"></script>
   <script type="text/javascript" src="js/libs/jquery.js"></script>
   <script type="text/javascript" src="js/libs/jquery.jplayer.min.js"></script>
-  <script type="text/javascript" src="js/application.js"></script>
+  <script type="text/javascript" src="js/application_mobile.js"></script>
 	<script src="fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
 	<script src="fancybox/jquery.fancybox-1.3.4.pack.js"></script>
 	<script src="js/template/plugins.js"></script>
@@ -276,5 +256,7 @@
 		DD_roundies.addRule('#container', '5px');
 	</script>
 	<![endif]-->
+
 </body>
 </html>
+      
