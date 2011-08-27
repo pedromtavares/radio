@@ -82,7 +82,7 @@
 
 #chatbox{
   margin: 0 0 5px 0;
-  height: 250px;
+  height: 350px;
   overflow:auto;
   width:74%;
   float:left;
@@ -124,7 +124,7 @@
   padding:5px;
   list-style-type: none;
   width:22%;
-  height: 230px;
+  height: 330px;
   overflow:auto;
   background: #EEE;
   -webkit-border-radius: 5px;
