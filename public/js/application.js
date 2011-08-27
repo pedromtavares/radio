@@ -36,7 +36,7 @@ function RadioClient(){
       
       self.fayeClient.subscribe('/chat', function (message) {
         var author = $('#author').val();
-        $('#chatbox').append(self.renderChatRow(message));
+        $('#chatbox').append(self.renderChatRow(message, true));
         $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
         if (author=='' || author != message.author){
           self.unreadMsgCount+=1;
@@ -108,12 +108,13 @@ function RadioClient(){
   
   /* Chat related */
   
-  this.renderChatRow = function(message){
+  this.renderChatRow = function(message, addOnlineUser){
     var ts = new Date(message.timestamp);
     var author = "<div class='author'>"+message.author+"</div>";
     var time = "<div class='time'>("+addZero(ts.getHours())+":"+addZero(ts.getMinutes())+")</div>";
     var message = "<div class='message'>" + replaceLinks(message.message) + "</div>";
     var row = "<div class='chat_row'>"+author+time+message+"</div>";
+    self.addOnlineChatUser(message.author);
     return row;
   };
   
@@ -131,7 +132,7 @@ function RadioClient(){
       messages = JSON.parse(messages);
       for(index in messages){
         if (messages[index].author){
-          $('#chatbox').append("<div style='color:lightgray'>"+self.renderChatRow(messages[index])+"</div>");
+          $('#chatbox').append("<div style='color:lightgray'>"+self.renderChatRow(messages[index])+"</div>", false);
         }
       }
     });
@@ -143,7 +144,6 @@ function RadioClient(){
     , message: message
     });
     self.unreadMsgCount = 0;
-    self.addOnlineChatUser(author);
   }
   
   self.updateTitle = function(){
