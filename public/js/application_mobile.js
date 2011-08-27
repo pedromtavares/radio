@@ -18,8 +18,6 @@ function RadioClient(){
 
       self.fayeClient.subscribe('/radio', function (message) {
         var track = message.track;
-        var listeners = message.listeners;
-        $('#listeners').html(listeners);
         if (track == 'offline'){
           self.goOffline();
         }else{
@@ -30,9 +28,7 @@ function RadioClient(){
       });
     });
   };
-  
-  /* Player Related */
-  
+    
   this.getDJ = function(){
     $.get('/dj', function(data) {
       if (data == ''){
@@ -86,7 +82,6 @@ function RadioClient(){
     setTimeout(function() {
       $('#track').html(track);
     }, time * 1000)
-    console.log(track);
   };
   
   this.init();
