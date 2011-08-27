@@ -168,7 +168,7 @@ function RadioClient(){
   self.addOnlineChatUser = function(name){
     var onlineChatUser = self.getOnlineChatUser(name);
     var timeoutCallback = function() {
-      $('#user_'+name).detach();
+      $('#'+encodeID(name)).detach();
       var onlineChatUser = self.getOnlineChatUser(name);
       var index = self.onlineChatUsers.indexOf(onlineChatUser);
       if (index != -1){
@@ -181,9 +181,11 @@ function RadioClient(){
       clearTimeout(onlineChatUser.timeout);
       onlineChatUser.timeout = timer;
     }else{
-      var li = "<li id='user_"+name+"'>"+name+"</li>"
+      var li = "<li id='"+encodeID(name)+"'>"+name+"</li>"
       var onlineChatUser = {name:name};
-      $('#online').append(li);
+      if ($('#'+encodeID(name)).length == 0){
+        $('#online').append(li);
+      }
       self.onlineChatUsers.push(onlineChatUser);
       onlineChatUser.timeout = timer;
     }
@@ -284,4 +286,11 @@ function addZero(number){
 function replaceLinks(text) {
     var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
     return text.replace(exp,"<a href='$1' target='_blank'>$1</a>"); 
+}
+
+function encodeID(s) {
+    if (s==='') return '_';
+    return s.replace(/[^a-zA-Z0-9.-]/g, function(match) {
+        return '_'+match[0].charCodeAt(0).toString(16)+'_';
+    });
 }
