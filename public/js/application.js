@@ -126,6 +126,7 @@ function RadioClient(){
         $('#author').val(data);
         $('#author').attr('readonly', true);
         self.addOnlineChatUser(data);
+        //self.sendChatMessage(data, "<div class='action_message'>"+data+" acabou de entrar no chat.</div>");
       }
     });
   };
@@ -135,7 +136,7 @@ function RadioClient(){
       messages = JSON.parse(messages);
       for(index in messages){
         if (messages[index].author){
-          $('#chatbox').append("<div style='color:lightgray'>"+self.renderChatRow(messages[index], false)+"</div>");
+          $('#chatbox').append("<div class='action_message'>"+self.renderChatRow(messages[index], false)+"</div>");
         }
       }
     });
@@ -245,7 +246,7 @@ $(function(){
         message.val('');
         message.focus();
       }else{
-        $.get('/register', {name: author.val()}, function(data) {
+        $.get('/register', {name: sanitizeHtml(author.val())}, function(data) {
           if (data == 'taken'){
             alert('Este nome já foi registrado, tente outro.');
             author.focus();
@@ -271,11 +272,13 @@ $(function(){
     document.title = 'Rádio da Galere';
   }
   
-  window.onunload = function(){
-    if (author.val() != ""){
-      client.removeOnlineChatUser(author.val());
-    }
-  }
+  // window.onunload = function(){
+  //   var name = author.val();
+  //   if (name != ""){
+  //     client.removeOnlineChatUser(name);
+  //     self.sendChatMessage(data, "<div class='action_message'>"+name+" acabou de sair do chat.</div>");
+  //   }
+  // }
 
 });
 

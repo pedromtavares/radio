@@ -18,6 +18,8 @@ function RadioClient(){
 
       self.fayeClient.subscribe('/radio', function (message) {
         var track = message.track;
+        var listeners = message.listeners;
+        $('#listeners').html(listeners);
         if (track == 'offline'){
           self.goOffline();
         }else{

@@ -111,6 +111,10 @@
   margin:2px;
 }
 
+.action_message{
+  color:lightgray;
+}
+
 .time{
   margin:2px 3px 0 0;
   font-size:8pt;
