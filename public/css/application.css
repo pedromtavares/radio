@@ -51,6 +51,7 @@
   box-shadow: 0 0 3px 0 #eeeeee;
   -webkit-box-shadow: 0 0 3px 0 #eeeeee;
   -moz-box-shadow: 0 0 3px 0 #eeeeee;
+  margin:2px;
 }
 
 .text#author{

@@ -5,60 +5,63 @@ function RadioClient(){
   var self = this;
   
   this.init = function(){
-    self.setupBayeuxHandlers();
-    self.currentDJ = false;
     self.unreadMsgCount = 0;
     self.hasFocus = true;
     self.onlineChatUsers = [];
-    self.getDJ();
-    self.renderChatHistory();
-    self.getChatUser();
+    self.currentTrack = false;
+    self.config = self.getServerConfigs();
+    self.setupBayeuxHandlers();
+    self.addOnlineChatUser($('#author').val());
+    self.startRadio();
+  };
+  
+  this.getServerConfigs = function(){
+    var config = {
+      port: JSON.parse($('#portConfig').val())
+    , dj: $('#djConfig').val()
+    };
+    return config;
   };
   
   this.setupBayeuxHandlers = function() {
-    $.getJSON("/config", function (config) {
-      self.fayeClient = new Faye.Client("http://" + window.location.hostname + ':' + config.port + '/faye', {
-        timeout: 120
-      });
+    self.fayeClient = new Faye.Client("http://" + window.location.hostname + ':' + self.config.port + '/faye', {
+      timeout: 120
+    });
 
-      self.fayeClient.subscribe('/radio', function (message) {
-        var track = message.track;
-        var listeners = message.listeners;
-        $('#listeners').html(listeners);
-        if (track == 'offline'){
-          self.goOffline();
-        }else{
-          if (track && track != ''){
-            self.nextTrack(track);
-          }
+    self.fayeClient.subscribe('/radio', function (message) {
+      var track = message.track;
+      var listeners = message.listeners;
+      $('#listeners').html(listeners);
+      if (track == 'offline'){
+        self.goOffline();
+      }else{
+        if (track && track != ''){
+          self.nextTrack(track);
         }
-      });
-      
-      self.fayeClient.subscribe('/chat', function (message) {
-        var author = $('#author').val();
-        $('#chatbox').append(self.renderChatRow(message, true));
-        $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
-        if (author=='' || author != message.author){
-          self.unreadMsgCount+=1;
-          if (!self.hasFocus){
-            self.updateTitle();
-          }
+      }
+    });
+    
+    self.fayeClient.subscribe('/chat', function (message) {
+      var author = $('#author').val();
+      $('#chatbox').append(self.renderChatRow(message, true));
+      $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+      if (author=='' || author != message.author){
+        self.unreadMsgCount+=1;
+        if (!self.hasFocus){
+          self.updateTitle();
         }
-      });
+      }
     });
   };
   
   /* Player Related */
   
-  this.getDJ = function(){
-    $.get('/dj', function(data) {
-      if (data == ''){
-        self.goOffline();
-      }else{
-        self.goOnline(data);
-        self.currentDJ = data;
-      }
-    });
+  this.startRadio = function(){
+    if (self.config.dj){
+      self.goOnline();
+    }else{
+      self.goOffline();
+    }
   };
   
   this.startPlayer = function(){
@@ -78,8 +81,7 @@ function RadioClient(){
     $("#jplayer").jPlayer("clearMedia");
   };
   
-  this.goOnline = function(dj){
-    $('#dj').html(dj);
+  this.goOnline = function(){
     self.startPlayer();
   };
   
@@ -87,22 +89,23 @@ function RadioClient(){
     $('#offline_msg').show();
     $('#current_dj').hide();
     $('#current_track').hide();
-    self.currentDJ = false;
     self.stopPlayer();
+    self.currentTrack = false;
   };
   
   this.nextTrack = function(track){
-    if (!self.currentDJ){
+    if (!self.config.dj){
       window.location.reload();
     }
     // Don't show the next track immediately since the stream delay is about 15 seconds, so we don't want to spoil out 
     // what the next track is gonna be 15 seconds before it actually starts. It's ok to show it immediately if 
     // there was nothing playing (or if you just connected to the stream).
     var current = $('#track').html();
-    var time = current == "" ? 1 : 20;
+    var time = self.currentTrack ? 15 : 1;
     setTimeout(function() {
       $('#track').html(track);
     }, time * 1000)
+    self.currentTrack = track;
     console.log(track);
   };
   
@@ -119,28 +122,6 @@ function RadioClient(){
     var row = "<div class='chat_row'>"+author+time+message+"</div>";
     return row;
   };
-  
-  this.getChatUser = function(){
-    $.get('/chat_user', function(data) {
-      if (data != ''){
-        $('#author').val(data);
-        $('#author').attr('readonly', true);
-        self.addOnlineChatUser(data);
-        //self.sendChatMessage(data, "<div class='action_message'>"+data+" acabou de entrar no chat.</div>");
-      }
-    });
-  };
-  
-  this.renderChatHistory = function(){
-    $.get('/history', function(messages) {
-      messages = JSON.parse(messages);
-      for(index in messages){
-        if (messages[index].author){
-          $('#chatbox').append("<div class='action_message'>"+self.renderChatRow(messages[index], false)+"</div>");
-        }
-      }
-    });
-  }
   
   this.sendChatMessage = function(author, message){
     self.fayeClient.publish('/broadchat', {
@@ -178,6 +159,7 @@ function RadioClient(){
   }
   
   self.addOnlineChatUser = function(name){
+    if (name == "" || !name) { return false;}
     var onlineChatUser = self.getOnlineChatUser(name);
     var timer = setTimeout(function() {self.removeOnlineChatUser(name)}, 10 * 60 * 1000);
     

@@ -1,0 +1,228 @@
+!!! 5
+  
+//if lt IE 7
+  html.no-js.ie6(lang='en')
+//if IE 7
+  html.no-js.ie7(lang='en')
+//if IE 8
+  html.no-js.ie8(lang='en') 
+//[if gt IE 8]>
+  <!
+html.no-js(lang='en')
+  //
+    <![end if]
+
+  head
+    meta(charset="utf-8")
+    // Always force latest IE rendering engine (even in intranet) & Chrome Frame 
+    meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+    meta(name="description", content="Uma rádio online que só toca o melhor de todos os estilos.")
+    meta(name="author", content="Pedro Mateus Tavares")
+    meta(name="keywords", content="radio, rádio, galere, dj, pedro mateus tavares")
+    title Rádio da Galere
+  
+    link(href="/images/favicon.png", rel="shortcut icon")
+  
+    // Mobile viewport optimized: j.mp/bplateviewport
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+  
+    // CSS : Fonts
+    link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Lobster")
+
+    // CSS : Change this if you want a different colour scheme
+    link(rel="stylesheet", href="css/grey.css")
+
+    // CSS : Fancybox
+    link(rel="stylesheet", href="fancybox/jquery.fancybox-1.3.4.css", media="screen")
+
+    // CSS: Application and jPlayer files
+    link(rel="stylesheet", href="css/application.css")
+    link(type="text/css", href="css/jplayer.blue.monday.css", rel="stylesheet")
+
+    // All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects
+    script(src="js/libs/modernizr.min.js")
+    script(src="js/libs/detectmobilebrowser.js")
+    
+    // Google Analytics
+    script(type='text/javascript')
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-25240242-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+  body
+    input(type='hidden', id='portConfig', value='#{config.port}')
+    input(type='hidden', id='djConfig', value='#{dj}')
+    .wrap
+      header.header
+        hgroup
+          img(src="images/logo.png")
+      #container
+        section.intro.vcard
+          #jplayer.jp-jplayer(style="padding-left:150px")
+          .jp-audio
+            .jp-type-single
+              #jp_interface_1.jp-interface
+                ul.jp-controls
+                  li
+                    a.jp-play(href="#", tabindex=1) play
+                  li
+                    a.jp-pause(href="#", tabindex=1) pause
+                  li
+                    a.jp-stop(href="#", tabindex=1) stop
+                  li
+                    a.jp-mute(href="#", tabindex=1) mute
+                  li
+                    a.jp-unmute(href="#", tabindex=1) unmute    
+                .jp-volume-bar
+                  .jp-volume-bar-value
+                .jp-current-time
+                #players
+                  | Ouça no seu player preferido
+                  br
+                  a(href="http://stream.pedromtavares.com/listen.pls")
+                    img(src="/images/icons/itunes.png", title="iTunes")
+                  a(href="http://stream.pedromtavares.com/listen.pls")
+                    img(src="/images/icons/winamp.png", title="Winamp")
+                  a(href="http://stream.pedromtavares.com/listen.m3u")
+                    img(src="/images/icons/wmp.png", title="Windows Media Player")
+              #jp_playlist_1.jp-playlist
+                ul
+                  li#current_track
+                    | Track:
+                    span#track=track
+                  li#current_dj
+                    | DJ:
+                    span#dj=dj
+                    .right
+                      span#listeners 0 
+                      |  ouvinte(s)
+                  li#offline_msg(style="display:none") A rádio está offline. Tente recarregar o navegador ou tente mais tarde.
+          .notice
+            | Caso a música não esteja tocando, clique 
+            a(href="javascript:void(0)", onclick="window.location.reload()") aqui
+            | .
+
+          section#social_links
+            .left
+              iframe(src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FR%25C3%25A1dio-da-Galere%2F113623752071074&amp;width=272&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;height=62" , scrolling="no", frameborder="0", style="border:none; overflow:hidden; width:272px; height:62px;", allowTransparency="true")
+            .left(style="margin-top:10px;margin-right:-20px")
+              a(href="http://twitter.com/radiodagalere", class="twitter-follow-button", data-lang="pt") Siga @radiodagalere
+              br
+              a(href="http://twitter.com/share", class="twitter-share-button", data-text="Tou curtindo o som da @radiodagalere, ouçam também em", data-count="horizontal", data-via="pedromtavares", data-lang="pt") Tweetar
+            
+        section.content
+          ul.tabs
+            li
+              a(href="#tab1") Chat
+            li
+              a(href="#tab2") DJs
+            li
+              a(href="#tab3") Sobre
+        
+          .tab_container
+        
+            #tab1.tab_content.chat
+              p.center.spaced
+                strong Peça músicas ao DJ e converse com outros ouvintes!
+              #chatbox
+                - if (history)
+                  .action_message
+                    - each message in history
+                      - var ts = new Date(message.timestamp);
+                      .chat_row
+                        .author=message.author
+                        .time="("+addZero(ts.getHours())+":"+addZero(ts.getMinutes())+")";
+                        .message!= replaceLinks(message.message);
+                  
+              ul#online
+              br(clear="all")
+              - if (chatUser)
+                input.text#author(type="text", name="author", maxlength=15, placeholder="Nome", readonly="true", value="#{chatUser}")
+              - else
+                input.text#author(type="text", name="author", maxlength=15, placeholder="Nome")
+              input.text#message(type="text", name="message", maxlength=140, placeholder="Mensagem")
+              input.submit#submit(type="button", value="Enviar")
+            
+            #tab2.tab_content.social
+              ul
+                li.odd
+                  a(href="http://soundcloud.com/pedromtavares", class="tooltip", title="Psytrance/DnB/Rock", target="_blank")
+                    img(src="images/djs/pedro.jpg", alt="Pedro")
+                    | Pedro
+                    br
+                    em 20h~22h
+                li.even
+                  a(href="http://www.facebook.com/profile.php?id=100000433095166", class="tooltip", title="ElectroHouse/Rock/Dance", target="_blank")
+                    img(src="images/djs/emre.jpg", alt="Emre") 
+                    | Emre
+                    br
+                    em 22h~1h
+                li.odd
+                  a(href="http://www.facebook.com/profile.php?id=1816911845", class="tooltip", title="Eletrônica/Rock/Reggae", target="_blank")
+                    img(src="images/djs/LC.jpg", alt="LC") 
+                    | LC
+                    br
+                    em 14h~17h
+                li.even
+                  a(href="http://twitter.com/guilhermejlf", class="tooltip", title="Rock/Nacional/Alternativa", target="_blank")
+                    img(src="images/djs/guila.jpg", alt="Guila") 
+                    | Guila
+                    br
+                    em 19h~22h
+                li.odd
+                  a(href="http://twitter.com/igoramorimcosta", class="tooltip", title="ElectroHouse/Psy/ Jazz/Rock/Clássico", target="_blank")
+                    img(src="images/djs/r4v4.jpg", alt="R4v4") 
+                    | R4v4
+                    br
+                    em 18h~24h
+                li.even
+                  a(href="http://www.facebook.com/profile.php?id=100001738960442", class="tooltip", title="Rock/Punk/Pop/Eletrônica", target="_blank")
+                    img(src="images/djs/bkr.jpg", alt="Bkr") 
+                    | Bkr
+                    br
+                    em 15h~2h
+                li.odd
+                  a(href="http://soundcloud.com/teslalive/", class="tooltip" ,title="EletroHouse", target="_blank")
+                    img(src="images/djs/tesla.jpg", alt="Tesla") 
+                    | Tesla
+                    br
+                    em 20h~22h
+            
+            #tab3.tab_content.about
+              br
+              h4 O que é essa rádio?
+              p A rádio é nada mais que uma galera junta tocando pra conhecidos, se você chegou aqui então provavelmente é amigo de alguém que toca aqui, porque a intenção da rádio não é ter uma grande divulgação pública por enquanto, só assim se consegue manter um ambiente amigável que é algo que damos muito valor.
+              h4 Posso divulgar então?
+              p Se você curtiu a rádio, fique a vontade pra divulgá-la pra seus amigos tanto pelo <a href="http://www.facebook.com/pages/R%C3%A1dio-da-Galere/113623752071074" target="_blank">Facebook</a> quanto pelo <a href="http://twitter.com/radiodagalere" target="_blank">Twitter</a>.
+              h4 E que DJs são esses?
+              p Tudo aqui é na brincadeira, ninguém é DJ profissional e todos que tocam aqui são voluntários que, no seu tempo vago, se dispõem a tocar uma seleção de músicas que eles mesmo fazem na hora. Mesmo ninguém sendo profissional, não existe playlist pronta aqui.
+              h4 Posso ser DJ também?
+              p Pode sim! É necessário instalar e configurar o programa <a href="http://www.virtualdj.com/products/virtualdj/version7.html" target="_blank">VirtualDJ 7 Pro</a> para enviar as músicas para o <a href="http://stream.pedromtavares.com" target="_blank">servidor da rádio</a>. Depois de baixado, é necessário colocar uma determinada configuração e senha, pra isso, mande um e-mail pra mim em <a href="mailto:pedromateustavares@gmail.com">pedromateustavares@gmail.com</a> que explico tudo direitinho.
+              h4 Problemas na transmissão?
+              p Se a transmissão tiver chiando, com falhas ou demoras, tente recarregar a página. Se isso não funcionar, pode ser que a internet do DJ esteja lenta ao enviar as músicas, então comunique isso a ele pelo chat.
+    
+      footer#footer
+        p Direitos Autorais &copy; 2011 <a href="http://pedromtavares.com">Pedro Mateus Tavares</a>.
+        p.alt Este projeto é <a href="https://github.com/pedromtavares/radio" title="GitHub Repo">open-source</a>.
+    // Javascript at the bottom for fast page loading
+    script(type="text/javascript", src="faye.js")
+    script(type="text/javascript", src="js/libs/jquery.js")
+    script(type="text/javascript", src="js/libs/jquery.jplayer.min.js")
+    script(type="text/javascript", src="js/application.js")
+    script(src="fancybox/jquery.mousewheel-3.0.4.pack.js")
+    script(src="fancybox/jquery.fancybox-1.3.4.pack.js")
+    script(src="js/template/plugins.js")
+    script(src="js/template/script.js")
+    script(type="text/javascript", src="http://platform.twitter.com/widgets.js")
+
+    // if lte IE 7
+      script(src="js/libs/dd_belatedpng.js")
+      script(src="js/libs/dd_roundies.js")
+      script 
+        DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images 
+        DD_roundies.addRule('#container', '5px');
