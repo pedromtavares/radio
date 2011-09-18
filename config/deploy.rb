@@ -7,7 +7,7 @@ set :deploy_to,           "/home/deployer/radio"
 set :runner,              "deployer"
 set :repository,          "git@github.com:pedromtavares/radio.git"
 set :scm,                 :git
-set :node_file,           "server.js"
+set :node_file,           "app.js"
 ssh_options[:paranoid]    = false
 default_run_options[:pty] = true
 
