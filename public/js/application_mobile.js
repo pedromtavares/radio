@@ -39,10 +39,10 @@ function RadioClient(){
   };
     
   this.startRadio = function(){
-    if (self.config.dj){
-      self.goOnline();
-    }else{
+    if (self.config.dj == 'false'){
       self.goOffline();
+    }else{
+      self.goOnline();
     }
   };
   
@@ -73,10 +73,11 @@ function RadioClient(){
     $('#current_track').hide();
     self.stopPlayer();
     self.currentTrack = false;
+    self.config.dj = 'false';
   };
   
   this.nextTrack = function(track){
-    if (!self.config.dj){
+    if (self.config.dj == 'false'){
       window.location.reload();
     }
     // Don't show the next track immediately since the stream delay is about 15 seconds, so we don't want to spoil out 
