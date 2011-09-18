@@ -33,7 +33,7 @@ function RadioClient(){
       var listeners = message.listeners;
       $('#listeners').html(listeners);
       if (track == 'offline'){
-        self.goOffline();
+        //self.goOffline();
       }else{
         if (track && track != ''){
           self.nextTrack(track);
@@ -57,7 +57,7 @@ function RadioClient(){
   /* Player Related */
   
   this.startRadio = function(){
-    if (self.config.dj){
+    if (self.config.dj === true){
       self.goOnline();
     }else{
       self.goOffline();
