@@ -122,7 +122,9 @@ html.no-js(lang='en')
             li
               a(href="#tab2") DJs
             li
-              a(href="#tab3") Sobre
+              a(href="#tab3") Músicas
+            li
+              a(href="#tab4") Sobre
         
           .tab_container
         
@@ -198,8 +200,24 @@ html.no-js(lang='en')
                     | Reidark
                     br
                     em 22h~23h
-            
-            #tab3.tab_content.about
+            #tab3.tab_content
+              p.center.spaced
+                strong Histórico e estatísticas das músicas tocadas aqui na Rádio!
+              table
+                tr
+                  th Nome
+                  th Artista
+                  th # de Plays
+                  th DJs que tocam
+                  th Último Play
+                - each track in tracks
+                  tr
+                    td= track.name
+                    td= track.artist
+                    td= track.plays.length
+                    td= track.djs
+                    td= dateFormat(track.updated_at, "%b %d, %Y %H:%M")
+            #tab4.tab_content.about
               br
               h4 O que é essa rádio?
               p A rádio é nada mais que uma galera junta tocando pra conhecidos, se você chegou aqui então provavelmente é amigo de alguém que toca aqui, porque a intenção da rádio não é ter uma grande divulgação pública por enquanto, só assim se consegue manter um ambiente amigável que é algo que damos muito valor.

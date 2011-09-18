@@ -9,8 +9,9 @@ var express = require('express'),
     Radio = require('./lib/radio'),
     Decoder = require('./lib/decoder'),
     Chat = require('./lib/chat'),
+    Track = require('./models/track');
     app = module.exports = express.createServer();
-
+    
 // Configuration
 
 app.configure(function(){
@@ -56,17 +57,21 @@ var radio = new Radio(bayeux);
 var chat = new Chat(bayeux);
 var decoder = new Decoder(radio);
 var streamer = new Streamer(app.settings.server, radio, chat, decoder);
+mongoose.connect('mongodb://localhost/my_database');
 
 // Routes
 
 app.get('/', function(req, res){
   var user = chat.getChatUser('ip', req.connection.remoteAddress);
-  res.render('index', {
-    track: radio.currentTrack
-  , dj: radio.currentDJ
-  , user: user ? user.name : false
-  , history: chat.chatHistory
-  , config: {port: app.settings.server.port}
+  Track.find({}).desc('updated_at').limit(50).run(function(err, tracks){
+    res.render('index', {
+      track: radio.currentTrack
+    , dj: radio.currentDJ
+    , user: user ? user.name : false
+    , history: chat.chatHistory
+    , config: {port: app.settings.server.port}
+    , tracks: tracks
+    });
   });
 });
 app.get('/mobile', function(req, res){
@@ -92,6 +97,11 @@ app.get('/dj', function(req, res){
 app.get('/register', function(req, res){
   var success = chat.addChatUser(req);
   res.send(success ? 'ok' : 'taken');
+});
+app.get('/tracks', function(req, res){
+  Track.find({}).desc('created_at').run(function(err, tracks){
+    res.send(tracks);
+  });
 });
 
 // Helpers
@@ -121,7 +131,10 @@ app.helpers({
       return s.replace(/[^a-zA-Z0-9.-]/g, function(match) {
           return '_'+match[0].charCodeAt(0).toString(16)+'_';
       });
-  }
+  },
+  dateFormat: function(date, format) {
+    return require('./vendor/dateformat').strftime(date, format);
+  },
   
 });
 
