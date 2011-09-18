@@ -184,6 +184,18 @@ function RadioClient(){
 $(function(){
   var client = new RadioClient();
   
+  $('.filter').click(function() {
+    $('.filter').removeClass('italic');
+    $(this).addClass('italic');
+    $('.loading').show();
+    $('#tracks-table').slideToggle();
+    $.get('/tracks/'+this.id, function(data) {
+      $('#tracks-table').html(data);
+      $('.loading').hide();
+      $('#tracks-table').slideToggle();
+    });
+  });
+  
   /* Player Related */
   
   var stopStream = function(){

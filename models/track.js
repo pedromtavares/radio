@@ -18,6 +18,24 @@ TrackSchema.virtual('djs').get(function (){
   return _(this.plays).chain().map(function(play) {return play.dj}).toArray().uniq().value();
 });
 
+TrackSchema.statics.byArtists = function byArtists(tracks){
+  return _(tracks).chain().groupBy(function(track){return track.artist}).map(function(artist) {
+      var plays = 0;
+      var artist_name;
+      var djs = [];
+      var last_play = _(artist).reduce(function(recent, track) {                
+        plays += track.plays.length;
+        artist_name = track.artist;
+        djs.push(track.djs)
+        return recent > track.updated_at ? recent : track.updated_at
+    }, 0);
+      return {artist: artist_name, plays: plays, updated_at: last_play, djs: _(djs).chain().flatten().uniq().value()}
+    }).value();
+}
+
+TrackSchema.statics.mostPlayed = function mostPlayed(tracks){
+  return _(tracks).chain().sortBy(function(track) {return track.plays.length}).reverse().value();
+}
 
 TrackSchema.statics.parseTitle = function parseTitle(title){
   var temp = title.split('-');

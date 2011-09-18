@@ -9,8 +9,9 @@ var express = require('express'),
     Radio = require('./lib/radio'),
     Decoder = require('./lib/decoder'),
     Chat = require('./lib/chat'),
-    Track = require('./models/track');
+    Track = require('./models/track'),
     app = module.exports = express.createServer();
+    require('./models/db_connect')
     
 // Configuration
 
@@ -98,10 +99,32 @@ app.get('/register', function(req, res){
   var success = chat.addChatUser(req);
   res.send(success ? 'ok' : 'taken');
 });
-app.get('/tracks', function(req, res){
-  Track.find({}).desc('created_at').run(function(err, tracks){
-    res.send(tracks);
-  });
+app.get('/tracks/:filter', function(req, res){
+  switch(req.params.filter){
+    case 'recent':
+      Track.find({}).desc('updated_at').limit(50).run(function(err, tracks){
+        res.render('_tracks', {
+          show_name: true
+        , tracks: tracks
+        });
+      });
+      break;
+    case 'most-played':
+      Track.find({}).run(function(err, tracks){
+        res.render('_tracks', {
+          show_name: true
+        , tracks: Track.mostPlayed(tracks)
+        });
+      });
+      break;
+    case 'by-artist':
+      Track.find({}).asc('artist').run(function(err, tracks){
+        res.render('_tracks', {
+          show_name: false
+        , tracks: Track.byArtists(tracks)
+        });
+      });
+  };
 });
 
 // Helpers

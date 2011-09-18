@@ -203,20 +203,13 @@ html.no-js(lang='en')
             #tab3.tab_content
               p.center.spaced
                 strong Histórico e estatísticas das músicas tocadas aqui na Rádio!
-              table
-                tr
-                  th Nome
-                  th Artista
-                  th # de Plays
-                  th DJs que tocam
-                  th Último Play
-                - each track in tracks
-                  tr
-                    td= track.name
-                    td= track.artist
-                    td= track.plays.length
-                    td= track.djs
-                    td= dateFormat(track.updated_at, "%b %d, %Y %H:%M")
+              p.center.spaced
+                a#recent.filter.italic(href='javascript:void(0)') Recentes
+                a#most-played.filter(href='javascript:void(0)') Mais Tocadas
+                a#by-artist.filter(href='javascript:void(0)') Por Artista
+                img.loading(src="images/loading.gif", style="display:none")
+              #tracks-table
+                != partial('tracks', {locals: {show_name: true}})
             #tab4.tab_content.about
               br
               h4 O que é essa rádio?
