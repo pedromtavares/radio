@@ -57,10 +57,10 @@ function RadioClient(){
   /* Player Related */
   
   this.startRadio = function(){
-    if (self.config.dj === true){
-      self.goOnline();
-    }else{
+    if (self.config.dj === false){
       self.goOffline();
+    }else{
+      self.goOnline();
     }
   };
   
