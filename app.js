@@ -29,7 +29,7 @@ app.configure(function(){
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-  app.set('settings', {
+  app.set('server', {
     url: "http://stream.pedromtavares.com:10000",
     port: 8000,
     reconnectTime: 5 // in seconds
@@ -38,7 +38,7 @@ app.configure('development', function(){
 
 app.configure('production', function(){
   app.use(express.errorHandler()); 
-  app.set('settings', {
+  app.set('server', {
     url: "http://stream.pedromtavares.com:10000",
     port: 80,
     host: '173.255.227.12',
@@ -55,7 +55,7 @@ bayeux.attach(app);
 var radio = new Radio(bayeux);
 var chat = new Chat(bayeux);
 var decoder = new Decoder(radio);
-var streamer = new Streamer(app.settings.settings, radio, chat, decoder);
+var streamer = new Streamer(app.settings.server, radio, chat, decoder);
 
 // Routes
 
@@ -64,9 +64,17 @@ app.get('/', function(req, res){
   res.render('index', {
     track: radio.currentTrack
   , dj: radio.currentDJ
-  , chatUser: user ? user.name : false
+  , user: user ? user.name : false
   , history: chat.chatHistory
-  , config: {port: app.settings.settings.port}
+  , config: {port: app.settings.server.port}
+  });
+});
+app.get('/mobile', function(req, res){
+  res.render('mobile', {
+    track: radio.currentTrack
+  , dj: radio.currentDJ
+  , user: user ? user.name : false
+  , config: {port: app.settings.server.port}
   });
 });
 app.get('/stream.mp3', function(req, res){
@@ -118,10 +126,10 @@ app.helpers({
 });
 
 
-app.listen(app.settings.settings.port, app.settings.settings.host);
+app.listen(app.settings.server.port, app.settings.server.host);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 // after reserving priviled port, set process to run on a less privileged user
-if (app.settings.settings.host){
+if (app.settings.server.host){
   process.setgid(50);
   process.setuid(1000); 
   console.log("Process now running under user: " + process.getuid());

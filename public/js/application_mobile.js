@@ -5,41 +5,45 @@ function RadioClient(){
   var self = this;
   
   this.init = function(){
+    self.currentTrack = false;
+    self.config = self.getServerConfigs();
     self.setupBayeuxHandlers();
-    self.currentDJ = false;
-    self.getDJ();
+    self.startRadio();
+  };
+  
+  this.getServerConfigs = function(){
+    var config = {
+      port: JSON.parse($('#portConfig').val())
+    , dj: $('#djConfig').val()
+    };
+    return config;
   };
   
   this.setupBayeuxHandlers = function() {
-    $.getJSON("/config", function (config) {
-      self.fayeClient = new Faye.Client("http://" + window.location.hostname + ':' + config.port + '/faye', {
-        timeout: 120
-      });
+    self.fayeClient = new Faye.Client("http://" + window.location.hostname + ':' + self.config.port + '/faye', {
+      timeout: 120
+    });
 
-      self.fayeClient.subscribe('/radio', function (message) {
-        var track = message.track;
-        var listeners = message.listeners;
-        $('#listeners').html(listeners);
-        if (track == 'offline'){
-          self.goOffline();
-        }else{
-          if (track && track != ''){
-            self.nextTrack(track);
-          }
+    self.fayeClient.subscribe('/radio', function (message) {
+      var track = message.track;
+      var listeners = message.listeners;
+      $('#listeners').html(listeners);
+      if (track == 'offline'){
+        self.goOffline();
+      }else{
+        if (track && track != ''){
+          self.nextTrack(track);
         }
-      });
+      }
     });
   };
     
-  this.getDJ = function(){
-    $.get('/dj', function(data) {
-      if (data == ''){
-        self.goOffline();
-      }else{
-        self.goOnline(data);
-        self.currentDJ = data;
-      }
-    });
+  this.startRadio = function(){
+    if (self.config.dj){
+      self.goOnline();
+    }else{
+      self.goOffline();
+    }
   };
   
   this.startPlayer = function(){
@@ -59,8 +63,7 @@ function RadioClient(){
     $("#jplayer").jPlayer("clearMedia");
   };
   
-  this.goOnline = function(dj){
-    $('#dj').html(dj);
+  this.goOnline = function(){
     self.startPlayer();
   };
   
@@ -68,22 +71,23 @@ function RadioClient(){
     $('#offline_msg').show();
     $('#current_dj').hide();
     $('#current_track').hide();
-    self.currentDJ = false;
     self.stopPlayer();
+    self.currentTrack = false;
   };
   
   this.nextTrack = function(track){
-    if (!self.currentDJ){
+    if (!self.config.dj){
       window.location.reload();
     }
     // Don't show the next track immediately since the stream delay is about 15 seconds, so we don't want to spoil out 
     // what the next track is gonna be 15 seconds before it actually starts. It's ok to show it immediately if 
     // there was nothing playing (or if you just connected to the stream).
     var current = $('#track').html();
-    var time = current == "" ? 1 : 20;
+    var time = self.currentTrack ? 15 : 1;
     setTimeout(function() {
       $('#track').html(track);
     }, time * 1000)
+    self.currentTrack = track;
   };
   
   this.init();
@@ -91,4 +95,4 @@ function RadioClient(){
 
 $(function(){
   var client = new RadioClient();
-});
+}

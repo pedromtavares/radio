@@ -10,9 +10,9 @@
   <!
 html.no-js(lang='en')
   //
-    <![end if]
-
+    <![end if]  
   head
+    script(src="js/libs/detectmobilebrowser.js")
     meta(charset="utf-8")
     // Always force latest IE rendering engine (even in intranet) & Chrome Frame 
     meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
@@ -86,14 +86,14 @@ html.no-js(lang='en')
                   br
                   a(href="http://stream.pedromtavares.com/listen.pls")
                     img(src="/images/icons/itunes.png", title="iTunes")
-                  a(href="http://stream.pedromtavares.com/listen.pls")
+                  a(href="http://stream.pedromtavares.com/listen.m3u")
                     img(src="/images/icons/winamp.png", title="Winamp")
                   a(href="http://stream.pedromtavares.com/listen.m3u")
                     img(src="/images/icons/wmp.png", title="Windows Media Player")
               #jp_playlist_1.jp-playlist
                 ul
                   li#current_track
-                    | Track:
+                    | Música:
                     span#track=track
                   li#current_dj
                     | DJ:
@@ -141,8 +141,8 @@ html.no-js(lang='en')
                   
               ul#online
               br(clear="all")
-              - if (chatUser)
-                input.text#author(type="text", name="author", maxlength=15, placeholder="Nome", readonly="true", value="#{chatUser}")
+              - if (user)
+                input.text#author(type="text", name="author", maxlength=15, placeholder="Nome", readonly="true", value="#{user}")
               - else
                 input.text#author(type="text", name="author", maxlength=15, placeholder="Nome")
               input.text#message(type="text", name="message", maxlength=140, placeholder="Mensagem")
@@ -192,6 +192,12 @@ html.no-js(lang='en')
                     | Tesla
                     br
                     em 20h~22h
+                li.even
+                  a(href="http://www.facebook.com/profile.php?id=100000901343685", class="tooltip" ,title="Dubstep/Eletrônica/Pop/Rock", target="_blank")
+                    img(src="images/djs/reidark.jpg", alt="Reidark") 
+                    | Reidark
+                    br
+                    em 22h~23h
             
             #tab3.tab_content.about
               br
