@@ -7,6 +7,7 @@
     , "jade": ">= 0.0.1"
     , "faye": "0.6.6"
     , "icecast-stack" : "0.2.2"
+    , "mongodb": "0.9.6-15"
     , "mongoose": "2.1.3"
   }
 }
