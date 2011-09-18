@@ -105,6 +105,7 @@ function RadioClient(){
     var time = self.currentTrack ? 15 : 1;
     setTimeout(function() {
       $('#track').html(track);
+      $('#recent').click();
     }, time * 1000)
     self.currentTrack = track;
     console.log(track);
