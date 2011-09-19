@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -170,3 +169,10 @@ if (app.settings.server.host){
   process.setuid(1000); 
   console.log("Process now running under user: " + process.getuid());
 }
+
+process.addListener('uncaughtException', function (err, stack) {
+  console.log('------------------------');
+  console.log('Exception: ' + err);
+  console.log(err.stack);
+  console.log('------------------------');
+});
