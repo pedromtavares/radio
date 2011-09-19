@@ -32,7 +32,7 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
   app.set('server', {
-    url: "http://stream.pedromtavares.com:10000",
+    url: "http://stream.pedromtavares.com:20000",
     port: 8000,
     reconnectTime: 5 // in seconds
   });

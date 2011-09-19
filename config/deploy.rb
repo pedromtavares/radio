@@ -30,7 +30,7 @@ namespace :deploy do
   end
   
   task :reset_shoutcast do
-    run "killall -9 sc_serv && /home/deployer/shoutcast/sc_serv daemon /home/deployer/shoutcast/sc_serv_basic.conf "
+    run "killall -9 sc_serv && /home/deployer/shoutcast/sc_serv daemon /home/deployer/shoutcast/sc_serv_basic.conf && /home/deployer/shoutcast-test/sc_serv daemon /home/deployer/shoutcast-test/sc_serv_basic.conf"
   end
 
   task :create_deploy_to_with_sudo, :roles => :app do
