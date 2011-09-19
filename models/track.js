@@ -3,15 +3,15 @@ var _ = require('../vendor/underscore')._;
 
 var PlaySchema = new Schema({
     dj  :  { type: String, required: true }
-  , created_at  : {type : Date, default : Date.now}
+  , created_at  : {type : Date, default : new Date()}
 });
 
 var TrackSchema = new Schema({
     name  :  { type: String, required: true }
   , artist : { type: String, required: true }
   , plays   :  [PlaySchema]
-  , created_at  : {type : Date, default : Date.now}
-  , updated_at : {type : Date, default : Date.now}
+  , created_at  : {type : Date, default : new Date()}
+  , updated_at : {type : Date, default : new Date()}
 });
 
 TrackSchema.virtual('djs').get(function (){
