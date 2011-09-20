@@ -30,7 +30,7 @@ TrackSchema.statics.byArtists = function byArtists(tracks){
         return recent > track.updated_at ? recent : track.updated_at
     }, 0);
       return {artist: artist_name, plays: plays, updated_at: last_play, djs: _(djs).chain().flatten().uniq().value()}
-    }).value();
+    }).sortBy(function(artist) {return artist.plays}).reverse().value();
 }
 
 TrackSchema.statics.mostPlayed = function mostPlayed(tracks){
