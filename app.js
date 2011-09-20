@@ -57,7 +57,6 @@ var radio = new Radio(bayeux);
 var chat = new Chat(bayeux);
 var decoder = new Decoder(radio);
 var streamer = new Streamer(app.settings.server, radio, chat, decoder);
-mongoose.connect('mongodb://localhost/my_database');
 
 // Routes
 
