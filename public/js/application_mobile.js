@@ -95,5 +95,5 @@ function RadioClient(){
 }
 
 $(function(){
-  var client = new RadioClient();
-}
+  new RadioClient();
+});

@@ -78,7 +78,6 @@ app.get('/mobile', function(req, res){
   res.render('mobile', {
     track: radio.currentTrack
   , dj: radio.currentDJ
-  , user: user ? user.name : false
   , config: {port: app.settings.server.port}
   });
 });
