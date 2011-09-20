@@ -191,11 +191,11 @@ $(function(){
     $('.filter').removeClass('italic');
     $(this).addClass('italic');
     $('.loading').show();
-    $('#tracks-table').slideToggle();
+    $('#tracks-table').slideToggle('slow');
     $.get('/tracks/'+this.id, function(data) {
       $('#tracks-table').html(data);
       $('.loading').hide();
-      $('#tracks-table').slideToggle();
+      $('#tracks-table').slideToggle('slow');
     });
   });
   
