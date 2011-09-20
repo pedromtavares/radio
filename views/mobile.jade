@@ -57,20 +57,20 @@ html.no-js(lang='en')
               #jp_interface_1.jp-interface
                 ul.jp-controls
                   li
-                    a.jp-play(href="#", tabindex=1) play
+                    a.jp-play(href="#", tabindex=1, style="margin-left:-30px") play
                   li
-                    a.jp-pause(href="#", tabindex=1) pause
+                    a.jp-pause(href="#", tabindex=1, style="margin-left:-30px") pause
                   li
-                    a.jp-stop(href="#", tabindex=1) stop
+                    a.jp-stop(href="#", tabindex=1, style="margin-left:-30px") stop
                   li
-                    a.jp-mute(href="#", tabindex=1) mute
+                    a.jp-mute(href="#", tabindex=1, style="margin-left:-30px") mute
                   li
-                    a.jp-unmute(href="#", tabindex=1) unmute    
-                .jp-volume-bar(style="margin-left:-5px")
+                    a.jp-unmute(href="#", tabindex=1, style="margin-left:-30px") unmute    
+                .jp-volume-bar(style="margin-left:-35px")
                   .jp-volume-bar-value
-                .jp-current-time
+                .jp-current-time(style="margin-left:-30px")
               #jp_playlist_1.jp-playlist
-                ul
+                ul(style="margin-left:-30px")
                   li#current_track
                     | Música:
                     span#track=track
@@ -87,9 +87,9 @@ html.no-js(lang='en')
             | .
 
           section#social_links(style="margin-left:-10px")
-            .left
+            .left(style="margin-left:15px")
               iframe(src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fradiodagalere&amp;width=292&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=true&amp;height=62", scrolling="no", frameborder="0", style="border:none; overflow:hidden; width:292px; height:62px;", allowTransparency="true")
-            .left(style="margin-top:10px;margin-left:30px")
+            .left(style="margin-top:10px;margin-left:50px")
               a(href="http://twitter.com/radiodagalere", class="twitter-follow-button", data-lang="pt", data-show-count="false") Siga @radiodagalere
               br
               a(href="http://twitter.com/share", class="twitter-share-button", data-text="Tou curtindo o som da @radiodagalere, ouçam também em", data-count="horizontal", data-via="pedromtavares", data-lang="pt") Tweetar
