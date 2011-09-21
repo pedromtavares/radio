@@ -172,3 +172,10 @@ th.djs{
 th.last-play{
   width:15%;
 }
+
+.big th.artist{
+  width:50%;
+}
+.big th.djs{
+  width:30%;
+}
