@@ -23,6 +23,15 @@
   padding:0 1em 1em 1em !important;
 }
 
+.tracks{
+  padding:0 !important;
+}
+
+.tracks table{
+  border:0;
+  margin-bottom:0px;
+}
+
 #social_links{
   margin-left:30px;
 }
@@ -146,4 +155,20 @@
 
 .italic{
   font-style:italic;
+}
+
+th.name{
+  width: 40%;
+}
+th.artist{
+  width: 20%;
+}
+th.plays{
+  width: 5%;
+}
+th.djs{
+  width:15%;
+}
+th.last-play{
+  width:15%;
 }

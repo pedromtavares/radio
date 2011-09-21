@@ -1,11 +1,11 @@
 table
   tr
     - if (show_name)
-      th Nome
-    th Artista
-    th # de Plays
-    th DJs que tocam
-    th Último Play
+      th.name Nome
+    th.artist Artista
+    th.plays # de Plays
+    th.djs DJs que tocam
+    th.last-play Último Play
   - each track in tracks
     tr
       - if (show_name)
@@ -13,4 +13,4 @@ table
       td= track.artist
       td= typeof(track.plays) == "number" ? track.plays : track.plays.length
       td= track.djs.join(', ')
-      td= dateFormat(track.updated_at, "%b %d, %Y %H:%M")
+      td= dateFormat(track.updated_at, "%b %d %H:%M")

@@ -7,10 +7,10 @@ var faye = require('faye')
  
 module.exports = function(app){
   var bayeux = new faye.NodeAdapter({mount: '/faye',timeout: 45}); bayeux.attach(app);
-  var radio = new Radio(bayeux);
-  var chat = new Chat(bayeux);
-  var decoder = new Decoder(radio);
-  var streamer = new Streamer(app.settings.server, radio, chat, decoder);
+  var radio = new Radio(bayeux)
+  ,   chat = new Chat(bayeux)
+  ,   decoder = new Decoder(radio)
+  ,   streamer = new Streamer(app.settings.server, radio, chat, decoder);
   
   app.get('/', function(req, res){
     var user = chat.getChatUser('ip', req.connection.remoteAddress);
