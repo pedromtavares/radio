@@ -1,0 +1,6 @@
+{
+  "consumerToken" : "put",
+  "consumerSecret" : "your",
+  "accessToken" : "keys",
+  "accessSecret": "here!"
+}

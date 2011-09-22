@@ -56,12 +56,16 @@ namespace :deploy do
   respawn
 UPSTART
   put upstart_script, "/tmp/#{application}_upstart.conf"
-    sudo "mv /tmp/#{application}_upstart.conf /etc/init/#{application}_#{node_env}.conf"
+  sudo "mv /tmp/#{application}_upstart.conf /etc/init/#{application}_#{node_env}.conf"
   end
-
+  
+	task :symlink_keys, :roles => :app do
+		run "ln -nfs #{shared_path}/keys.json #{release_path}/config/keys.json"
+	end
 
 end
 
 before 'deploy', 'deploy:reset_shoutcast'
 before 'deploy:setup', 'deploy:create_deploy_to_with_sudo'
 after 'deploy:setup', 'deploy:write_upstart_script'
+after 'deploy', 'deploy:symlink_keys'

@@ -13,7 +13,6 @@ module.exports = function(app){
   ,   map = new Map(bayeux, chat, radio)
   ,   decoder = new Decoder(radio)
   ,   streamer = new Streamer(app.settings.server, radio, chat, decoder, map);
-  
   app.get('/', function(req, res){
     var user = chat.getChatUser('ip', req.connection.remoteAddress);
     Track.find({}).desc('updated_at').limit(50).run(function(err, tracks){
