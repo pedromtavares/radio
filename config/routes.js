@@ -8,7 +8,7 @@ var faye = require('faye')
  
 module.exports = function(app){
   var bayeux = new faye.NodeAdapter({mount: '/faye',timeout: 45}); bayeux.attach(app);
-  var radio = new Radio(bayeux)
+  var radio = new Radio(bayeux, app)
   ,   chat = new Chat(bayeux)
   ,   map = new Map(bayeux, chat, radio)
   ,   decoder = new Decoder(radio)
