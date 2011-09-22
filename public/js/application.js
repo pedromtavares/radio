@@ -19,6 +19,7 @@ function RadioClient(){
     var config = {
       port: JSON.parse($('#portConfig').val())
     , dj: $('#djConfig').val()
+    , locations: JSON.parse($('#locations').val())
     };
     return config;
   };
@@ -27,6 +28,7 @@ function RadioClient(){
     self.fayeClient = new Faye.Client("http://" + window.location.hostname + ':' + self.config.port + '/faye', {
       timeout: 120
     });
+    self.config.fayeClient = self.fayeClient;
 
     self.fayeClient.subscribe('/radio', function (message) {
       var track = message.track;
@@ -186,6 +188,9 @@ function RadioClient(){
 
 $(function(){
   var client = new RadioClient();
+  if ($('#map').length!=0){
+    var mapClient = new MapClient(client.config);
+  }
   
   $('.filter').click(function() {
     $('.filter').removeClass('italic');

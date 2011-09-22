@@ -3,14 +3,16 @@ var faye = require('faye')
  ,  Radio = require('../lib/radio')
  ,  Decoder = require('../lib/decoder')
  ,  Chat = require('../lib/chat')
+ ,  Map = require('../lib/map')
  ,  Track = require('../models/track');
  
 module.exports = function(app){
   var bayeux = new faye.NodeAdapter({mount: '/faye',timeout: 45}); bayeux.attach(app);
   var radio = new Radio(bayeux)
   ,   chat = new Chat(bayeux)
+  ,   map = new Map(bayeux, chat, radio)
   ,   decoder = new Decoder(radio)
-  ,   streamer = new Streamer(app.settings.server, radio, chat, decoder);
+  ,   streamer = new Streamer(app.settings.server, radio, chat, decoder, map);
   
   app.get('/', function(req, res){
     var user = chat.getChatUser('ip', req.connection.remoteAddress);
@@ -22,6 +24,7 @@ module.exports = function(app){
       , history: chat.chatHistory
       , config: {port: app.settings.server.port}
       , tracks: tracks
+      , locations: map.allLocations()
       });
     });
   });

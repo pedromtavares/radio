@@ -57,6 +57,7 @@ html.no-js(lang='en')
   body
     input(type='hidden', id='portConfig', value='#{config.port}')
     input(type='hidden', id='djConfig', value='#{dj}')
+    input(type='hidden', id='locations', value='#{JSON.stringify(locations)}')
     .wrap
       header.header
         hgroup
@@ -92,15 +93,16 @@ html.no-js(lang='en')
                     img(src="/images/icons/wmp.png", title="Windows Media Player")
               #jp_playlist_1.jp-playlist
                 ul
-                  li#current_track
-                    | Música:
-                    span#track=track
-                  li#current_dj
-                    | DJ:
-                    span#dj=dj
-                    .right
-                      span#listeners 0 
-                      |  ouvinte(s)
+                  - if (track)
+                    li#current_track
+                      | Música:
+                      span#track=track
+                    li#current_dj
+                      | DJ:
+                      span#dj=dj
+                      .right
+                        span#listeners 0 
+                        |  ouvinte(s)
                   li#offline_msg(style="display:none") A rádio está offline. Tente recarregar o navegador ou tente mais tarde.
           .notice
             | Caso a música não esteja tocando, clique 
@@ -124,7 +126,9 @@ html.no-js(lang='en')
             li
               a(href="#tab3") Músicas
             li
-              a(href="#tab4") Sobre
+              a(href="#tab4") Mapa de Ouvintes
+            li
+              a(href="#tab5") Sobre
         
           .tab_container
         
@@ -222,7 +226,14 @@ html.no-js(lang='en')
                 img.loading(src="images/loading.gif", style="display:none")
               #tracks-table
                 != partial('tracks', {locals: {show_name: true}})
-            #tab4.tab_content.about
+            #tab4.tab_content
+              - if (dj)
+                br
+                p.center.spaced Localização da galera que ouviu/está ouvindo o stream do DJ #{dj}.
+                #map
+              - else
+                p.center.spaced Mapa apenas disponível quando a rádio estiver online.
+            #tab5.tab_content.about
               br
               h4 O que é essa rádio?
               p A rádio é nada mais que uma galera junta tocando pra conhecidos, se você chegou aqui então provavelmente é amigo de alguém que toca aqui, porque a intenção da rádio não é ter uma grande divulgação pública por enquanto, só assim se consegue manter um ambiente amigável que é algo que damos muito valor.
@@ -242,6 +253,9 @@ html.no-js(lang='en')
     script(type="text/javascript", src="faye.js")
     script(type="text/javascript", src="js/libs/jquery.js")
     script(type="text/javascript", src="js/libs/jquery.jplayer.min.js")
+    script(type="text/javascript", src="js/libs/images.js")
+    script(type="text/javascript", src="js/libs/raphael.js")
+    script(type="text/javascript", src="js/map_client.js")
     script(type="text/javascript", src="js/application.js")
     script(src="fancybox/jquery.mousewheel-3.0.4.pack.js")
     script(src="fancybox/jquery.fancybox-1.3.4.pack.js")
