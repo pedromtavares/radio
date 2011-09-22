@@ -227,8 +227,8 @@ html.no-js(lang='en')
               #tracks-table
                 != partial('tracks', {locals: {show_name: true}})
             #tab4.tab_content
+              br
               - if (dj)
-                br
                 p.center.spaced Localização da galera que ouviu/está ouvindo o stream do DJ #{dj}.
                 #map
               - else
