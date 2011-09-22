@@ -93,7 +93,7 @@ html.no-js(lang='en')
                     img(src="/images/icons/wmp.png", title="Windows Media Player")
               #jp_playlist_1.jp-playlist
                 ul
-                  - if (track)
+                  - if (track && dj)
                     li#current_track
                       | Música:
                       span#track=track
