@@ -59,9 +59,8 @@ function RadioClient (config) {
   };
   
   this.goOffline = function(){
-    $('#offline_msg').show();
-    $('#current_dj').hide();
-    $('#current_track').hide();
+    $('.offline').show();
+    $('.online').hide();
     self.stopPlayer();
     self.currentTrack = false;
     self.config.dj = 'false';
@@ -88,7 +87,7 @@ function RadioClient (config) {
   
   this.setupDOMHandlers = function(){
     var stopStream = function(){
-      client.stopPlayer();
+      self.stopPlayer();
     }
 
     var startStream = function(){

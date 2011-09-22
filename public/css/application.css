@@ -19,6 +19,10 @@
   float:right;
 }
 
+.offline{
+  display:none;
+}
+
 .chat{
   padding:0 1em 1em 1em !important;
 }
