@@ -68,7 +68,10 @@
 }
 
 .text#message{
-  width:25em;
+  width:31.5em;
+}
+.text#message.big{
+  width:42.8em;
 }
 
 .submit {
@@ -134,11 +137,11 @@
 
 #online{
   float:left;
-  margin:5px;
+  margin:0 5px;
   padding:5px;
   list-style-type: none;
   width:22%;
-  height: 330px;
+  height: 340px;
   overflow:auto;
   background: #EEE;
   -webkit-border-radius: 5px;

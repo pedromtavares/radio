@@ -148,11 +148,12 @@ html.no-js(lang='en')
               ul#online
               br(clear="all")
               - if (user)
-                input.text#author(type="text", name="author", maxlength=15, placeholder="Nome", readonly="true", value="#{user}")
+                input#author.registered(type='hidden', value='#{user}')
+                input.text#message.big(type="text", name="message", maxlength=140, placeholder="Mensagem")
               - else
                 input.text#author(type="text", name="author", maxlength=15, placeholder="Nome")
-              input.text#message(type="text", name="message", maxlength=140, placeholder="Mensagem")
-              input.submit#submit(type="button", value="Enviar")
+                input.text#message(type="text", name="message", maxlength=140, placeholder="Mensagem")
+              
             
             #tab2.tab_content.social
               ul
@@ -229,7 +230,7 @@ html.no-js(lang='en')
             #tab4.tab_content
               br
               - if (dj)
-                p.center.spaced Localização da galera que ouviu/está ouvindo o stream do DJ #{dj}.
+                p.center.spaced Localização da galera que ouviu/está ouvindo o DJ #{dj}.
                 #map
               - else
                 p.center.spaced Mapa apenas disponível quando a rádio estiver online.
@@ -255,7 +256,10 @@ html.no-js(lang='en')
     script(type="text/javascript", src="js/libs/jquery.jplayer.min.js")
     script(type="text/javascript", src="js/libs/images.js")
     script(type="text/javascript", src="js/libs/raphael.js")
+    script(type="text/javascript", src="js/helpers.js")
     script(type="text/javascript", src="js/map_client.js")
+    script(type="text/javascript", src="js/chat_client.js")
+    script(type="text/javascript", src="js/radio_client.js")
     script(type="text/javascript", src="js/application.js")
     script(src="fancybox/jquery.mousewheel-3.0.4.pack.js")
     script(src="fancybox/jquery.fancybox-1.3.4.pack.js")

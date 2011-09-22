@@ -14,6 +14,12 @@ function MapClient (config) {
     self.drawMarkers(self.config.locations);
   };
   
+  this.setupBayeuxHandlers = function() {
+    self.config.fayeClient.subscribe('/map', function (message) {
+      self.drawMarker(message);
+    });
+  }
+  
   this.drawMarkers = function(locations){
     if (locations.length != 0){
       for(var location in locations){
@@ -24,12 +30,6 @@ function MapClient (config) {
         }
       }
     }
-  }
-  
-  this.setupBayeuxHandlers = function() {
-    self.config.fayeClient.subscribe('/map', function (message) {
-      self.drawMarker(message);
-    });
   }
 
   this.viewDidResize = function () {
