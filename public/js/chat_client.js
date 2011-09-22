@@ -16,7 +16,7 @@ function ChatClient (config) {
     self.addOnlineChatUser($('#author').val());
   };
   
-  this.setupBayeuxHandlers = function() {
+  this.setupBayeuxHandlers = function(){
     self.config.fayeClient.subscribe('/chat', function (message) {
       var author = $('#author').val();
       $('#chatbox').append(self.renderChatRow(message, true));

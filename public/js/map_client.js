@@ -14,7 +14,7 @@ function MapClient (config) {
     self.drawMarkers(self.config.locations);
   };
   
-  this.setupBayeuxHandlers = function() {
+  this.setupBayeuxHandlers = function(){
     self.config.fayeClient.subscribe('/map', function (message) {
       self.drawMarker(message);
     });
@@ -32,7 +32,7 @@ function MapClient (config) {
     }
   }
 
-  this.viewDidResize = function () {
+  this.viewDidResize = function(){
     var self = this,
       width = $('#map').width(),
       windowHeight = $(window).height(),
@@ -43,7 +43,7 @@ function MapClient (config) {
     // });
   }
 
-  this.drawMap = function () {
+  this.drawMap = function(){
     var self = this;
     self.map = Raphael('map', 0, 0);
     //self.map.canvas.setAttribute('viewBox', '0 0 567 369');
@@ -59,7 +59,7 @@ function MapClient (config) {
     });
   }
 
-  this.geoCoordsToMapCoords = function (latitude, longitude) {
+  this.geoCoordsToMapCoords = function(latitude, longitude){
     latitude = parseFloat(latitude);
     longitude = parseFloat(longitude);
 
@@ -84,7 +84,7 @@ function MapClient (config) {
     };
   }
 
-  this.drawMarker = function (message) {
+  this.drawMarker = function(message){
     var self = this,
       latitude = message.latitude,
       longitude = message.longitude,
@@ -144,7 +144,5 @@ function MapClient (config) {
     });
   }
 
-  
-  
   this.init();
 }

@@ -14,7 +14,7 @@ function RadioClient (config) {
     self.startRadio();
   };
   
-  this.setupBayeuxHandlers = function() {
+  this.setupBayeuxHandlers = function(){
     self.config.fayeClient.subscribe('/radio', function (message) {
       var track = message.track;
       var listeners = message.listeners;

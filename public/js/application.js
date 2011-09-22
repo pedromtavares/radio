@@ -7,6 +7,7 @@ function ApplicationClient(){
   this.init = function(){
     self.config = self.getServerConfigs();
     self.setupBayeuxHandlers();
+    self.setupDOMHandlers();
   };
   
   this.getServerConfigs = function(){
@@ -18,11 +19,25 @@ function ApplicationClient(){
     return config;
   };
   
-  this.setupBayeuxHandlers = function() {
+  this.setupBayeuxHandlers = function(){
     self.config.fayeClient = new Faye.Client("http://" + window.location.hostname + ':' + self.config.port + '/faye', {
       timeout: 120
     });
   };
+  
+  this.setupDOMHandlers = function(){
+    $('.filter').click(function() {
+      $('.filter').removeClass('italic');
+      $(this).addClass('italic');
+      $('.loading').show();
+      $('#tracks-table').slideToggle('slow');
+      $.get('/tracks/'+this.id, function(data) {
+        $('#tracks-table').html(data);
+        $('.loading').hide();
+        $('#tracks-table').slideToggle('slow');
+      });
+    });
+  }
   
   this.init();
 }
@@ -34,17 +49,4 @@ $(function(){
   if ($('#map').length!=0){
     var mapClient = new MapClient(application.config);
   }
-  
-  $('.filter').click(function() {
-    $('.filter').removeClass('italic');
-    $(this).addClass('italic');
-    $('.loading').show();
-    $('#tracks-table').slideToggle('slow');
-    $.get('/tracks/'+this.id, function(data) {
-      $('#tracks-table').html(data);
-      $('.loading').hide();
-      $('#tracks-table').slideToggle('slow');
-    });
-  });
-
 });
