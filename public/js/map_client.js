@@ -36,7 +36,7 @@ function MapClient (config) {
     var self = this,
       width = $('#map').width(),
       windowHeight = $(window).height(),
-      mapCanvasHeight = 500;
+      mapCanvasHeight = 600;
     self.map.setSize(width, mapCanvasHeight);
     // $('#map').css({
     //   'margin-top': (windowHeight - mapCanvasHeight) / 2.0
@@ -47,7 +47,7 @@ function MapClient (config) {
     var self = this;
     self.map = Raphael('map', 0, 0);
     //self.map.canvas.setAttribute('viewBox', '0 0 567 369');
-    self.map.canvas.setAttribute('viewBox', '60 200 160 100');
+    self.map.canvas.setAttribute('viewBox', '60 215 160 100');
     //self.map.canvas.setAttribute('viewBox', '-690 -658 1415 1415');
     //self.map.canvas.setAttribute('viewBox', '-800 -500 1750 1000');
 
