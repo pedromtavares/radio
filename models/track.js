@@ -42,7 +42,7 @@ TrackSchema.statics.parseTitle = function parseTitle(title){
   var temp = title.split('-');
   var artist = temp[0];
   var name = temp[1];
-  if (!name){artist = 'Unknown'; name = temp[0]};
+  if (!name){artist = 'Unknown'; name = title};
   artist = removeUselessSpace(artist);
   name = removeUselessSpace(name);
   return {name: name, artist: artist};
