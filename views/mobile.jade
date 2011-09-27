@@ -2,8 +2,6 @@
 html.no-js(lang='en')
   head
     meta(charset="utf-8")
-    // Always force latest IE rendering engine (even in intranet) & Chrome Frame 
-    meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
     meta(name="description", content="Uma rádio online que só toca o melhor de todos os estilos.")
     meta(name="author", content="Pedro Mateus Tavares")
     meta(name="keywords", content="radio, rádio, galere, dj, pedro mateus tavares")
@@ -26,9 +24,6 @@ html.no-js(lang='en')
     // CSS: Application and jPlayer files
     link(rel="stylesheet", href="css/application.css")
     link(type="text/css", href="css/jplayer.blue.monday.css", rel="stylesheet")
-
-    // All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects
-    script(src="js/libs/modernizr.min.js")
     
     // Google Analytics
     script(type='text/javascript')
@@ -180,8 +175,8 @@ html.no-js(lang='en')
               p Se a transmissão tiver chiando, com falhas ou demoras, tente recarregar a página. Se isso não funcionar, pode ser que a internet do DJ esteja lenta ao enviar as músicas, então comunique isso a ele pelo chat.
     
       footer#footer
-        p Direitos Autorais &copy; 2011 <a href="http://pedromtavares.com">Pedro Mateus Tavares</a>.
-        p.alt Este projeto é <a href="https://github.com/pedromtavares/radio" title="GitHub Repo">open-source</a>.
+        p Desenvolvido por <a href="http://pedromtavares.com" target="_blank">Pedro Mateus Tavares</a>.
+        p.alt Este projeto é <a href="https://github.com/pedromtavares/radio" title="GitHub Repo" target="_blank">open-source</a>.
     // Javascript at the bottom for fast page loading
     script(type="text/javascript", src="faye.js")
     script(type="text/javascript", src="js/libs/jquery.js")
@@ -192,10 +187,3 @@ html.no-js(lang='en')
     script(src="js/template/plugins.js")
     script(src="js/template/script.js")
     script(type="text/javascript", src="http://platform.twitter.com/widgets.js")
-
-    // if lte IE 7
-      script(src="js/libs/dd_belatedpng.js")
-      script(src="js/libs/dd_roundies.js")
-      script 
-        DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images 
-        DD_roundies.addRule('#container', '5px');

@@ -9,6 +9,7 @@ var PlaySchema = new Schema({
 var TrackSchema = new Schema({
     name  :  { type: String, required: true }
   , artist : { type: String, required: true }
+  , title : { type: String, required: true }
   , plays   :  [PlaySchema]
   , created_at  : {type : Date, default : Date.now}
   , updated_at : {type : Date, default : Date.now}
@@ -41,7 +42,7 @@ TrackSchema.statics.parseTitle = function parseTitle(title){
   var temp = title.split('-');
   var artist = temp[0];
   var name = temp[1];
-  if (!name){name = 'Untitled'};
+  if (!name){artist = 'Unknown'; name = temp[0]};
   artist = removeUselessSpace(artist);
   name = removeUselessSpace(name);
   return {name: name, artist: artist};

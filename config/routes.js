@@ -12,7 +12,7 @@ module.exports = function(app){
   ,   chat = new Chat(bayeux)
   ,   map = new Map(bayeux, chat, radio)
   ,   decoder = new Decoder(radio)
-  ,   streamer = new Streamer(app.settings.server, radio, chat, decoder, map);
+  ,   streamer = new Streamer(app, radio, chat, decoder, map);
   app.get('/', function(req, res){
     var user = chat.getChatUser('ip', req.connection.remoteAddress);
     Track.find({}).desc('updated_at').limit(50).run(function(err, tracks){
@@ -53,7 +53,7 @@ module.exports = function(app){
   app.get('/tracks/:filter', function(req, res){
     switch(req.params.filter){
       case 'recent':
-        Track.find({}).desc('updated_at').limit(50).run(function(err, tracks){
+        Track.find().desc('updated_at').limit(50).run(function(err, tracks){
           res.render('_tracks', {
             show_name: true
           , tracks: tracks
@@ -61,7 +61,7 @@ module.exports = function(app){
         });
         break;
       case 'most-played':
-        Track.find({}).run(function(err, tracks){
+        Track.$where('this.plays.length >  1').limit(50).run(function(err, tracks){
           res.render('_tracks', {
             show_name: true
           , tracks: Track.mostPlayed(tracks)
@@ -69,7 +69,7 @@ module.exports = function(app){
         });
         break;
       case 'by-artist':
-        Track.find({}).asc('artist').run(function(err, tracks){
+        Track.find().asc('artist').run(function(err, tracks){
           res.render('_tracks', {
             show_name: false
           , tracks: Track.byArtists(tracks)
