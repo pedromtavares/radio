@@ -24,7 +24,8 @@ function PlaylistClient (config) {
     'breg': bregPlaylist,
     'jazz': jazzPlaylist,
     'blues': bluesPlaylist,
-    'chill': chillPlaylist
+    'chill': chillPlaylist,
+    'inst': instPlaylist
   }
   
   this.init = function(){
