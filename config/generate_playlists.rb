@@ -1,4 +1,4 @@
-File.open(Dir.pwd+'/public/js/playlists.js', 'w') do |file|
+File.open(Dir.pwd+'/radio/public/js/playlists.js', 'w') do |file|
   Dir.foreach(File.expand_path('./public/system/music/')) do |genre|
     next if genre == '.' || genre == '..' || genre == '.DS_Store'
     file.write("var #{genre}Playlist = [")
