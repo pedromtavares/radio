@@ -64,7 +64,7 @@ namespace :deploy do
 	end
 	
 	task :update_playlists, :roles => :app do
-	 run "ruby #{release_path}/config/generate_playlists.rb"
+	 run "cd #{release_path} && ruby config/generate_playlists.rb"
 	end
 
 end
