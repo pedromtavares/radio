@@ -1,4 +1,5 @@
 var faye = require('faye')
+ ,  fs = require('fs')
  ,  Streamer = require('../lib/streamer')
  ,  Radio = require('../lib/radio')
  ,  Decoder = require('../lib/decoder')
@@ -77,4 +78,26 @@ module.exports = function(app){
         });
     };
   });
+  app.get('/upload', function(req, res){
+    res.render('upload');
+  });
+  app.post('/upload', function(req, res, next){
+    req.form.complete(function(err, fields, files){
+        if (err) {
+          next(err);
+        } else {
+          fs.rename(files.track.path, process.cwd() + '/public/system/tmp/' + fields.genre + '/' + files.track.filename, function(){
+            res.send('<script>alert("Música enviada com sucesso.");window.location.href = "/upload"</script>');
+          });
+        }
+      });
+  });
+  app.get('/admin/:token', function(req, res){
+    if (req.params.token == app.settings.server.keys.token){
+      res.send('oi');
+    }else{
+      res.send('sai daki lek afff');
+    }
+  });
+
 }

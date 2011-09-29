@@ -37,23 +37,6 @@ function RadioClient (config) {
     }
   };
   
-  this.startPlayer = function(){
-    $("#jplayer").jPlayer({
-      ready: function () {
-        $(this).jPlayer("setMedia", {
-          mp3: "/stream.mp3",
-          oga: "/stream.ogg"
-        }).jPlayer("play");
-      },
-      swfPath: "/public",
-      supplied: "mp3, oga"
-    });
-  };
-  
-  this.stopPlayer = function(){
-    $("#jplayer").jPlayer("clearMedia");
-  };
-  
   this.goOnline = function(){
     self.startPlayer();
   };
@@ -64,6 +47,24 @@ function RadioClient (config) {
     self.stopPlayer();
     self.currentTrack = false;
     self.config.dj = 'false';
+    window.location.reload();
+  };
+  
+  this.startPlayer = function(){
+    $("#jplayer").jPlayer({
+      ready: function (event) {
+        $(this).jPlayer("setMedia", {
+          mp3: "/stream.mp3",
+          oga: "/stream.ogg"
+        }).jPlayer("play");
+      },
+      swfPath: "../",
+      supplied: "mp3, oga"
+    });
+  };
+  
+  this.stopPlayer = function(){
+    $("#jplayer").jPlayer("clearMedia");
   };
   
   this.nextTrack = function(track){

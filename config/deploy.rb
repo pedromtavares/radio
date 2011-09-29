@@ -62,6 +62,10 @@ UPSTART
 	task :symlink_keys, :roles => :app do
 		run "ln -nfs #{shared_path}/keys.json #{release_path}/config/keys.json"
 	end
+	
+	task :update_playlists, :roles => :app do
+	 run "ruby #{release_path}/config/generate_playlists.rb"
+	end
 
 end
 
@@ -69,3 +73,4 @@ before 'deploy', 'deploy:reset_shoutcast'
 before 'deploy:setup', 'deploy:create_deploy_to_with_sudo'
 after 'deploy:setup', 'deploy:write_upstart_script'
 after 'deploy', 'deploy:symlink_keys'
+after 'deploy', 'deploy:update_playlists'

@@ -1,0 +1,34 @@
+- if (typeof flash != 'undefined')
+  - if (flash.info)
+    = flash.info
+    br
+    br
+form(method="post",enctype="multipart/form-data")
+  p 
+    | Música:
+    input(type="file", name="track")
+    
+  p
+    | Gênero:
+    select(name="genre")
+      option(value="rock") Rock
+      option(value="pop") Pop
+      option(value="house") House
+      option(value="psy") Psy
+      option(value="dnb") Drum n Bass
+      option(value="alt") Alternativa
+      option(value="hip") Hip
+      option(value="sert") Sert
+      option(value="forro") Forró
+      option(value="samba") Samba
+      option(value="mpb") MPB
+      option(value="funk") Funk
+      option(value="reg") Reggae
+      option(value="breg") Tecnobrega
+      option(value="jazz") Jazz
+      option(value="blues") Blues
+      option(value="chillout") Chillout
+      
+  
+  p
+    input(type="submit", value="Enviar")

@@ -186,3 +186,17 @@ th.last-play{
 .big th.djs{
   width:30%;
 }
+.genres{
+  background: none !important;
+  border: none !important;
+  -webkit-box-shadow: none !important;
+}
+.genres li{
+  margin-right: 3px !important;
+}
+
+.genres li.active a {
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5) !important;
+  -webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5) !important;
+  -moz-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5) !important;
+}

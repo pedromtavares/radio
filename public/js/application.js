@@ -44,8 +44,12 @@ function ApplicationClient(){
 
 $(function(){
   var application = new ApplicationClient();
-  var radioClient = new RadioClient(application.config);
   var chatClient  = new ChatClient(application.config);
+  if (application.config.dj != 'false'){
+    var radioClient = new RadioClient(application.config);
+  }else{
+    var playlistClient = new PlaylistClient(application.config);
+  }
   if ($('#map').length!=0){
     var mapClient = new MapClient(application.config);
   }
