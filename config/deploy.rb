@@ -54,7 +54,7 @@ namespace :deploy do
       exec sudo -u root sh -c "NODE_ENV=#{node_env} /usr/local/bin/node #{current_path}/#{node_file} >> #{shared_path}/log/#{node_env}.log 2>&1"
   end script
   respawn
-UPSTART
+  UPSTART
   put upstart_script, "/tmp/#{application}_upstart.conf"
   sudo "mv /tmp/#{application}_upstart.conf /etc/init/#{application}_#{node_env}.conf"
   end
