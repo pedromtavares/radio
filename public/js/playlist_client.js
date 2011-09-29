@@ -7,26 +7,7 @@ function PlaylistClient (config) {
   
   self.config = config;
   
-  self.playlists = {
-    'rock' : rockPlaylist,
-    'pop': popPlaylist,
-    'house': housePlaylist,
-    'psy': psyPlaylist,
-    'dnb': dnbPlaylist,
-    'alt': altPlaylist,
-    'hip': hipPlaylist,
-    'sert': sertPlaylist,
-    'forro': forroPlaylist,
-    'samba': sambaPlaylist,
-    'mpb': mpbPlaylist,
-    'funk': funkPlaylist,
-    'reg': regPlaylist,
-    'breg': bregPlaylist,
-    'jazz': jazzPlaylist,
-    'blues': bluesPlaylist,
-    'chill': chillPlaylist,
-    'inst': instPlaylist
-  }
+  self.playlists = Playlists; // defined in playlists.js
   
   this.init = function(){
     self.playlist = self.startPlaylist();
