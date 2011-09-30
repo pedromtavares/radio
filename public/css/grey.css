@@ -480,7 +480,7 @@ body {
   -webkit-box-shadow: inset 0 0 3px 0 #ffffff;
   -moz-box-shadow: inset 0 0 3px 0 #ffffff;
 }
-/*.intro img {
+.intro img {
   width: 80px;
   float: left;
   margin-right: 2em;
@@ -493,7 +493,7 @@ body {
   box-shadow: 0 0 4px 0 #cccccc;
   -webkit-box-shadow: 0 0 4px 0 #cccccc;
   -moz-box-shadow: 0 0 4px 0 #cccccc;
-}*/
+}
 .intro h2 {
   margin-top: 0;
 }
@@ -638,7 +638,7 @@ mark {
   line-height: 2em;
   text-align: right;
 }
-.tab_content form input.text, .tab_content form textarea {
+.tab_content form input.text, .tab_content form textarea, select {
   width: 75%;
   float: right;
   -webkit-border-radius: 3px;

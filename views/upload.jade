@@ -1,42 +1,77 @@
-form(method="post",enctype="multipart/form-data")
-  p 
-    | Música:
-    input(type="file", name="track")
-    
-  p
-    | Gênero:
-    select(name="genre")
-      option(value="rock") Rock
-      option(value="pop") Pop
-      option(value="house") House
-      option(value="dance") Dance
-      option(value="psy") Psy
-      option(value="dnb") Drum n Bass
-      option(value="alt") Alternativa
-      option(value="hip") Hip
-      option(value="sert") Sert
-      option(value="forro") Forró
-      option(value="samba") Samba
-      option(value="pagode") Pagode
-      option(value="axe") Axé
-      option(value="mpb") MPB
-      option(value="funk") Funk
-      option(value="reg") Reggae
-      option(value="breg") Tecnobrega
-      option(value="jazz") Jazz
-      option(value="blues") Blues
-      option(value="chillout") Chillout
-      option(value="indie") Indie
-      option(value="inst") Instrumental
-      option(value="metal") Metal
-      
+html.no-js(lang='en') 
+  head
+    meta(charset="utf-8")
+    // Always force latest IE rendering engine (even in intranet) & Chrome Frame 
+    meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+    meta(name="description", content="Uma rádio online que só toca o melhor de todos os estilos.")
+    meta(name="author", content="Pedro Mateus Tavares")
+    meta(name="keywords", content="radio, rádio, galere, dj, pedro mateus tavares")
+    title Mande Sua Música - Rádio da Galere
   
-  p
-    input(type="submit", value="Enviar")
+    link(href="/images/favicon.png", rel="shortcut icon")
+  
+    // CSS : Fonts
+    link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Lobster")
+
+    // CSS : Change this if you want a different colour scheme
+    link(rel="stylesheet", href="css/grey.css")
     
-    
-p Lembrando:
-ul
-  li Upem arquivos .mp3
-  li Nomeiem os arquivos corretamente: nome do artista - nome da musica
-  li As musicas nao vao aparecer imediatamente, todas daqui sao enviadas pra uma pasta temporaria que eu checo pra depois mover pra pasta oficial. Caso as musicas estejam com nome incompleto ou em outro formato, nao irao aparecer.
+    // Google Analytics
+    script(type='text/javascript')
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-25240242-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+  body
+    .wrap
+      #container
+        section.intro.vcard
+          a(href='/')
+            img.photo(src="images/logo-small.png")
+          h2.fn Mande Sua Música!
+          p.role Escolha um gênero abaixo e envie sua música.
+          .tab_content
+            form.contact(method="post",enctype="multipart/form-data")
+              br
+              p.input
+                label Gênero
+                select(name="genre")
+                  option(value="alt") Alternativa
+                  option(value="axe") Axé
+                  option(value="blues") Blues
+                  option(value="chillout") Chillout
+                  option(value="dance") Dance
+                  option(value="dnb") Drum n Bass
+                  option(value="forro") Forró
+                  option(value="funk") Funk
+                  option(value="hip") Hip Hop
+                  option(value="house") House
+                  option(value="indie") Indie
+                  option(value="inst") Instrumental
+                  option(value="jazz") Jazz
+                  option(value="metal") Metal
+                  option(value="mpb") MPB
+                  option(value="pagode") Pagode
+                  option(value="pop") Pop
+                  option(value="psy") Psy
+                  option(value="reg") Reggae
+                  option(value="rock") Rock
+                  option(value="samba") Samba
+                  option(value="sert") Sertanejo
+                  option(value="breg") Tecnobrega
+              p.input 
+                label Música
+                input.text#track(type="file", name="track")
+              p.input
+                input.submit(type="submit", value="Enviar")
+              p.input 
+                strong Observações:
+              ul
+                li Enviem arquivos no formato .mp3
+                li Nomeiem os arquivos corretamente: Nome do Artista - Nome da Música
+                li Após o envio, as músicas não irão aparecer imediatamente no site, pois serão analisadas para depois serem transferidas.

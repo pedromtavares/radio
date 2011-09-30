@@ -200,3 +200,19 @@ th.last-play{
   -webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5) !important;
   -moz-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5) !important;
 }
+
+/* overwrite from template css */
+.intro img {
+  width: auto;
+  float: none;
+  margin-right: 0;
+  padding: 0;
+  background: inherit;
+  border: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+}
