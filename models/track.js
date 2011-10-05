@@ -24,7 +24,7 @@ TrackSchema.statics.mostPlayed = function mostPlayed(tracks){
 }
 
 TrackSchema.statics.parseTitle = function parseTitle(title){
-  var temp = title.split('-');
+  var temp = title.split(' - ');
   var artist = temp[0];
   var name = temp[1];
   if (!name){artist = 'Unknown'; name = title};
