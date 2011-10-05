@@ -70,12 +70,12 @@ module.exports = function(app){
         });
         break;
       case 'by-artist':
-        Track.find().asc('artist').run(function(err, tracks){
+        Track.byArtists(function(err, tracks){
           res.render('_tracks', {
             show_name: false
-          , tracks: Track.byArtists(tracks)
+          , tracks: tracks
           });
-        });
+        });        
     };
   });
   app.get('/upload', function(req, res){

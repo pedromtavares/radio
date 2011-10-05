@@ -19,21 +19,6 @@ TrackSchema.virtual('djs').get(function (){
   return _(this.plays).chain().map(function(play) {return play.dj}).toArray().uniq().value();
 });
 
-TrackSchema.statics.byArtists = function byArtists(tracks){
-  return _(tracks).chain().groupBy(function(track){return track.artist}).map(function(artist) {
-      var plays = 0;
-      var artist_name;
-      var djs = [];
-      var last_play = _(artist).reduce(function(recent, track) {                
-        plays += track.plays.length;
-        artist_name = track.artist;
-        djs.push(track.djs)
-        return recent > track.updated_at ? recent : track.updated_at
-      }, 0);
-      return {artist: artist_name, plays: plays, updated_at: last_play, djs: _(djs).chain().flatten().uniq().value()}
-    }).sortBy(function(artist) {return artist.plays}).reverse().value();
-}
-
 TrackSchema.statics.mostPlayed = function mostPlayed(tracks){
   return _(tracks).chain().sortBy(function(track) {return track.plays.length}).reverse().value();
 }
@@ -47,6 +32,61 @@ TrackSchema.statics.parseTitle = function parseTitle(title){
   name = removeUselessSpace(name);
   return {name: name, artist: artist};
 }
+
+TrackSchema.statics.byArtists = function byArtists(callback){
+  map = function() {
+    var djs = [];
+    this.plays.forEach(function(play) {
+      if (djs.indexOf(play.dj) == -1){
+        djs.push(play.dj);
+      }
+    });
+    emit(this.artist, {plays: this.plays.length, djs: djs, updated_at: this.updated_at});
+  }; 
+
+  reduce = function(key, vals) {
+    var r = {plays: 0, djs: []};
+    for (index in vals) {
+      var tmp = vals[index];
+      r.plays += tmp.plays;
+      r.djs.push(tmp.djs);
+      r.updated_at = (!r.updated_at || tmp.updated_at > r.updated_at) ? tmp.updated_at : r.updated_at;
+    }
+    return r;
+  };
+  var command = {
+    mapreduce: "tracks",
+    map: map.toString(),
+    reduce: reduce.toString(),
+    out: "byArtists"
+  };
+  mongoose.connection.db.executeDbCommand(command, function(err, dbres) {});
+  mongoose.connection.db.collection('byArtists', function(err, collection) {
+      collection.find({}).toArray(function(err, tracks) {
+        tracks.forEach(function(track) {
+          track.value.djs = _(track.value.djs).chain().flatten().uniq().value();
+        });
+        tracks = _(tracks).chain().map(function(track) {return {artist: track._id, djs: track.value.djs, updated_at: track.value.updated_at, plays: track.value.plays}}).sortBy(function(artist) {return artist.plays}).reverse().value();
+        callback(err, tracks); 
+        collection.drop();
+      });
+  });
+}
+
+// TrackSchema.statics.byArtists = function byArtists(tracks){
+//   return _(tracks).chain().groupBy(function(track){return track.artist}).map(function(artist) {
+//       var plays = 0;
+//       var artist_name;
+//       var djs = [];
+//       var last_play = _(artist).reduce(function(recent, track) {                
+//         plays += track.plays.length;
+//         artist_name = track.artist;
+//         djs.push(track.djs)
+//         return recent > track.updated_at ? recent : track.updated_at
+//       }, 0);
+//       return {artist: artist_name, plays: plays, updated_at: last_play, djs: _(djs).chain().flatten().uniq().value()}
+//     }).sortBy(function(artist) {return artist.plays}).reverse().value();
+// }
 
 function removeUselessSpace(string){
   var result = string;
