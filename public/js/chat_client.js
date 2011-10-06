@@ -13,7 +13,9 @@ function ChatClient (config) {
     self.unreadMsgCount = 0;
     self.hasFocus = true;
     self.onlineChatUsers = [];
-    self.addOnlineChatUser($('#author').val());
+    self.config.chatUsers.forEach(function(chatUser) {
+      self.addOnlineChatUser(chatUser.name);
+    });
   };
   
   this.setupBayeuxHandlers = function(){

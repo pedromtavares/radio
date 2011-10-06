@@ -15,6 +15,7 @@ function ApplicationClient(){
       port: JSON.parse($('#portConfig').val())
     , dj: $('#djConfig').val()
     , locations: JSON.parse($('#locations').val())
+    , chatUsers: JSON.parse($('#chatUsers').val())
     };
     return config;
   };

@@ -29,12 +29,12 @@
 	$('.tooltip').tipsy({gravity: 's', offset: 2});
 	
 	// Fancybox
-	$('a.fancybox').fancybox({
-		'opacity'		: true,
-		'overlayShow'	: false,
-		'transitionIn'	: 'elastic',
-		'transitionOut'	: 'elastic'
-	});
+  // $('a.fancybox').fancybox({
+  //  'opacity'   : true,
+  //  'overlayShow' : false,
+  //  'transitionIn'  : 'elastic',
+  //  'transitionOut' : 'elastic'
+  // });
 })(window.jQuery);
 
 

@@ -25,6 +25,7 @@ module.exports = function(app){
       , config: {port: app.settings.server.port}
       , tracks: tracks
       , locations: map.allLocations()
+      , chatUsers: chat.allChatUsers()
       });
     });
   });
