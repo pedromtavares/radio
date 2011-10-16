@@ -34,7 +34,7 @@ html.no-js(lang='en')
 
     // CSS: Application and jPlayer files
     link(rel="stylesheet", href="css/application.css")
-    - if (track && dj)
+    - if (dj)
       link(type="text/css", href="css/radio.css", rel="stylesheet")
     - else
       link(type="text/css", href="css/playlist.css", rel="stylesheet")
@@ -66,7 +66,7 @@ html.no-js(lang='en')
       #container
         section.intro.vcard
           #jplayer.jp-jplayer(style="padding-left:150px")
-          - if (track && dj)
+          - if (dj)
             .jp-audio#jp_container_1
               .jp-type-single
                 #jp_interface_1.jp-interface
@@ -95,9 +95,10 @@ html.no-js(lang='en')
                       img(src="/images/icons/wmp.png", title="Windows Media Player")
                 #jp_playlist_1.jp-playlist
                   ul
-                    li#current_track.online
-                      | Música:
-                      span#track=track
+                    - if (track)
+                      li#current_track.online
+                        | Música:
+                        span#track=track
                     li#current_dj.online
                       | DJ:
                       span#dj=dj
@@ -331,7 +332,7 @@ html.no-js(lang='en')
                 p.center.spaced.online 
                   strong Localização da galera que ouviu/está ouvindo o DJ #{dj}.
                 #map.online
-              p.center.spaced(class="#{(dj && track) ? 'offline' : ''}") 
+              p.center.spaced(class="#{(dj) ? 'offline' : ''}") 
                 strong Mapa apenas disponível quando a rádio estiver online.
             #tab5.tab_content.about
               br
