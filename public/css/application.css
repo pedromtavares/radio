@@ -12,7 +12,7 @@
 }
 
 .left{
-  float:left;
+  float:left !important;
 }
 
 .right{
@@ -37,7 +37,7 @@
 }
 
 #social_links{
-  margin-left:30px;
+  margin-left:0px;
 }
 
 #players{
