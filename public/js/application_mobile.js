@@ -54,7 +54,7 @@ function RadioClient(){
           oga: "/stream.ogg"
         }).jPlayer("play");
       },
-      swfPath: "/public",
+      swfPath: "../",
       supplied: "mp3, oga"
     });
   };

@@ -14,7 +14,10 @@
 		$(".tab_content:visible").slideUp('500', function() {
 			$(activeTab).slideDown('500'); // Slide in the active content
 		});
-		$("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+		var chatbox = $("#chatbox");
+		if (chatbox[0]){
+		  chatbox.scrollTop(chatbox[0].scrollHeight);
+		}
 		return false;
 	});
 	
