@@ -26,6 +26,7 @@ module.exports = function(app){
       , tracks: tracks
       , locations: map.allLocations()
       , chatUsers: chat.allChatUsers()
+      , listeners: radio.listeners.length
       });
     });
   });
@@ -34,6 +35,7 @@ module.exports = function(app){
       track: radio.currentTrack
     , dj: radio.currentDJ
     , config: {port: app.settings.server.port}
+    , listeners: radio.listeners.length
     });
   });
   app.get('/stream.mp3', function(req, res){
