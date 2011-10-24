@@ -50,22 +50,43 @@ function RadioClient (config) {
     window.location.reload();
   };
   
+  this.loadPlayer = function(){
+    $("#jplayer").jPlayer("setMedia",{
+      mp3: "/stream.mp3",
+      oga: "/stream.ogg"
+    }).jPlayer("play");
+  }
+  
   this.startPlayer = function(){
     $("#jplayer").jPlayer({
       ready: function (event) {
-        $(this).jPlayer("setMedia", {
-          mp3: "/stream.mp3",
-          oga: "/stream.ogg"
-        }).jPlayer("play");
+        self.loadPlayer();
       },
       swfPath: "../",
-      supplied: "mp3, oga"
+      supplied: "mp3, oga",
+      loadstart: function(event){
+        $('.stream-loading').show();
+      },
+      playing: function(event){
+        $('.stream-loading').hide();
+      },
+      error: function(event){
+        if (event.jPlayer.error.type == $.jPlayer.error.URL){
+          self.loadPlayer();
+        }
+        $('.stream-loading').hide();
+      },
     });
   };
   
   this.stopPlayer = function(){
     $("#jplayer").jPlayer("clearMedia");
   };
+  
+  this.reloadPlayer = function(){
+    self.stopPlayer();
+    self.loadPlayer();
+  }
   
   this.nextTrack = function(track){
     if (self.config.dj == 'false'){
@@ -74,8 +95,8 @@ function RadioClient (config) {
     // Don't show the next track immediately since the stream delay is about 15 seconds, so we don't want to spoil out 
     // what the next track is gonna be 15 seconds before it actually starts. It's ok to show it immediately if 
     // there was nothing playing (or if you just connected to the stream).
-    var current = $('#track').html();
-    var time = self.currentTrack ? 15 : 1;
+    var current = $('#track').text();
+    var time = self.currentTrack ? 10 : 1;
     setTimeout(function() {
       if (current != track){
         $('#track').html(track);
@@ -87,20 +108,15 @@ function RadioClient (config) {
   };
   
   this.setupDOMHandlers = function(){
-    var stopStream = function(){
-      self.stopPlayer();
-    }
+    
+    $('#reload').click(self.reloadPlayer);
 
-    var startStream = function(){
-      window.location.reload();
-    }
+    $('.jp-stop').click(self.stopPlayer);
+    $('.jp-pause').click(self.stopPlayer);
+    $('.jp-mute').click(self.stopPlayer);
 
-    $('.jp-stop').click(stopStream);
-    $('.jp-pause').click(stopStream);
-    $('.jp-mute').click(stopStream);
-
-    $('.jp-play').click(startStream);
-    $('.jp-unmute').click(startStream);
+    $('.jp-play').click(self.loadPlayer);
+    $('.jp-unmute').click(self.loadPlayer);
   }  
   
   this.init();

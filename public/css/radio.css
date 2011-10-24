@@ -234,7 +234,7 @@ div.jp-play-bar {
 
 /* The seeking class is added/removed inside jPlayer */
 div.jp-seeking-bg {
-	background: url("../images/pbar-ani.gif");
+	background: url("../images/jplayer.blue.monday.seeking.gif");
 }
 
 a.jp-mute,

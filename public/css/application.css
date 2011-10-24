@@ -216,3 +216,11 @@ th.last-play{
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
 }
+
+.stream-loading{
+  position: absolute;
+	font-size:.64em;
+	font-style:oblique;
+	top:60px;
+	left:50px;
+}
