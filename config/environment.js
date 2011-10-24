@@ -21,7 +21,7 @@ module.exports = function(app, express){
     , reconnectTime: 5 // in seconds
     , twitterInterval: 5 // in seconds
     , keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8'))
-    , multipleDecoders: false
+    , multipleDecoders: true
     });
   });
 
@@ -34,7 +34,7 @@ module.exports = function(app, express){
     , reconnectTime: 60 // in seconds (1 min)
     , twitterInterval: 30 * 60 // in seconds (30 min)
     , keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8'))
-    , multipleDecoders: false
+    , multipleDecoders: true
     });
   });
 }
