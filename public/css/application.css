@@ -3,6 +3,12 @@
   color: #AAA;
 }
 
+.alert{
+  text-align:center;
+  color: #AAA;
+  font-weight: bold;
+}
+
 .center{
   text-align:center;
 }
@@ -223,4 +229,8 @@ th.last-play{
 	font-style:oblique;
 	top:60px;
 	left:50px;
+}
+
+#limit-alert{
+  display:none;
 }

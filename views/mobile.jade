@@ -35,6 +35,7 @@ html.no-js(lang='en')
 
   body
     input(type='hidden', id='portConfig', value='#{config.port}')
+    input(type='hidden', id='listenerLimit', value='#{config.listenerLimit}')
     input(type='hidden', id='djConfig', value='#{dj}')
     .wrap
       header.header
@@ -43,6 +44,7 @@ html.no-js(lang='en')
           h4 O melhor de todos os estilos
       #container
         section.intro.vcard
+          #limit-alert.alert Limite de ouvintes (#{config.listenerLimit}) foi atingido, caso já não esteja ouvindo, favor esperar até um ouvinte sair.
           #jplayer.jp-jplayer(style="padding-left:100px")
           .jp-audio#jp_container_1
             .jp-type-single

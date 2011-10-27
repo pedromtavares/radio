@@ -6,6 +6,7 @@ function RadioClient(){
   
   this.init = function(){
     self.currentTrack = false;
+    self.timeout = false;
     self.config = self.getServerConfigs();
     self.setupBayeuxHandlers();
     self.startRadio();
@@ -15,6 +16,7 @@ function RadioClient(){
     var config = {
       port: JSON.parse($('#portConfig').val())
     , dj: $('#djConfig').val()
+    , listenerLimit: JSON.parse($('#listenerLimit').val())
     };
     return config;
   };
@@ -28,6 +30,7 @@ function RadioClient(){
       var track = message.track;
       var listeners = message.listeners;
       $('#listeners').html(listeners);
+      self.slideLimit(listeners);
       if (track == 'offline'){
         self.goOffline();
       }else{
@@ -36,6 +39,20 @@ function RadioClient(){
         }
       }
     });
+  };
+  
+  this.slideLimit = function(count){
+    if (!count) return;
+    if (!self.timeout){
+      self.timeout = setTimeout(function() {
+        if (count >= self.config.listenerLimit){
+          $('#limit-alert').slideDown();
+        }else{
+          $('#limit-alert').slideUp();
+        }
+        self.timeout = false;
+      }, 1000)
+    }
   };
     
   this.startRadio = function(){
@@ -46,13 +63,17 @@ function RadioClient(){
     }
   };
   
+  this.loadPlayer = function(){
+    $("#jplayer").jPlayer("setMedia", {
+      mp3: "/stream.mp3",
+      oga: "/stream.ogg"
+    });
+  };
+  
   this.startPlayer = function(){
     $("#jplayer").jPlayer({
-      ready: function () {
-        $(this).jPlayer("setMedia", {
-          mp3: "/stream.mp3",
-          oga: "/stream.ogg"
-        }).jPlayer("play");
+      ready: function(event){
+        self.loadPlayer();
       },
       swfPath: "../",
       supplied: "mp3, oga"

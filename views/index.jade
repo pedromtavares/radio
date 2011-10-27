@@ -56,6 +56,7 @@ html.no-js(lang='en')
 
   body
     input(type='hidden', id='portConfig', value='#{config.port}')
+    input(type='hidden', id='listenerLimit', value='#{config.listenerLimit}')
     input(type='hidden', id='djConfig', value='#{dj}')
     input(type='hidden', id='locations', value='#{JSON.stringify(locations)}')
     input(type='hidden', id='chatUsers', value='#{JSON.stringify(chatUsers)}')
@@ -65,6 +66,7 @@ html.no-js(lang='en')
           img(src="images/logo.png")
       #container
         section.intro.vcard
+          #limit-alert.alert Limite de ouvintes (#{config.listenerLimit}) foi atingido, caso já não esteja ouvindo, tente ouvir por um dos players abaixo (como o <a href="http://stream.pedromtavares.com/listen.m3u">Windows Media Player</a>) ou espere até um ouvinte sair.
           #jplayer.jp-jplayer(style="padding-left:150px")
           - if (dj)
             .jp-audio#jp_container_1

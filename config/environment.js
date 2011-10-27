@@ -22,6 +22,7 @@ module.exports = function(app, express){
     , twitterInterval: 5 // in seconds
     , keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8'))
     , multipleDecoders: true
+    , listenerLimit: 3
     });
   });
 
@@ -35,6 +36,7 @@ module.exports = function(app, express){
     , twitterInterval: 30 * 60 // in seconds (30 min)
     , keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8'))
     , multipleDecoders: true
+    , listenerLimit: 50
     });
   });
 }

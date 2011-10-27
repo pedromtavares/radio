@@ -16,6 +16,8 @@ function ApplicationClient(){
     , dj: $('#djConfig').val()
     , locations: JSON.parse($('#locations').val())
     , chatUsers: JSON.parse($('#chatUsers').val())
+    , listenerLimit: JSON.parse($('#listenerLimit').val())
+    , listenerCount: JSON.parse($('#listeners').text())
     };
     return config;
   };
@@ -38,6 +40,9 @@ function ApplicationClient(){
         $('#tracks-table').slideToggle('slow');
       });
     });
+    if (self.config.listenerCount >= self.config.listenerLimit){
+      $('#limit-alert').show();
+    }
   }
   
   this.init();

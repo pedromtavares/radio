@@ -22,7 +22,7 @@ module.exports = function(app){
       , dj: radio.currentDJ
       , user: user ? user.name : false
       , history: chat.chatHistory
-      , config: {port: app.settings.server.port}
+      , config: {port: app.settings.server.port, listenerLimit: app.settings.server.listenerLimit}
       , tracks: tracks
       , locations: map.allLocations()
       , chatUsers: chat.allChatUsers()
@@ -34,7 +34,7 @@ module.exports = function(app){
     res.render('mobile', {
       track: radio.currentTrack
     , dj: radio.currentDJ
-    , config: {port: app.settings.server.port}
+    , config: {port: app.settings.server.port, listenerLimit: app.settings.server.listenerLimit}
     , listeners: radio.listeners.length
     });
   });

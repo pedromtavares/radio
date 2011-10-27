@@ -9,6 +9,7 @@ function RadioClient (config) {
   
   this.init = function(){
     self.currentTrack = false;
+    self.timeout = false;
     self.setupBayeuxHandlers();
     self.setupDOMHandlers();
     self.startRadio();
@@ -19,6 +20,7 @@ function RadioClient (config) {
       var track = message.track;
       var listeners = message.listeners;
       $('#listeners').html(listeners);
+      self.slideLimit(listeners);
       if (track == 'offline'){
         self.goOffline();
       }else{
@@ -27,7 +29,21 @@ function RadioClient (config) {
         }
       }
     });
-  }
+  };
+  
+  this.slideLimit = function(count){
+    if (!count) return;
+    if (!self.timeout){
+      self.timeout = setTimeout(function() {
+        if (count >= self.config.listenerLimit){
+          $('#limit-alert').slideDown();
+        }else{
+          $('#limit-alert').slideUp();
+        }
+        self.timeout = false;
+      }, 1000)
+    }
+  };
   
   this.startRadio = function(){
     if (self.config.dj == 'false'){
@@ -60,7 +76,9 @@ function RadioClient (config) {
   this.startPlayer = function(){
     $("#jplayer").jPlayer({
       ready: function (event) {
-        self.loadPlayer();
+        if (self.config.listenerCount < self.config.listenerLimit){
+          self.loadPlayer();
+        }
       },
       swfPath: "../",
       supplied: "mp3, oga",
@@ -71,6 +89,7 @@ function RadioClient (config) {
         $('.stream-loading').hide();
       },
       error: function(event){
+        console.log('error');
         if (event.jPlayer.error.type == $.jPlayer.error.URL){
           self.loadPlayer();
         }
