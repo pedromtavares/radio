@@ -111,6 +111,7 @@ html.no-js(lang='en')
                         |  ouvinte(s)
             .notice Caso a música não esteja tocando ou esteja estranha (lenta demais), clique <a href="javascript:void(0)" id="reload">aqui</a>.
           - else
+            #listeners(style="display:none") 0
             ul.tabs.genres
               li
                 a(href="javascript:void(0)", data-genre="rock") Rock
@@ -252,12 +253,8 @@ html.no-js(lang='en')
                   
               ul#online
               br(clear="all")
-              - if (user)
-                input#author.registered(type='hidden', value='#{user}')
-                input.text#message.big(type="text", name="message", maxlength=140, placeholder="Mensagem")
-              - else
-                input.text#author(type="text", name="author", maxlength=15, placeholder="Nome")
-                input.text#message(type="text", name="message", maxlength=140, placeholder="Mensagem")
+              input.text#author(type="text", name="author", maxlength=15, placeholder="Nome")
+              input.text#message(type="text", name="message", maxlength=140, placeholder="Mensagem")
               
             
             #tab2.tab_content.social

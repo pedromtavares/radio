@@ -117,21 +117,16 @@ function ChatClient (config) {
             message.focus();
           }else{
             $.get('/register', {name: sanitizeHtml(author.val())}, function(data) {
-              if (data == 'taken'){
-                alert('Este nome já foi registrado, tente outro.');
-                author.focus();
-              }else{
-                author.animate({
-                    width: 'toggle',
-                  }, 'slow', function() {
-                    message.animate({width:"+=11.3em"}, 'slow')
-                  }
-                );
-                author.addClass('registered');
-                self.sendChatMessage(sanitizeHtml(author.val()), sanitizeHtml(message.val()));
-                message.val('');
-                message.focus();
-              }
+              author.animate({
+                  width: 'toggle',
+                }, 'slow', function() {
+                  message.animate({width:"+=11.3em"}, 'slow')
+                }
+              );
+              author.addClass('registered');
+              self.sendChatMessage(sanitizeHtml(author.val()), sanitizeHtml(message.val()));
+              message.val('');
+              message.focus();
             });
           }    
         }

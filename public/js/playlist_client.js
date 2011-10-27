@@ -36,7 +36,7 @@ function PlaylistClient (config) {
   
   this.setupBayeuxHandlers = function(){
     self.config.fayeClient.subscribe('/radio', function (message) {
-      if (message.track != 'offline'){
+      if (message.track && message.track != 'offline'){
         $('#current_dj').html(message.dj);
         $('#current_track').html(message.track);
         $('.online').hide();
