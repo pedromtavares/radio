@@ -89,7 +89,6 @@ function RadioClient (config) {
         $('.stream-loading').hide();
       },
       error: function(event){
-        console.log('error');
         if (event.jPlayer.error.type == $.jPlayer.error.URL){
           self.loadPlayer();
         }
