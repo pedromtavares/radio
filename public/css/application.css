@@ -234,3 +234,10 @@ th.last-play{
 #limit-alert{
   display:none;
 }
+
+#ads{
+  width:500px;
+  text-align:center;
+  margin:auto;
+  margin-bottom:-20px;
+}
