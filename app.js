@@ -6,7 +6,6 @@ require('./config/environment')(app, express);
 require('./config/routes')(app);
 require('./helpers/application_helper')(app);
 
-console.log(app.settings.server);
 app.listen(app.settings.server.port, app.settings.server.host);
 // after reserving priviled port, set process to run on a less privileged user
 if (app.settings.server.host){
