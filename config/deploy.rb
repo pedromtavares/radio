@@ -64,7 +64,11 @@ namespace :deploy do
 	end
 	
 	task :update_playlists, :roles => :app do
-	 run "cd #{release_path} && ruby config/generate_playlists.rb"
+	  run "cd #{release_path} && ruby config/generate_playlists.rb"
+	end
+	
+	task :link_modules, :roles => :app do
+	  sudo "npm link lame"
 	end
 
 end
@@ -74,4 +78,5 @@ before 'deploy:setup', 'deploy:create_deploy_to_with_sudo'
 after 'deploy:setup', 'deploy:write_upstart_script'
 after 'deploy', 'deploy:symlink_keys'
 after 'deploy', 'deploy:update_playlists'
+after 'deploy', 'deploy:link_modules'
 after 'deploy', 'deploy:restart'
