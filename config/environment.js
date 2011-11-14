@@ -36,7 +36,7 @@ module.exports = function(app, express){
     , twitterInterval: 30 * 60 // in seconds (30 min)
     , keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8'))
     , multipleDecoders: false
-    , listenerLimit: 50
+    , listenerLimit: 100
     });
   });
 }
