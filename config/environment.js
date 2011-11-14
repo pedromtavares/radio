@@ -16,7 +16,7 @@ module.exports = function(app, express){
   app.configure('development', function(){
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
     app.set('server', {
-      url: "http://stream.pedromtavares.com:20000"
+      url: "http://stream.pedromtavares.com:10000"
     , port: 8000
     , reconnectTime: 5 // in seconds
     , twitterInterval: 5 // in seconds
@@ -35,8 +35,8 @@ module.exports = function(app, express){
     , reconnectTime: 60 // in seconds (1 min)
     , twitterInterval: 30 * 60 // in seconds (30 min)
     , keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8'))
-    , multipleDecoders: false
-    , listenerLimit: 100
+    , multipleDecoders: true
+    , listenerLimit: 50
     });
   });
 }
