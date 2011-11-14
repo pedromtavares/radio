@@ -7,12 +7,6 @@ require('./config/routes')(app);
 require('./helpers/application_helper')(app);
 
 app.listen(app.settings.server.port, app.settings.server.host);
-// after reserving priviled port, set process to run on a less privileged user
-if (app.settings.server.host){
-  process.setgid(50);
-  process.setuid(1000); 
-  console.log("Process now running under user: " + process.getuid());
-}
 
 process.addListener('uncaughtException', function (err, stack) {
   console.log('------------------------');
