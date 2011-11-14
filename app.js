@@ -7,7 +7,6 @@ require('./config/routes')(app);
 require('./helpers/application_helper')(app);
 
 app.listen(app.settings.server.port, app.settings.server.host);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 // after reserving priviled port, set process to run on a less privileged user
 if (app.settings.server.host){
   process.setgid(50);
