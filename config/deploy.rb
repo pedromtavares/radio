@@ -68,7 +68,7 @@ namespace :deploy do
 	end
 	
 	task :link_modules, :roles => :app do
-	  sudo "cd #{release_path} && npm link lame"
+	  sudo "npm link lame"
 	end
 
 end
