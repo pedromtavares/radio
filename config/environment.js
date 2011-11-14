@@ -17,7 +17,6 @@ module.exports = function(app, express){
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
     app.set('server', {
       url: "http://stream.pedromtavares.com:20000"
-    , host: 'localhost'
     , port: 8000
     , reconnectTime: 5 // in seconds
     , twitterInterval: 5 // in seconds
