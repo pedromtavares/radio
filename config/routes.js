@@ -12,7 +12,7 @@ module.exports = function(app){
   var radio = new Radio(bayeux, app)
   ,   chat = new Chat(bayeux)
   ,   map = new Map(bayeux, chat, radio)
-  ,   decoder = new Decoder(radio)
+  ,   decoder = new Decoder(radio, app.settings.server.multipleDecoders)
   ,   streamer = new Streamer(app, radio, chat, decoder, map);
   app.get('/', function(req, res){
     var user = chat.getChatUser('ip', req.connection.remoteAddress);
