@@ -8,6 +8,7 @@ function ChatClient (config) {
   self.config = config;
   
   this.init = function(){
+    self.config.pubSub = new Juggernaut;
     self.setupBayeuxHandlers();
     self.setupDOMHandlers();
     self.unreadMsgCount = 0;
@@ -19,7 +20,7 @@ function ChatClient (config) {
   };
   
   this.setupBayeuxHandlers = function(){
-    self.config.fayeClient.subscribe('/chat', function (message) {
+    self.config.pubSub.subscribe('chat', function (message) {
       var author = $('#author').val();
       $('#chatbox').append(self.renderChatRow(message, true));
       $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
@@ -45,16 +46,13 @@ function ChatClient (config) {
   };
   
   this.sendChatMessage = function(author, message){
-    self.config.fayeClient.publish('/broadchat', {
-      author: author
-    , message: message
-    });
+    $.get('/broadchat?author='+author+'&message='+message);  
     self.unreadMsgCount = 0;
   }
   
   this.updateTitle = function(){
     if (self.unreadMsgCount!=0){
-      document.title = 'Rádio da Galere ('+self.unreadMsgCount+')';
+      document.title = '('+self.unreadMsgCount+') Rádio da Galere';
     }
   }
   

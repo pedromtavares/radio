@@ -7,10 +7,10 @@ var faye = require('faye')
  ,  Map = require('../lib/map')
  ,  Track = require('../models/track');
  
-module.exports = function(app){
+module.exports = function(app, pubSub){
   var bayeux = new faye.NodeAdapter({mount: '/faye',timeout: 45}); bayeux.attach(app);
   var radio = new Radio(bayeux, app)
-  ,   chat = new Chat(bayeux)
+  ,   chat = new Chat(pubSub)
   ,   map = new Map(bayeux, chat, radio)
   ,   decoder = new Decoder(radio, app.settings.server.multipleDecoders)
   ,   streamer = new Streamer(app, radio, chat, decoder, map);
@@ -53,6 +53,10 @@ module.exports = function(app){
   app.get('/register', function(req, res){
     var success = chat.addChatUser(req);
     res.send(success ? 'ok' : 'taken');
+  });
+  app.get('/broadchat', function(req, res) {
+    chat.broadchat(req);
+    res.send('ok');
   });
   app.get('/tracks/:filter', function(req, res){
     switch(req.params.filter){
