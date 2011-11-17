@@ -8,14 +8,14 @@ function MapClient (config) {
   self.config = config;
   
   this.init = function(){
-    self.setupBayeuxHandlers();
+    self.setupPubSub();
     self.drawMap();
     self.viewDidResize();
     self.drawMarkers(self.config.locations);
   };
   
-  this.setupBayeuxHandlers = function(){
-    self.config.fayeClient.subscribe('/map', function (message) {
+  this.setupPubSub = function(){
+    self.config.pubSub.subscribe('map', function (message) {
       self.drawMarker(message);
     });
   }

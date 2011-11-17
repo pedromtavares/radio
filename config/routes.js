@@ -1,5 +1,4 @@
-var faye = require('faye')
- ,  fs = require('fs')
+var fs = require('fs')
  ,  Streamer = require('../lib/streamer')
  ,  Radio = require('../lib/radio')
  ,  Decoder = require('../lib/decoder')
@@ -8,10 +7,9 @@ var faye = require('faye')
  ,  Track = require('../models/track');
  
 module.exports = function(app, pubSub){
-  var bayeux = new faye.NodeAdapter({mount: '/faye',timeout: 45}); bayeux.attach(app);
-  var radio = new Radio(bayeux, app)
+  var radio = new Radio(app, pubSub)
   ,   chat = new Chat(pubSub)
-  ,   map = new Map(bayeux, chat, radio)
+  ,   map = new Map(chat, radio, pubSub)
   ,   decoder = new Decoder(radio, app.settings.server.multipleDecoders)
   ,   streamer = new Streamer(app, radio, chat, decoder, map);
   app.get('/', function(req, res){

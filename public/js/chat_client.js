@@ -8,9 +8,8 @@ function ChatClient (config) {
   self.config = config;
   
   this.init = function(){
-    self.config.pubSub = new Juggernaut;
-    self.setupBayeuxHandlers();
-    self.setupDOMHandlers();
+    self.setupPubSub();
+    self.setupDOM();
     self.unreadMsgCount = 0;
     self.hasFocus = true;
     self.onlineChatUsers = [];
@@ -19,7 +18,7 @@ function ChatClient (config) {
     });
   };
   
-  this.setupBayeuxHandlers = function(){
+  this.setupPubSub = function(){
     self.config.pubSub.subscribe('chat', function (message) {
       var author = $('#author').val();
       $('#chatbox').append(self.renderChatRow(message, true));
@@ -96,7 +95,7 @@ function ChatClient (config) {
     }
   }
   
-  this.setupDOMHandlers = function(){
+  this.setupDOM = function(){
     var message = $('#message');
     var author = $('#author');
 

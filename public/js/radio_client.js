@@ -10,13 +10,13 @@ function RadioClient (config) {
   this.init = function(){
     self.currentTrack = false;
     self.timeout = false;
-    self.setupBayeuxHandlers();
-    self.setupDOMHandlers();
+    self.setupPubSub();
+    self.setupDOM();
     self.startRadio();
   };
   
-  this.setupBayeuxHandlers = function(){
-    self.config.fayeClient.subscribe('/radio', function (message) {
+  this.setupPubSub = function(){
+    self.config.pubSub.subscribe('radio', function (message) {
       var track = message.track;
       var listeners = message.listeners;
       $('#listeners').html(listeners);
@@ -126,7 +126,7 @@ function RadioClient (config) {
     console.log(track);
   };
   
-  this.setupDOMHandlers = function(){
+  this.setupDOM = function(){
     
     $('#reload').click(self.reloadPlayer);
 

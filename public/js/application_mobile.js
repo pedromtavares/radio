@@ -8,7 +8,7 @@ function RadioClient(){
     self.currentTrack = false;
     self.timeout = false;
     self.config = self.getServerConfigs();
-    self.setupBayeuxHandlers();
+    self.setupPubSub();
     self.startRadio();
   };
   
@@ -21,12 +21,9 @@ function RadioClient(){
     return config;
   };
   
-  this.setupBayeuxHandlers = function() {
-    self.fayeClient = new Faye.Client("http://" + window.location.hostname + ':' + self.config.port + '/faye', {
-      timeout: 120
-    });
-
-    self.fayeClient.subscribe('/radio', function (message) {
+  this.setupPubSub = function() {
+    self.config.pubSub = new Juggernaut;
+    self.config.pubSub.subscribe('radio', function (message) {
       var track = message.track;
       var listeners = message.listeners;
       $('#listeners').html(listeners);

@@ -6,8 +6,8 @@ function ApplicationClient(){
   
   this.init = function(){
     self.config = self.getServerConfigs();
-    self.setupBayeuxHandlers();
-    self.setupDOMHandlers();
+    self.setupPubSub();
+    self.setupDOM();
   };
   
   this.getServerConfigs = function(){
@@ -22,13 +22,11 @@ function ApplicationClient(){
     return config;
   };
   
-  this.setupBayeuxHandlers = function(){
-    self.config.fayeClient = new Faye.Client("http://" + window.location.hostname + ':' + self.config.port + '/faye', {
-      timeout: 120
-    });
+  this.setupPubSub = function(){
+    self.config.pubSub = new Juggernaut
   };
   
-  this.setupDOMHandlers = function(){
+  this.setupDOM = function(){
     $('.filter').click(function() {
       $('.filter').removeClass('italic');
       $(this).addClass('italic');

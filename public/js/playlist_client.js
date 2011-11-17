@@ -12,8 +12,8 @@ function PlaylistClient (config) {
   this.init = function(){
     self.playlist = self.startPlaylist();
     self.playlist.shuffle(true, true);
-    self.setupBayeuxHandlers();
-    self.setupDOMHandlers();
+    self.setupPubSub();
+    self.setupDOM();
   };
   
   
@@ -34,8 +34,8 @@ function PlaylistClient (config) {
     self.playlist.shuffle(true, true);
   }
   
-  this.setupBayeuxHandlers = function(){
-    self.config.fayeClient.subscribe('/radio', function (message) {
+  this.setupPubSub = function(){
+    self.config.pubSub.subscribe('radio', function (message) {
       if (message.track && message.track != 'offline'){
         $('#current_dj').html(message.dj);
         $('#current_track').html(message.track);
@@ -45,7 +45,7 @@ function PlaylistClient (config) {
     });
   };
   
-  this.setupDOMHandlers = function(){
+  this.setupDOM = function(){
     $('ul.genres li a').click(function() {
       self.changePlaylist($(this).data('genre'));
     });
