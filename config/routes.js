@@ -67,7 +67,7 @@ module.exports = function(app, pubSub){
         });
         break;
       case 'most-played':
-        Track.$where('this.plays.length >  1').limit(50).exec(function(err, tracks){
+        Track.find().$where('this.plays.length >  1').limit(50).exec(function(err, tracks){
           res.render('_tracks', {
             show_name: true
           , tracks: Track.mostPlayed(tracks)
