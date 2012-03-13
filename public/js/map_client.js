@@ -89,8 +89,11 @@ function MapClient (config) {
       latitude = message.latitude,
       longitude = message.longitude,
       text = message.name,
-      city = message.city.replace('�', 'ã'),
       x, y;
+      
+    if (message.city){
+      city = message.city.replace('�', 'ã'),
+    }
 
     var mapCoords = this.geoCoordsToMapCoords(latitude, longitude);
     x = mapCoords.x;
