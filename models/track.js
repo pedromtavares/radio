@@ -41,7 +41,7 @@ TrackSchema.statics.byArtists = function byArtists(callback){
         djs.push(play.dj);
       }
     });
-    emit(this.artist, {plays: this.plays.length, djs: djs, updated_at: this.updated_at});
+    emit(this.artist.toLowerCase(), {plays: this.plays.length, djs: djs, updated_at: this.updated_at});
   }; 
 
   reduce = function(key, vals) {
