@@ -92,7 +92,7 @@ function MapClient (config) {
       x, y;
       
     if (message.city){
-      city = message.city.replace('�', 'ã'),
+      city = message.city.replace('�', 'ã');
     };
 
     var mapCoords = this.geoCoordsToMapCoords(latitude, longitude),
