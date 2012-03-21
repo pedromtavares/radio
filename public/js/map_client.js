@@ -95,9 +95,9 @@ function MapClient (config) {
       city = message.city.replace('�', 'ã'),
     };
 
-    var mapCoords = this.geoCoordsToMapCoords(latitude, longitude);
-    x = mapCoords.x;
-    y = mapCoords.y;
+    var mapCoords = this.geoCoordsToMapCoords(latitude, longitude),
+        x = mapCoords.x;
+        y = mapCoords.y;
 
     var person = self.map.path(personPath);
     person.scale(0.01, 0.01);
