@@ -193,12 +193,18 @@ th.last-play{
   width:30%;
 }
 .genres{
+  margin-left:-10px;
+  width:600px;
   background: none !important;
   border: none !important;
   -webkit-box-shadow: none !important;
 }
 .genres li{
-  margin-right: 3px !important;
+  margin-right: 2px !important;
+}
+
+.genres li a{
+  padding: 10px !important;
 }
 
 .genres li.active a {

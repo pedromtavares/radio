@@ -160,7 +160,8 @@ html.no-js(lang='en')
               li
                 a(href="javascript:void(0)", data-genre="metal") Metal
             .notice
-              .online Não há DJ online na rádio no momento.
+              .online
+                strong Não há DJ online no momento, mas fique à vontade para curtir as playlists!
               .offline
                 | DJ 
                 span#current_dj
@@ -204,7 +205,7 @@ html.no-js(lang='en')
                       a(href="javascript:void(0)", class="jp-repeat", tabindex="1", title="repeat") repeat
                     li
                       a(href="javascript:void(0)", class="jp-repeat-off", tabindex="1", title="repeat off") repeat off
-                .jp-playlist
+                .jp-playlist(style="height:95px;overflow:auto")
                   ul
                     li
                 .jp-no-solution

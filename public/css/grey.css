@@ -523,8 +523,8 @@ ul.tabs {
   zoom: 1;
   list-style: none;
   padding: 2px 2em 0;
-  margin: 0 !important;
-  background: #eeeeee;
+/*  margin: 0 !important;
+*/  background: #eeeeee;
   background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee));
   background: -webkit-linear-gradient(#ffffff, #eeeeee);
   background: -moz-linear-gradient(center top, #ffffff 0%, #eeeeee 100%);
