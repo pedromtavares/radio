@@ -162,6 +162,10 @@
   -moz-box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.1)
 }
 
+#current_track img{
+  margin-bottom:-10px;
+}
+
 .filter{
   margin: 0 5px;
 }
