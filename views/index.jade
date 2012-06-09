@@ -232,8 +232,10 @@ html.no-js(lang='en')
                 .jp-no-solution
                   span Atualização necessária
                   | Para ouvir as músicas, você vai precisar ou atualizar seu navegador ou atualizar seu <a href="http://get.adobe.com/flashplayer/", target="_blank">plugin do Flash</a>.
-            .notice Quer enviar suas músicas pra tocar nessas playlists? 
-              a(href='/upload', target="_blank") Clique aqui.
+            .notice
+              strong 
+                | Quer enviar suas músicas pra tocar nessas playlists? 
+                a(href='/upload', target="_blank") Clique aqui.
           section#social_links
             img.tooltip.left(src="/images/icons/smartphone.png", title="Ouça também pelo seu smartphone!", style="margin:2px;margin-top:12px")
             img.tooltip.left(src="/images/icons/chrome.png", title="Site funciona melhor no Google Chrome!", style="margin:2px;margin-top:12px")
@@ -273,11 +275,12 @@ html.no-js(lang='en')
           .tab_container
         
             #tab1.tab_content.chat
-              p.center.spaced
-                - if (dj == 'Projeto Fractal')
-                  strong Faça perguntas aos participantes do programa e interaja com outros ouvintes!
-                - else
-                  strong Peça músicas ao DJ e converse com outros ouvintes!
+              - if (dj != '')
+                p.center.spaced
+                  - if (dj == 'Projeto Fractal')
+                    strong Faça perguntas aos participantes do programa e interaja com outros ouvintes!
+                  - else
+                    strong Peça músicas ao DJ e converse com outros ouvintes!
               #chatbox
                 - if (history)
                   .action_message
