@@ -11,5 +11,6 @@
     , "hooks": "0.1.9"
     , "mongoose": "2.1.3"
     , "lame": "0.0.1"
+    , "htmlparser": "1.7.6"
   }
 }

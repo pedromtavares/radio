@@ -24,7 +24,7 @@ module.exports = function(app, pubSub){
       , tracks: tracks
       , locations: map.allLocations()
       , chatUsers: chat.allChatUsers()
-      , listeners: radio.listeners.length
+      , listeners: radio.listeners.length + radio.streamListeners
       });
     });
   });
@@ -33,7 +33,7 @@ module.exports = function(app, pubSub){
       track: radio.currentTrack
     , dj: radio.currentDJ
     , config: {port: app.settings.server.port, listenerLimit: app.settings.server.listenerLimit}
-    , listeners: radio.listeners.length
+    , listeners: radio.listeners.length + radio.streamListeners
     });
   });
   app.get('/stream.mp3', function(req, res){

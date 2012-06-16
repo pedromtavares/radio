@@ -23,6 +23,8 @@ module.exports = function(app, express){
     , keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8'))
     , multipleDecoders: false
     , listenerLimit: 3
+    , streamHost: "stream.pedromtavares.com"
+    , streamPort: 20000
     });
   });
 
@@ -37,6 +39,8 @@ module.exports = function(app, express){
     , keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8'))
     , multipleDecoders: false
     , listenerLimit: 100
+    , streamHost: "stream.pedromtavares.com"
+    , streamPort: 10000
     });
   });
 }
