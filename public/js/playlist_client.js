@@ -25,7 +25,7 @@ function PlaylistClient (config) {
             swfPath: "../",
             supplied: "mp3",
             wmode: "window",
-            playlistOptions: {autoPlay:true}
+            playlistOptions: {autoPlay:false}
         });
   };
   
