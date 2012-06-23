@@ -73,7 +73,6 @@ function RadioClient (config) {
   this.loadPlayer = function(){
     $("#jplayer").jPlayer("setMedia",{
       mp3: "/stream.mp3",
-      //oga: "/stream.ogg"
     }).jPlayer("play");
   }
   
@@ -86,7 +85,6 @@ function RadioClient (config) {
       },
       swfPath: "../",
       supplied: "mp3",
-      //supplied: "mp3, oga",
       loadstart: function(event){
         $('.stream-loading').show();
       },
@@ -94,8 +92,8 @@ function RadioClient (config) {
         $('.stream-loading').hide();
       },
       error: function(event){
-        if (event.jPlayer.error.type == $.jPlayer.error.URL){
-          self.loadPlayer();
+        if (event.jPlayer.error.type != $.jPlayer.error.URL_NOT_SET){
+          self.reloadPlayer();
         }
         $('.stream-loading').hide();
       },
