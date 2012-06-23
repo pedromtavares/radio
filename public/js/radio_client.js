@@ -23,10 +23,14 @@ function RadioClient (config) {
       self.slideLimit(listeners);
       if (track == 'offline'){
         self.goOffline();
-      }else{
-        if (track && track != ''){
-          self.nextTrack(track);
-        }
+        return;
+      }
+      if (track == 'reload'){
+        window.location.reload();
+        return;
+      }
+      if (track && track != ''){
+        self.nextTrack(track);
       }
     });
   };
