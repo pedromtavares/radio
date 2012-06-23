@@ -26,7 +26,7 @@ function RadioClient (config) {
         return;
       }
       if (track == 'reload'){
-        window.location.reload();
+        self.reloadPlayer();
         return;
       }
       if (track && track != ''){
