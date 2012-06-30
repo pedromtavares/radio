@@ -6,6 +6,7 @@ function MapClient (config) {
   var self = this;
   
   self.config = config;
+  self.listeners = [];
   
   this.init = function(){
     self.setupPubSub();
@@ -90,10 +91,17 @@ function MapClient (config) {
       longitude = message.longitude,
       text = message.name,
       x, y;
+            
+    if (!message.city){
+      return;
+    }
+    
+    if (!text){
+      text = '';
+    }
       
-    if (message.city){
-      city = message.city.replace('�', 'ã');
-    };
+    city = message.city.replace('�', 'ã');
+    self.listeners.push(message);
 
     var mapCoords = this.geoCoordsToMapCoords(latitude, longitude),
         x = mapCoords.x;
@@ -109,41 +117,50 @@ function MapClient (config) {
       cursor: 'crosshair'
     });
 
-    var title = self.map.text(x, y - 3.5, text);
+    var index = self.listeners.indexOf(message);
+    // var title = self.map.text(x, y - 3.5, text);
+    var title = self.map.text(80, 242 + (index * 5), index+1+". "+text+' ('+city+')')
     title.attr({
-      fill: 'black',
-      "font-size": 3,
+      fill: 'red',
+      "font-size": 4,
       "font-family": "'Helvetica Neue', 'Helvetica', sans-serif",
       'font-weight': 'bold'
     });
-    var subtitle = self.map.text(x, y + 4.5, city);
-    subtitle.attr({
-      fill: '#999',
-      "font-size": 3,
-      "font-family": "'Helvetica Neue', 'Helvetica', sans-serif"
-    });
+    // var subtitle = self.map.text(x, y + 4.5, city);
+    // var subtitle = self.map.text(100, 262 + (index * 5), index+1+". "+city)
+    // subtitle.attr({
+    //   fill: '#999',
+    //   "font-size": 3,
+    //   "font-family": "'Helvetica Neue', 'Helvetica', sans-serif"
+    // });
 
     var hoverFunc = function () {
       person.attr({
         fill: 'orange'
       });
+      title.attr({
+        fill: 'orange'
+      })
       $(title.node).fadeIn('fast');
-      $(subtitle.node).fadeIn('fast');
+      // $(subtitle.node).fadeIn('fast');
     };
     var hideFunc = function () {
       person.attr({
         fill: 'red'
       });
+      title.attr({
+        fill: 'red'
+      })
       $(title.node).fadeOut('slow');
-      $(subtitle.node).fadeOut('slow');
+      // $(subtitle.node).fadeOut('slow');
     };
     $(person.node).hover(hoverFunc, hideFunc);
 
     person.animate({
       scale: '.01, .01'
     }, 2000, 'elastic', function () {
-      $(title.node).fadeOut(5000);
-      $(subtitle.node).fadeOut(5000);
+      // $(title.node).fadeOut(5000);
+      // $(subtitle.node).fadeOut(5000);
     });
   }
 
