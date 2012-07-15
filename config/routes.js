@@ -4,14 +4,16 @@ var fs = require('fs')
  ,  Decoder = require('../lib/decoder')
  ,  Chat = require('../lib/chat')
  ,  Map = require('../lib/map')
+ ,  Provider = require('../lib/provider')
  ,  Track = require('../models/track');
  
 module.exports = function(app, pubSub){
   var radio = new Radio(app, pubSub)
   ,   chat = new Chat(pubSub)
   ,   map = new Map(chat, radio, pubSub)
-  ,   decoder = new Decoder(radio, app.settings.server.multipleDecoders)
-  ,   streamer = new Streamer(app, radio, chat, decoder, map);
+  ,   decoder = new Decoder(radio)
+  ,   provider = new Provider(decoder, pubSub)
+  ,   streamer = new Streamer(app, radio, chat, decoder, map, provider);
   app.get('/', function(req, res){
     var user = chat.getChatUser('ip', req.connection.remoteAddress);
     Track.find({}).desc('updated_at').limit(50).run(function(err, tracks){
@@ -25,6 +27,8 @@ module.exports = function(app, pubSub){
       , locations: map.allLocations()
       , chatUsers: chat.allChatUsers()
       , listeners: radio.listeners.length + radio.streamListeners
+      , playlist: provider.currentPlaylist
+      , song: provider.currentSong
       });
     });
   });
@@ -37,10 +41,7 @@ module.exports = function(app, pubSub){
     });
   });
   app.get('/stream.mp3', function(req, res){
-    streamer.streamResponse(req, res, 'mp3');
-  });
-  app.get('/stream.ogg', function(req, res){
-    streamer.streamResponse(req, res, 'ogg');
+    streamer.streamResponse(req, res);
   });
   app.get('/track', function(req, res){
     res.send(radio.currentTrack);
@@ -83,19 +84,15 @@ module.exports = function(app, pubSub){
         });        
     };
   });
-  app.get('/upload', function(req, res){
-    res.render('upload');
+  app.get('/search/:query', function(req, res){
+    provider.search(req.params.query, function(songs) {
+      res.json(songs);
+    }); 
   });
-  app.post('/upload', function(req, res, next){
-    req.form.complete(function(err, fields, files){
-        if (err) {
-          next(err);
-        } else {
-          fs.rename(files.track.path, process.cwd() + '/public/system/tmp/' + fields.genre + '/' + files.track.filename, function(){
-            res.send('<script>alert("Música enviada com sucesso.");window.location.href = "/upload"</script>');
-          });
-        }
-      });
+  app.post('/playlist', function(req, res) {
+    provider.createPlaylist(req.body.name, req.body.ids, false, function() {
+     res.send('done'); 
+    });
   });
   app.get('/admin/:token', function(req, res){
     if (req.params.token == app.settings.server.keys.token){

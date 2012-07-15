@@ -12,7 +12,7 @@ function RadioClient (config) {
     self.timeout = false;
     self.setupPubSub();
     self.setupDOM();
-    self.startRadio();
+    self.startPlayer();
   };
   
   this.setupPubSub = function(){
@@ -22,7 +22,6 @@ function RadioClient (config) {
       $('#listeners').html(listeners);
       self.slideLimit(listeners);
       if (track == 'offline'){
-        self.goOffline();
         return;
       }
       if (track == 'reload'){
@@ -49,26 +48,6 @@ function RadioClient (config) {
     }
   };
   
-  this.startRadio = function(){
-    if (self.config.dj == 'false'){
-      self.goOffline();
-    }else{
-      self.goOnline();
-    }
-  };
-  
-  this.goOnline = function(){
-    self.startPlayer();
-  };
-  
-  this.goOffline = function(){
-    $('.offline').show();
-    $('.online').hide();
-    self.stopPlayer();
-    self.currentTrack = false;
-    self.config.dj = 'false';
-    window.location.reload();
-  };
   
   this.loadPlayer = function(){
     $("#jplayer").jPlayer("setMedia",{
@@ -93,9 +72,9 @@ function RadioClient (config) {
       },
       error: function(event){
         if (event.jPlayer.error.type != $.jPlayer.error.URL_NOT_SET){
+          $('.stream-loading').hide();
           self.reloadPlayer();
         }
-        $('.stream-loading').hide();
       },
     });
   };
@@ -110,9 +89,6 @@ function RadioClient (config) {
   }
   
   this.nextTrack = function(track){
-    if (self.config.dj == 'false'){
-      window.location.reload();
-    }
     // Don't show the next track immediately since the stream delay is about 15 seconds, so we don't want to spoil out 
     // what the next track is gonna be 15 seconds before it actually starts. It's ok to show it immediately if 
     // there was nothing playing (or if you just connected to the stream).
@@ -131,7 +107,6 @@ function RadioClient (config) {
   };
   
   this.setupDOM = function(){
-    
     $('#reload').click(self.reloadPlayer);
 
     $('.jp-stop').click(self.stopPlayer);

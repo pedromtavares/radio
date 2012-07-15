@@ -34,10 +34,9 @@ html.no-js(lang='en')
 
     // CSS: Application and jPlayer files
     link(rel="stylesheet", href="css/application.css")
-    - if (dj)
-      link(type="text/css", href="css/radio.css", rel="stylesheet")
-    - else
-      link(type="text/css", href="css/playlist.css", rel="stylesheet")
+    link(rel="stylesheet", href="css/playlist.css")
+    link(rel="stylesheet",href="css/radio.css")
+    link(rel="stylesheet", href="css/jquery.fancybox.css", media="screen")
 
     // All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects
     script(src="js/libs/modernizr.min.js")
@@ -60,6 +59,8 @@ html.no-js(lang='en')
     input(type='hidden', id='djConfig', value='#{dj}')
     input(type='hidden', id='locations', value='#{JSON.stringify(locations)}')
     input(type='hidden', id='chatUsers', value='#{JSON.stringify(chatUsers)}')
+    input(type='hidden', id='playlistConfig', value='#{JSON.stringify(playlist)}')
+    input(type='hidden', id='songConfig', value='#{JSON.stringify(song)}')
     .wrap
       header.header
         hgroup
@@ -68,26 +69,26 @@ html.no-js(lang='en')
         section.intro.vcard
           #limit-alert.alert Limite de ouvintes (#{config.listenerLimit}) foi atingido, caso já não esteja ouvindo, tente ouvir por um dos players abaixo (como o <a href="http://stream.pedromtavares.com/listen.m3u">Windows Media Player</a>) ou espere até um ouvinte sair.
           #jplayer.jp-jplayer(style="padding-left:150px")
-          - if (dj)
-            .jp-audio#jp_container_1
-              .jp-type-single
-                #jp_interface_1.jp-interface
-                  ul.jp-controls
-                    li
-                      a.jp-play(href="javascript:void(0)", tabindex=1) play
-                    li
-                      a.jp-pause(href="javascript:void(0)", tabindex=1) pause
-                    li
-                      a.jp-stop(href="javascript:void(0)", tabindex=1) stop
-                    li
-                      a.jp-mute(href="javascript:void(0)", tabindex=1) mute
-                    li
-                      a.jp-unmute(href="javascript:void(0)", tabindex=1) unmute    
-                  .jp-volume-bar
-                    .jp-volume-bar-value
-                  .stream-loading(style="display:none")
-                    | Carregando...
-                  .jp-current-time
+          .jp-audio#jp_container_1
+            .jp-type-single
+              #jp_interface_1.jp-interface
+                ul.jp-controls
+                  li
+                    a.jp-play(href="javascript:void(0)", tabindex=1) play
+                  li
+                    a.jp-pause(href="javascript:void(0)", tabindex=1) pause
+                  li
+                    a.jp-stop(href="javascript:void(0)", tabindex=1) stop
+                  li
+                    a.jp-mute(href="javascript:void(0)", tabindex=1) mute
+                  li
+                    a.jp-unmute(href="javascript:void(0)", tabindex=1) unmute    
+                .jp-volume-bar
+                  .jp-volume-bar-value
+                .stream-loading(style="display:none")
+                  | Carregando...
+                .jp-current-time
+                - if (dj)
                   #players
                     | Ouça no seu player preferido
                     br
@@ -97,145 +98,50 @@ html.no-js(lang='en')
                       img(src="/images/icons/winamp.png", title="Winamp")
                     a(href="http://stream.pedromtavares.com/listen.m3u")
                       img(src="/images/icons/wmp.png", title="Windows Media Player")
-                #jp_playlist_1.jp-playlist
-                  ul
-                    - if (track)
-                      - if (dj == 'Projeto Fractal')
-                        li#current_track.online
-                          .left
-                            a(href="http://twitter.com/fractalnoar", target="_blank")
-                              img(src="/images/icons/fractal.png", title="Fractal No Ar", style="margin-left:-30px;margin-right:10px")
-                          span#track Projeto Fractal apresenta: Fractal No Ar
-                          .right
-                            span#listeners=listeners
-                            |  ouvinte(s)
-                          br
-                          br
-                          span(style="font-weight:normal") Acompanhe-nos:
-                          a(href="http://twitter.com/projetofractal", target="_blank")
-                            img(src="/images/icons/twitter.png", title="Twitter")
-                          a(href="http://facebook.com/projetofractal", target="_blank")
-                            img(src="/images/icons/facebook.png", title="Facebook")
-                      - else
-                        li#current_track.online
-                          | Música:
-                          span#track=track
-                    li#current_dj.online
-                      - if (dj == 'Projeto Fractal')
-                        span#dj
-                      - else
-                        | DJ:
-                        span#dj=dj
+                - else
+                  a.fancybox#create_playlist(href="#playlistFancybox") Crie sua playlist
+              #jp_playlist_1.jp-playlist
+                ul
+                  - if (dj)
+                    - if (dj == 'Projeto Fractal')
+                      li#current_track
+                        .left
+                          a(href="http://twitter.com/fractalnoar", target="_blank")
+                            img(src="/images/icons/fractal.png", title="Fractal No Ar", style="margin-left:-30px;margin-right:10px")
+                        span#track Projeto Fractal apresenta: Fractal No Ar
                         .right
                           span#listeners=listeners
                           |  ouvinte(s)
-            .notice
-              strong Caso a transmissão tenha parado ou esteja falhando, clique <a href="javascript:void(0)" id="reload">aqui</a>.
-          - else
-            #listeners(style="display:none") 0
-            ul.tabs.genres
-              li
-                a(href="javascript:void(0)", data-genre="rock") Rock
-              li
-                a(href="javascript:void(0)", data-genre="pop") Pop
-              li
-                a(href="javascript:void(0)", data-genre="house") House
-              li
-                a(href="javascript:void(0)", data-genre="psy") Psy
-              li
-                a(href="javascript:void(0)", data-genre="dnb") Drum n Bass
-              li
-                a(href="javascript:void(0)", data-genre="alt") Alternativa
-              li
-                a(href="javascript:void(0)", data-genre="indie") Indie
-              li
-                a(href="javascript:void(0)", data-genre="hip") Hip Hop
-              li
-                a(href="javascript:void(0)", data-genre="sert") Sertanejo
-              li
-                a(href="javascript:void(0)", data-genre="forro") Forró
-              li
-                a(href="javascript:void(0)", data-genre="samba") Samba
-              li
-                a(href="javascript:void(0)", data-genre="axe") Axé
-              li
-                a(href="javascript:void(0)", data-genre="pagode") Pagode
-              li
-                a(href="javascript:void(0)", data-genre="mpb") MPB
-              li
-                a(href="javascript:void(0)", data-genre="funk") Funk
-              li
-                a(href="javascript:void(0)", data-genre="breg") Tecnobrega
-              li
-                a(href="javascript:void(0)", data-genre="reg") Reggae
-              li
-                a(href="javascript:void(0)", data-genre="jazz") Jazz
-              li
-                a(href="javascript:void(0)", data-genre="blues") Blues
-              li
-                a(href="javascript:void(0)", data-genre="chill") Chillout
-              li
-                a(href="javascript:void(0)", data-genre="inst") Instrumental
-              li
-                a(href="javascript:void(0)", data-genre="dance") Dance
-              li
-                a(href="javascript:void(0)", data-genre="metal") Metal
-            .notice
-              .online
-                strong Não há DJ online no momento, mas fique à vontade para curtir as playlists!
-              .offline
-                | DJ 
-                span#current_dj
-                |  está online tocando
-                span#current_track 
-                |. Clique <a href="javascript:void(0)", onclick="window.location.reload()">aqui</a> para ouvir.
-            #jp_container_1.jp-audio
-              .jp-type-playlist
-                .jp-gui.jp-interface
-                  ul.jp-controls
-                    li
-                      a(href="javascript:void(0)", class="jp-previous", tabindex="1") previous
-                    li
-                      a(href="javascript:void(0)", class="jp-play", tabindex="1") play
-                    li
-                      a(href="javascript:void(0)", class="jp-pause", tabindex="1") pause
-                    li
-                      a(href="javascript:void(0)", class="jp-next", tabindex="1") next
-                    li
-                      a(href="javascript:void(0)", class="jp-stop", tabindex="1") stop
-                    li
-                      a(href="javascript:void(0)", class="jp-mute", tabindex="1", title="mute") mute
-                    li
-                      a(href="javascript:void(0)", class="jp-unmute", tabindex="1", title="unmute") unmute
-                    li
-                      a(href="javascript:void(0)", class="jp-volume-max", tabindex="1", title="max volume") max volume
-                  .jp-progress
-                    .jp-seek-bar
-                      .jp-play-bar
-                  .jp-volume-bar
-                    .jp-volume-bar-value
-                  .jp-time-holder
-                    .jp-current-time
-                    .jp-duration
-                  ul.jp-toggles
-                    li
-                      a(href="javascript:void(0)", class="jp-shuffle", tabindex="1", title="shuffle") shuffle
-                    li
-                      a(href="javascript:void(0)", class="jp-shuffle-off", tabindex="1", title="shuffle off") shuffle off
-                    li
-                      a(href="javascript:void(0)", class="jp-repeat", tabindex="1", title="repeat") repeat
-                    li
-                      a(href="javascript:void(0)", class="jp-repeat-off", tabindex="1", title="repeat off") repeat off
-                .jp-playlist(style="height:95px;overflow:auto")
-                  ul
-                    li
-                .jp-no-solution
-                  span Atualização necessária
-                  | Para ouvir as músicas, você vai precisar ou atualizar seu navegador ou atualizar seu <a href="http://get.adobe.com/flashplayer/", target="_blank">plugin do Flash</a>.
-            .notice
-              strong 
-                | Quer enviar suas músicas pra tocar nessas playlists? 
-                a(href='/upload', target="_blank") Clique aqui.
+                        br
+                        br
+                        span(style="font-weight:normal") Acompanhe-nos:
+                        a(href="http://twitter.com/projetofractal", target="_blank")
+                          img(src="/images/icons/twitter.png", title="Twitter")
+                        a(href="http://facebook.com/projetofractal", target="_blank")
+                          img(src="/images/icons/facebook.png", title="Facebook")
+                    - else
+                      li#current_track
+                        | Música:
+                        span#track=track
+                  li#current_dj
+                    - if (dj == 'Projeto Fractal')
+                      span#dj
+                    - else
+                      - if (dj)
+                        | DJ:
+                        span#dj=dj
+                      - else
+                        | Playlist:
+                        span#playlist_name=playlist.name
+                      .right
+                        span#listeners=listeners
+                        |  ouvinte(s)
+                ul#playlist
+                  - if (playlist.songs)
+                    - each song in playlist.songs
+                      li(id='song_'+song.id)= song.artist + ' - ' + song.title
+          .notice
+            strong Caso a transmissão tenha parado ou esteja falhando, clique <a href="javascript:void(0)" id="reload">aqui</a>.
           section#social_links
             img.tooltip.left(src="/images/icons/smartphone.png", title="Ouça também pelo seu smartphone!", style="margin:2px;margin-top:12px")
             img.tooltip.left(src="/images/icons/chrome.png", title="Site funciona melhor no Google Chrome!", style="margin:2px;margin-top:12px")
@@ -266,14 +172,12 @@ html.no-js(lang='en')
               a(href="#tab2") DJs
             li
               a(href="#tab3") Músicas
-            - if (dj)
-              li
-                a(href="#tab4") Mapa de Ouvintes
+            li
+              a(href="#tab4") Mapa de Ouvintes
             li
               a(href="#tab5") Sobre
         
           .tab_container
-        
             #tab1.tab_content.chat
               - if (dj != '')
                 p.center.spaced
@@ -351,12 +255,9 @@ html.no-js(lang='en')
                 != partial('tracks', {locals: {show_name: true}})
             #tab4.tab_content
               br
-              - if (dj)
-                p.center.spaced.online 
-                  strong Localização da galera que ouviu/está ouvindo o DJ #{dj}.
-                #map.online
-              p.center.spaced(class="#{(dj) ? 'offline' : ''}") 
-                strong Mapa apenas disponível quando a rádio estiver online.
+              p.center.spaced 
+                strong Localização da galera que ouviu/está ouvindo o DJ #{dj}.
+              #map
             #tab5.tab_content.about
               br
               h4 O que é essa rádio?
@@ -373,22 +274,25 @@ html.no-js(lang='en')
       footer#footer
         p Desenvolvido por <a href="http://pedromtavares.com", target="_blank">Pedro Mateus Tavares</a>.
         p.alt Este projeto é <a href="https://github.com/pedromtavares/radio", title="GitHub Repo", target="_blank">open-source</a>.
+    
+    #playlistFancybox
+      != partial('playlist')
     // Javascript at the bottom for fast page loading
     script(type="text/javascript", src="js/libs/socket.io.js")
     script(type="text/javascript", src="js/libs/jquery.js")
     script(type="text/javascript", src="js/libs/jquery.jplayer.min.js")
-    script(type="text/javascript", src="js/libs/jplayer.playlist.min.js")
     script(type="text/javascript", src="js/libs/images.js")
     script(type="text/javascript", src="js/libs/raphael.js")
+    script(type="text/javascript", src="js/libs/jquery.mousewheel-3.0.6.pack.js")
+    script(type="text/javascript", src="js/libs/jquery.fancybox.pack.js")
     script(type="text/javascript", src="js/helpers.js")
-    script(type="text/javascript", src="js/playlists.js")
     script(type="text/javascript", src="js/map_client.js")
     script(type="text/javascript", src="js/chat_client.js")
     script(type="text/javascript", src="js/radio_client.js")
     script(type="text/javascript", src="js/playlist_client.js")
     script(type="text/javascript", src="js/application.js")
-    script(src="js/template/plugins.js")
-    script(src="js/template/script.js")
+    script(type="text/javascript", src="js/template/plugins.js")
+    script(type="text/javascript", src="js/template/script.js")
     script(type="text/javascript", src="http://platform.twitter.com/widgets.js")
 
     // if lte IE 7

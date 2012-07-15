@@ -1,0 +1,13 @@
+.playlistBlock
+  input#playlistSearch(type="text", name="search")
+  input#searchSubmit(type="submit", value="Buscar Músicas")
+  img#playlistLoading(src="/images/loading.gif", style="display:none")
+  ul#searchResults
+.playlistBlock
+  span Escolhidas
+  br
+  | Nome da sua Playlist
+  input#playlistName(type="text", name="name")
+  input#playlistClean(type="submit", value="Limpar Seleção")
+  ul#chosenSongs
+  input#playlistSubmit(type="submit", value="Enviar Seleção")

@@ -2,7 +2,6 @@
 (function($){
 	//Tabs
 	$(".tab_content:not(.tab_content:first)").hide(); //Hide all content except first
-	$("ul.tabs.genres li:first").addClass("active"); //Activate first tab
 	$("ul.tabs.nav li:first").addClass("active"); //Activate first tab
 	
 	
@@ -21,23 +20,20 @@
 		return false;
 	});
 	
-	$("ul.tabs.genres li a").click(function() {
-		$("ul.tabs.genres li").removeClass("active"); //Remove any "active" class
-		$(this).parent().addClass("active"); //Add "active" class to selected tab
-		return false;
-	});
-	
 	
 	// Tipsy
 	$('.tooltip').tipsy({gravity: 's', offset: 2});
 	
-	// Fancybox
-  // $('a.fancybox').fancybox({
-  //  'opacity'   : true,
-  //  'overlayShow' : false,
-  //  'transitionIn'  : 'elastic',
-  //  'transitionOut' : 'elastic'
-  // });
+  //Fancybox
+  $('a.fancybox').fancybox({
+   'opacity'   : true,
+   'overlayShow' : false,
+   'transitionIn'  : 'elastic',
+   'transitionOut' : 'elastic',
+   'width': 1000,
+   'height': 500,
+   'autoSize': false
+  });
 })(window.jQuery);
 
 

@@ -18,6 +18,8 @@ function ApplicationClient(){
     , chatUsers: JSON.parse($('#chatUsers').val())
     , listenerLimit: JSON.parse($('#listenerLimit').val())
     , listenerCount: JSON.parse($('#listeners').text())
+    , currentPlaylist: JSON.parse($('#playlistConfig').val())
+    , currentSong: JSON.parse($('#songConfig').val())
     };
     return config;
   };
@@ -49,12 +51,7 @@ function ApplicationClient(){
 $(function(){
   var application = new ApplicationClient();
   var chatClient  = new ChatClient(application.config);
-  if (application.config.dj != 'false'){
-    var radioClient = new RadioClient(application.config);
-  }else{
-    var playlistClient = new PlaylistClient(application.config);
-  }
-  if ($('#map').length!=0){
-    var mapClient = new MapClient(application.config);
-  }
+  var radioClient = new RadioClient(application.config);
+  var playlistClient = new PlaylistClient(application.config);
+  var mapClient = new MapClient(application.config);
 });
