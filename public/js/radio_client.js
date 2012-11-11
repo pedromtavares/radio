@@ -80,6 +80,7 @@ function RadioClient (config) {
   };
   
   this.stopPlayer = function(){
+    $('.stream-loading').hide();
     $("#jplayer").jPlayer("clearMedia");
   };
   

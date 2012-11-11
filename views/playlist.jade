@@ -1,13 +1,11 @@
-.playlistBlock
-  input#playlistSearch(type="text", name="search")
-  input#searchSubmit(type="submit", value="Buscar Músicas")
+.playlistBlock.social(style="width: 65%")
+  input.text#playlistSearch(type="text", name="search", placeholder="Busque por artista, nome, gênero ou álbum!", style="width: 85%;margin-left: 6%")
+  h5.center#playlistHelp(style="display:none") Agora, clique nos resultados abaixo para adicioná-los à sua playlist.
   img#playlistLoading(src="/images/loading.gif", style="display:none")
-  ul#searchResults
-.playlistBlock
-  span Escolhidas
-  br
-  | Nome da sua Playlist
-  input#playlistName(type="text", name="name")
-  input#playlistClean(type="submit", value="Limpar Seleção")
+  ul#searchResults(style="padding:10px")
+.playlistBlock.social(style="width: 35%")
+  input.text#playlistName(type="text", name="name", placeholder="Nome da sua Playlist (aparecerá no player do site)", style="width:95%")
   ul#chosenSongs
-  input#playlistSubmit(type="submit", value="Enviar Seleção")
+  br
+  input.submit#playlistSubmit(type="submit", value="Enviar Seleção")
+  input.submit#playlistClean(type="submit", value="Limpar Seleção", style="float:right")

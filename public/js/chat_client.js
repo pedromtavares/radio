@@ -45,7 +45,7 @@ function ChatClient (config) {
   };
   
   this.sendChatMessage = function(author, message){
-    $.get('/broadchat?author='+author+'&message='+message);  
+    $.get('/broadchat?author='+encodeURIComponent(author)+'&message='+encodeURIComponent(message));  
     self.unreadMsgCount = 0;
   }
   

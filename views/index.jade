@@ -35,7 +35,7 @@ html.no-js(lang='en')
     // CSS: Application and jPlayer files
     link(rel="stylesheet", href="css/application.css")
     link(rel="stylesheet", href="css/playlist.css")
-    link(rel="stylesheet",href="css/radio.css")
+    link(rel="stylesheet", href="css/radio.css")
     link(rel="stylesheet", href="css/jquery.fancybox.css", media="screen")
 
     // All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects
@@ -54,13 +54,13 @@ html.no-js(lang='en')
       })();
 
   body
-    input(type='hidden', id='portConfig', value='#{config.port}')
-    input(type='hidden', id='listenerLimit', value='#{config.listenerLimit}')
-    input(type='hidden', id='djConfig', value='#{dj}')
-    input(type='hidden', id='locations', value='#{JSON.stringify(locations)}')
-    input(type='hidden', id='chatUsers', value='#{JSON.stringify(chatUsers)}')
+    input(type='hidden', id='portConfig',     value='#{config.port}')
+    input(type='hidden', id='listenerLimit',  value='#{config.listenerLimit}')
+    input(type='hidden', id='djConfig',       value='#{dj}')
+    input(type='hidden', id='locations',      value='#{JSON.stringify(locations)}')
+    input(type='hidden', id='chatUsers',      value='#{JSON.stringify(chatUsers)}')
     input(type='hidden', id='playlistConfig', value='#{JSON.stringify(playlist)}')
-    input(type='hidden', id='songConfig', value='#{JSON.stringify(song)}')
+    input(type='hidden', id='songConfig',     value='#{JSON.stringify(song)}')
     .wrap
       header.header
         hgroup
@@ -103,39 +103,19 @@ html.no-js(lang='en')
               #jp_playlist_1.jp-playlist
                 ul
                   - if (dj)
-                    - if (dj == 'Projeto Fractal')
-                      li#current_track
-                        .left
-                          a(href="http://twitter.com/fractalnoar", target="_blank")
-                            img(src="/images/icons/fractal.png", title="Fractal No Ar", style="margin-left:-30px;margin-right:10px")
-                        span#track Projeto Fractal apresenta: Fractal No Ar
-                        .right
-                          span#listeners=listeners
-                          |  ouvinte(s)
-                        br
-                        br
-                        span(style="font-weight:normal") Acompanhe-nos:
-                        a(href="http://twitter.com/projetofractal", target="_blank")
-                          img(src="/images/icons/twitter.png", title="Twitter")
-                        a(href="http://facebook.com/projetofractal", target="_blank")
-                          img(src="/images/icons/facebook.png", title="Facebook")
-                    - else
-                      li#current_track
-                        | Música:
-                        span#track=track
+                    li#current_track
+                      | Música:
+                      span#track=track
                   li#current_dj
-                    - if (dj == 'Projeto Fractal')
-                      span#dj
+                    - if (dj)
+                      | DJ:
+                      span#dj=dj
                     - else
-                      - if (dj)
-                        | DJ:
-                        span#dj=dj
-                      - else
-                        | Playlist:
-                        span#playlist_name=playlist.name
-                      .right
-                        span#listeners=listeners
-                        |  ouvinte(s)
+                      | Playlist:
+                      span#playlist_name=playlist.name
+                    .right
+                      span#listeners=listeners
+                      |  ouvinte(s)
                 ul#playlist
                   - if (playlist.songs)
                     - each song in playlist.songs
@@ -181,10 +161,7 @@ html.no-js(lang='en')
             #tab1.tab_content.chat
               - if (dj != '')
                 p.center.spaced
-                  - if (dj == 'Projeto Fractal')
-                    strong Faça perguntas aos participantes do programa e interaja com outros ouvintes!
-                  - else
-                    strong Peça músicas ao DJ e converse com outros ouvintes!
+                  strong Peça músicas ao DJ e converse com outros ouvintes!
               #chatbox
                 - if (history)
                   .action_message
@@ -204,45 +181,15 @@ html.no-js(lang='en')
             #tab2.tab_content.social
               ul
                 li.odd
-                  a(href="http://soundcloud.com/pedromtavares", class="tooltip", title="Eletrônica/Rock", target="_blank")
-                    img(src="images/djs/pedro.jpg", alt="Pedro")
+                  a(href="http://soundcloud.com/pedromtavares", class="tooltip", title="Eletrônica", target="_blank")
+                    img(src="images/djs/notionless.jpg", alt="NoTioNLeSS")
                     br
-                    | Pedro
+                    | NoTioNLeSS
                 li.even
-                  a(href="http://www.facebook.com/profile.php?id=1816911845", class="tooltip", title="Eletrônica/Rock/Reggae", target="_blank")
-                    img(src="images/djs/LC.jpg", alt="LC")
+                  a(href="http://soundcloud.com/pedromtavares", class="tooltip", title="Eletrônica", target="_blank")
+                    img(src="images/djs/corey.jpg", alt="Corey")
                     br
-                    | LC
-                li.odd
-                  a(href="http://twitter.com/guilhermejlf", class="tooltip", title="Rock/Nacional/Alternativa", target="_blank")
-                    img(src="images/djs/guila.jpg", alt="Guila")
-                    br
-                    | Guila
-                li.even
-                  a(href="http://twitter.com/igoramorimcosta", class="tooltip", title="Eletrônica/Jazz/Rock", target="_blank")
-                    img(src="images/djs/r4v4.jpg", alt="R4v4")
-                    br
-                    | R4v4
-                li.odd
-                  a(href="http://soundcloud.com/teslalive/", class="tooltip" ,title="Eletrônica", target="_blank")
-                    img(src="images/djs/tesla.jpg", alt="Tesla")
-                    br
-                    | Tesla
-                li.even
-                  a(href="http://www.facebook.com/profile.php?id=100002089895882", class="tooltip", title="Fusor Cerebral", target="_blank")
-                    img(src="images/djs/grimm.jpg", alt="Grimm")
-                    br
-                    | Grimm
-                li.odd
-                  a(href="http://www.facebook.com/profile.php?id=100001105737991", class="tooltip", title="Pop/Rock", target="_blank")
-                    img(src="images/djs/gauranhon.jpg", alt="Gauranhon")
-                    br
-                    | Gauranhon
-                li.even
-                  a(href="http://www.facebook.com/aureaandressa", class="tooltip", title="MPB/Rock/Eletrônica", target="_blank")
-                    img(src="images/djs/dessa.jpg", alt="Dessa")
-                    br
-                    | Dessa
+                    | Corey
             #tab3.tab_content.tracks
               p.center.spaced
                 strong Histórico e estatísticas das músicas tocadas aqui na Rádio!
@@ -256,7 +203,7 @@ html.no-js(lang='en')
             #tab4.tab_content
               br
               p.center.spaced 
-                strong Localização da galera que ouviu/está ouvindo o DJ #{dj}.
+                strong Localização da galera que está ouvindo a rádio nesse momento.
               #map
             #tab5.tab_content.about
               br
@@ -275,7 +222,7 @@ html.no-js(lang='en')
         p Desenvolvido por <a href="http://pedromtavares.com", target="_blank">Pedro Mateus Tavares</a>.
         p.alt Este projeto é <a href="https://github.com/pedromtavares/radio", title="GitHub Repo", target="_blank">open-source</a>.
     
-    #playlistFancybox
+    #playlistFancybox(style="display:none")
       != partial('playlist')
     // Javascript at the bottom for fast page loading
     script(type="text/javascript", src="js/libs/socket.io.js")
