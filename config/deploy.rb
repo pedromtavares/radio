@@ -12,7 +12,8 @@ ssh_options[:paranoid]    = false
 default_run_options[:pty] = true
 
 set :node_env, "production"
-set :branch, "pre-exfm"
+# set :branch, "pre-exfm"
+set :branch, "master"
 
 role :app, "173.255.227.12"
 
