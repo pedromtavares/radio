@@ -11,7 +11,7 @@ module.exports = function(app, pubSub){
   var radio = new Radio(app, pubSub)
   ,   chat = new Chat(pubSub)
   ,   map = new Map(chat, radio, pubSub)
-  ,   decoder = new Decoder(radio)
+  ,   decoder = new Decoder(app, radio)
   ,   provider = new Provider(decoder, pubSub)
   ,   streamer = new Streamer(app, radio, chat, decoder, map, provider);
   app.get('/', function(req, res){
