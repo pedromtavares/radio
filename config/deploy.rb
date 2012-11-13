@@ -8,6 +8,7 @@ set :runner,              "deployer"
 set :repository,          "git@github.com:pedromtavares/radio.git"
 set :scm,                 :git
 set :node_file,           "app.js"
+set :branch,              "pre-exfm"
 ssh_options[:paranoid]    = false
 default_run_options[:pty] = true
 
