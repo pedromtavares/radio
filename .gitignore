@@ -1,4 +1,4 @@
 config/keys.json
 public/system/
 node_modules/lame
-*.mp3
+songs/*.mp3
