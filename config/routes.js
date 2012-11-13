@@ -12,7 +12,7 @@ module.exports = function(app, pubSub){
   ,   chat = new Chat(pubSub)
   ,   map = new Map(chat, radio, pubSub)
   ,   decoder = new Decoder(app, radio)
-  ,   provider = new Provider(decoder, pubSub)
+  ,   provider = new Provider(app, decoder, pubSub)
   ,   streamer = new Streamer(app, radio, chat, decoder, map, provider);
   app.get('/', function(req, res){
     var user = chat.getChatUser('ip', req.connection.remoteAddress);
