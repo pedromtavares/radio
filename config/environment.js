@@ -21,7 +21,7 @@ module.exports = function(app, express){
     , reconnectTime: 5 // in seconds
     , twitterInterval: 5 // in seconds
     , keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8'))
-    , listenerLimit: 3
+    , listenerLimit: 100
     , streamHost: "stream.pedromtavares.com"
     , streamPort: 20000
     });

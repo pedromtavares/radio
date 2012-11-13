@@ -18,8 +18,15 @@ function PlaylistClient (config) {
     self.config.pubSub.subscribe('playlist', function (message) {
       var playlist = message.playlist;
       var song = message.song;
-      self.nextPlaylist(playlist);
-      self.nextSong(song);
+      if (song == 'reload'){
+        window.location.reload();
+        return;
+      }
+      // only show after 15 secs
+      setTimeout(function() {
+        self.nextPlaylist(playlist);
+        self.nextSong(song);
+      }, 15000)
     });
   };
   
@@ -63,6 +70,7 @@ function PlaylistClient (config) {
     self.appendDownloadLink();
     $('#create_playlist').click(function() {
       $('#playlistFancybox').show();
+      $('#playlistSearch').focus();
     });
     $('#playlistSearch').keypress(function(e){
       if(e.which == 13){
@@ -79,10 +87,10 @@ function PlaylistClient (config) {
             }else{
               var divClass = 'odd';
             }
-            var $song = $("<li data-song='"+song.id+"' class='"+divClass+"'><a>"+song.artist+" - "+song.title+"</a></li>");
+            var $song = $("<li data-song='"+song.id+"' class='"+divClass+" search_result'><a>"+song.artist+" - "+song.title+"</a></li>");
             $song.on('click', function() {
               if ($('#chosenSongs').children().length < 5){
-                $('#chosenSongs').append($(this).detach().removeClass('even').addClass('odd').css('width', '100%'));
+                $('#chosenSongs').append($(this).detach().removeClass('even').addClass('odd').addClass('chosen_result'));
               }else{
                 alert("O tamanho máximo da playlist deve ser de 5 músicas!");
               }
@@ -119,8 +127,35 @@ function PlaylistClient (config) {
         $('#playlistSearch').val('');
         $('#playlistHelp').hide();
         $('#playlistName').val('');
+        $('#create_playlist').hide();
         alert("Playlist enviada com sucesso! Caso não exista outras playlists na fila, a sua será carregada em cerca de 20 segundos.");
       });
+    });
+    $('#queueLink').click(function() {
+      $queue = $('#playlistQueue');
+      if ($queue.is(':hidden')){
+        $.getJSON('/playlists', function(data) {
+          if (data.length == 0){
+            $queue.html('<hr/><div class="center">Não há playlists na fila</div><br class="clear"/>');
+          }else{
+            var html = '';
+            html += '<hr/><table>';
+            data.forEach(function(playlist) {
+              html += '<tr class="center"><td>'+playlist.name+'</td><td>';
+              playlist.songs.forEach(function(song) {
+                html += '<ul>';
+                html += '<li>'+song.artist+' - '+song.title+'</li>'
+                html += '</ul>';
+              });
+              html += '</td></tr>';
+              $queue.html(html);
+            });
+          }
+          $queue.slideDown();
+        });
+      }else{
+        $queue.slideUp();
+      }
     });
   };
   

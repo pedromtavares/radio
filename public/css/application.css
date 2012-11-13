@@ -40,7 +40,7 @@
 }
 
 #social_links{
-  margin-left:0px;
+  margin-left:-20px;
 }
 
 #players{
@@ -249,4 +249,50 @@ th.last-play{
   left:210px;
   text-align:center;
   color: #AAA;
+}
+
+.search_result{
+  overflow:auto;
+  height:80px;
+  background: white;
+  border: 1px solid #DDD;
+  width: 49% !important;
+}
+
+.search_result a{
+  font-size:1em !important;
+  border: 0 !important;
+}
+
+.chosen_result{
+  width: 98.8% !important;
+}
+
+#playlistQueue{
+  max-height:320px;
+  overflow:auto;
+  font-size:0.9em !important;
+}
+
+#playlistQueue hr{
+  border: 1px solid #DDD;
+}
+
+.queued_playlist{
+  text-align:center;
+  margin-left:10px;
+  float:left;
+  width:32%;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:auto;
+  height:150px;
+}
+.queued_playlist .name{
+  font-size:1em;
+  font-weight: bold;
+}
+.queued_playlist li{
+  font-size:0.9em !important;
+  font-weight:normal !important;
 }

@@ -94,6 +94,9 @@ module.exports = function(app, pubSub){
      res.send('done'); 
     });
   });
+  app.get('/playlists', function(req, res) {
+    res.send(provider.playlists);
+  });
   app.get('/admin/:token', function(req, res){
     if (req.params.token == app.settings.server.keys.token){
       res.send('oi');

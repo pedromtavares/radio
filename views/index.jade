@@ -99,7 +99,9 @@ html.no-js(lang='en')
                     a(href="http://stream.pedromtavares.com/listen.m3u")
                       img(src="/images/icons/wmp.png", title="Windows Media Player")
                 - else
-                  a.fancybox#create_playlist(href="#playlistFancybox") Crie sua playlist
+                  a.fancybox#create_playlist(href="#playlistFancybox") 
+                    img(src='images/icons/playlist.png', style="margin-top:20px")
+                    div(style="float:right;margin-right:100px;margin-top:25px;margin-left:-60px;font-weight:bold") Faça sua playlist
               #jp_playlist_1.jp-playlist
                 ul
                   - if (dj)
@@ -113,6 +115,8 @@ html.no-js(lang='en')
                     - else
                       | Playlist:
                       span#playlist_name=playlist.name
+                      a#queueLink(href="javascript:;")
+                        |  (Fila)
                     .right
                       span#listeners=listeners
                       |  ouvinte(s)
@@ -120,11 +124,16 @@ html.no-js(lang='en')
                   - if (playlist.songs)
                     - each song in playlist.songs
                       li(id='song_'+song.id)= song.artist + ' - ' + song.title
+                
+                #playlistQueue(style='display:none')
+                
           .notice
             strong Caso a transmissão tenha parado ou esteja falhando, clique <a href="javascript:void(0)" id="reload">aqui</a>.
           section#social_links
-            img.tooltip.left(src="/images/icons/smartphone.png", title="Ouça também pelo seu smartphone!", style="margin:2px;margin-top:12px")
             img.tooltip.left(src="/images/icons/chrome.png", title="Site funciona melhor no Google Chrome!", style="margin:2px;margin-top:12px")
+            a(href='http://youtube.com/user/radiodagalere', target="_blank")
+              img.tooltip.left(src="/images/icons/youtube.png", title="Conheça nosso canal no YouTube!", style="margin:2px;margin-top:12px")
+            img.tooltip.left(src="/images/icons/smartphone.png", title="Ouça também pelo seu smartphone!", style="margin:2px;margin-top:12px")
             .left
               iframe(src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FR%25C3%25A1dio-da-Galere%2F113623752071074&amp;width=272&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;height=62" , scrolling="no", frameborder="0", style="border:none; overflow:hidden; width:272px; height:62px;", allowTransparency="true")
             .left(style="margin-top:10px;margin-right:-20px;width:200px")
@@ -153,9 +162,11 @@ html.no-js(lang='en')
             li
               a(href="#tab3") Músicas
             li
-              a(href="#tab4") Mapa de Ouvintes
+              a(href="#tab4") Mapa
             li
-              a(href="#tab5") Sobre
+              a(href="#tab5") Moonlight Podcast
+            li
+              a(href="#tab6") Sobre
         
           .tab_container
             #tab1.tab_content.chat
@@ -201,22 +212,28 @@ html.no-js(lang='en')
               #tracks-table
                 != partial('tracks', {locals: {show_name: true}})
             #tab4.tab_content
-              br
               p.center.spaced 
                 strong Localização da galera que está ouvindo a rádio nesse momento.
               #map
-            #tab5.tab_content.about
+            #tab5.tab_content
+              p.center.spaced 
+                strong 
+                  | Escute os episódios do nosso podcast de música eletrônica, Moonlight.
+                  br
+                  | Ao vivo aqui na Rádio todas as quintas, às 22h (23h no horário de verão)
+              <div class='center'><object width="480" height="480"><param name="movie" value="//www.mixcloud.com/media/swf/player/mixcloudLoader.swf?feed=http%3A%2F%2Fwww.mixcloud.com%2Fradiodagalere%2F%3Flimit%3D10&embed_uuid=7275ba85-57c0-4087-9fa9-d5536c304384&stylecolor=&embed_type=widget_standard"></param><param name="allowFullScreen" value="true"></param><param name="wmode" value="opaque"></param><param name="allowscriptaccess" value="always"></param><embed src="//www.mixcloud.com/media/swf/player/mixcloudLoader.swf?feed=http%3A%2F%2Fwww.mixcloud.com%2Fradiodagalere%2F%3Flimit%3D10&embed_uuid=7275ba85-57c0-4087-9fa9-d5536c304384&stylecolor=&embed_type=widget_standard" type="application/x-shockwave-flash" wmode="opaque" allowscriptaccess="always" allowfullscreen="true" width="480" height="480"></embed></object><div style="clear:both; height:3px;"></div><p style="display:block; font-size:12px; font-family:Helvetica, Arial, sans-serif; margin:0; padding: 3px 4px; color:#999;"><a href="http://www.mixcloud.com/radiodagalere/?utm_source=widget&amp;utm_medium=web&amp;utm_campaign=base_links&amp;utm_term=resource_link" target="_blank" style="color:#02a0c7; font-weight:bold;">Rádio da Galere's Cloudcasts</a><span> on </span><a href="http://www.mixcloud.com/?utm_source=widget&utm_medium=web&utm_campaign=base_links&utm_term=homepage_link" target="_blank" style="color:#02a0c7; font-weight:bold;"> Mixcloud</a></p><div style="clear:both; height:3px;"></div></div>
+              
+            #tab6.tab_content.about
               br
               h4 O que é essa rádio?
-              p A rádio é nada mais que uma galera junta tocando pra conhecidos, se você chegou aqui então provavelmente é amigo de alguém que toca aqui, porque a intenção da rádio não é ter uma grande divulgação pública por enquanto, só assim se consegue manter um ambiente amigável que é algo que damos muito valor.
+              p A rádio é uma plataforma com dois intuitos: o primeiro de fazer com o que as pessoas possam compartilhar o que gostam de escutar com os amigos (ou o mundo inteiro), de se divertir e até conhecer músicas novas. O segundo é de divulgar o trabalho de qualquer profissional de música, podendo ter o alcance do mundo inteiro como seu público.
               h4 Posso divulgar então?
-              p Se você curtiu a rádio, fique a vontade pra divulgá-la pra seus amigos tanto pelo <a href="http://www.facebook.com/pages/R%C3%A1dio-da-Galere/113623752071074", target="_blank">Facebook</a> quanto pelo <a href="http://twitter.com/radiodagalere", target="_blank">Twitter</a>.
-              h4 E que DJs são esses?
-              p Tudo aqui é na brincadeira, ninguém é DJ profissional e todos que tocam aqui são voluntários que, no seu tempo vago, se dispõem a tocar uma seleção de músicas que eles mesmo fazem na hora.
-              h4 Posso ser DJ também?
-              p Pode sim! É necessário instalar e configurar o programa <a href="http://www.virtualdj.com/products/virtualdj/version7.html", target="_blank">VirtualDJ 7 Pro</a> para enviar as músicas para o <a href="http://stream.pedromtavares.com", target="_blank">servidor da rádio</a>. Depois de baixado, é necessário colocar uma determinada configuração e senha, pra isso, mande um e-mail pra mim em <a href="mailto:pedromateustavares@gmail.com">pedromateustavares@gmail.com</a> que explico tudo direitinho.
-              h4 Problemas na transmissão?
-              p Se a transmissão tiver chiando, com falhas ou demoras, tente recarregar a página. Se isso não funcionar, pode ser que a internet do DJ esteja lenta ao enviar as músicas, então comunique isso a ele pelo chat.
+              p Se você curtiu a rádio, fique a vontade pra divulgá-la pra seus amigos tanto pelo <a href="http://www.facebook.com/radiodagalere", target="_blank">Facebook</a> quanto pelo <a href="http://twitter.com/radiodagalere", target="_blank">Twitter</a>.
+              h4 Daonde vem essas músicas que tão tocando agora?
+              p Caso não tenha um DJ online mandando músicas pra rádio, ela ativa uma espécie de 'DJ Automático' onde ela toca as músicas mais tocadas <a href="http://ex.fm" target="_blank">desse site</a>. Como cada pessoa (incluindo você!) pode mandar playlists para serem tocadas aqui, você pode nesse exato momento estar ouvindo a playlist de alguém. Para mandar uma playlist, basta clicar no botão bem grande que tem perto do player e uma janela vai aparecer com mais instruções.
+              h4 Quero divulgar meu trabalho, como faço pra tocar meu som aqui? Vou ter que pagar?
+              p Não, não precisa pagar! Só entrar em contato comigo enviando um email pra pedromateustavares@gmail.com que eu explico direitinho o processo pra tocar seu som aqui.
+              
     
       footer#footer
         p Desenvolvido por <a href="http://pedromtavares.com", target="_blank">Pedro Mateus Tavares</a>.

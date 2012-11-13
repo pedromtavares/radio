@@ -39,18 +39,12 @@ function MapClient (config) {
       windowHeight = $(window).height(),
       mapCanvasHeight = 600;
     self.map.setSize(width, mapCanvasHeight);
-    // $('#map').css({
-    //   'margin-top': (windowHeight - mapCanvasHeight) / 2.0
-    // });
   }
 
   this.drawMap = function(){
     var self = this;
     self.map = Raphael('map', 0, 0);
-    //self.map.canvas.setAttribute('viewBox', '0 0 567 369');
     self.map.canvas.setAttribute('viewBox', '60 215 160 100');
-    //self.map.canvas.setAttribute('viewBox', '-690 -658 1415 1415');
-    //self.map.canvas.setAttribute('viewBox', '-800 -500 1750 1000');
 
     self.map.path(mapPath).attr({
       stroke: 'black',
@@ -101,7 +95,13 @@ function MapClient (config) {
     }
       
     city = message.city.replace('�', 'ã');
-    self.listeners.push(message);
+    var index = self.listeners.indexOf(message.ip);
+    if (index != -1){
+      return;
+    }
+    self.listeners.push(message.ip);
+    
+    var index = self.listeners.indexOf(message.ip);
 
     var mapCoords = this.geoCoordsToMapCoords(latitude, longitude),
         x = mapCoords.x;
@@ -116,8 +116,7 @@ function MapClient (config) {
       stroke: 'transparent',
       cursor: 'crosshair'
     });
-
-    var index = self.listeners.indexOf(message);
+  
     // var title = self.map.text(x, y - 3.5, text);
     var title = self.map.text(80, 242 + (index * 5), index+1+". "+text+' ('+city+')')
     title.attr({
@@ -141,7 +140,7 @@ function MapClient (config) {
       title.attr({
         fill: 'orange'
       })
-      $(title.node).fadeIn('fast');
+      // $(title.node).fadeIn('fast');
       // $(subtitle.node).fadeIn('fast');
     };
     var hideFunc = function () {
@@ -151,10 +150,11 @@ function MapClient (config) {
       title.attr({
         fill: 'red'
       })
-      $(title.node).fadeOut('slow');
+      // $(title.node).fadeOut('slow', function() {};);
       // $(subtitle.node).fadeOut('slow');
     };
     $(person.node).hover(hoverFunc, hideFunc);
+    $(title.node).hover(hoverFunc, hideFunc);
 
     person.animate({
       scale: '.01, .01'

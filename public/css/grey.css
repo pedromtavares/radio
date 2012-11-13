@@ -580,13 +580,13 @@ mark {
   -webkit-box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.1);
   -moz-box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.1);
 }
-.tab_content table {
+.tab_content table, #playlistQueue table {
   width: 100%;
   border: 1px solid #eeeeee;
   border-right: 0;
   border-bottom: 0;
 }
-.tab_content table th, .tab_content table td {
+.tab_content table th, .tab_content table td, #playlistQueue table th, #playlistQueue table td {
   border-right: 1px solid #eeeeee;
   border-bottom: 1px solid #eeeeee;
   padding: .5em;

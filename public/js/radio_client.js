@@ -97,9 +97,6 @@ function RadioClient (config) {
     var time = self.currentTrack ? 10 : 1;
     setTimeout(function() {
       if (current != track){
-        if (self.config.dj != 'Projeto Fractal'){
-          $('#track').html(track);
-        }
         $('#recent').click();
       }
     }, time * 1000)
