@@ -18,11 +18,3 @@ setTimeout(function() {
     console.log("Process now running under user: " + process.getuid());
   }
 }, 3000)
-
-
-process.addListener('uncaughtException', function (err, stack) {
-  console.log('------------------------');
-  console.log('Exception: ' + err);
-  console.log(err.stack);
-  console.log('------------------------');
-});
