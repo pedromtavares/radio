@@ -85,6 +85,7 @@ module.exports = function(app, pubSub){
     };
   });
   app.get('/search/:query', function(req, res){
+    // res.json([{url: 'http://www.tumblr.com/audio_file/alikhandro/9733034154/tumblr_lqcb2jm1pm1r15jcw?plead=please-dont-download-this-or-our-lawyers-wont-let-us-host-audio', title: 'Test Bad Track', artist: "Test Bad"}, {url: 'http://a.tumblr.com/tumblr_ltdvr0q0OW1r2bzqlo1.mp3', title: 'Test Good Track', artist: "Test Good"}]);
     provider.search(req.params.query, function(songs) {
       res.json(songs);
     }); 
@@ -95,7 +96,16 @@ module.exports = function(app, pubSub){
     });
   });
   app.get('/playlists', function(req, res) {
-    res.send(provider.playlists);
+    res.json(provider.playlists);
+  });
+  app.get('/check/:url', function(req, res) {
+    provider.treatUrl(req.params.url, function(newUrl) {
+      if (newUrl){
+        res.send('ok');
+      }else{
+        res.send('bad');
+      }
+    });
   });
   app.get('/admin/:token', function(req, res){
     if (req.params.token == app.settings.server.keys.token){
@@ -104,5 +114,5 @@ module.exports = function(app, pubSub){
       res.send('sai daki lek afff');
     }
   });
-
+  
 }

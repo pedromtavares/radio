@@ -87,10 +87,17 @@ function PlaylistClient (config) {
             }else{
               var divClass = 'odd';
             }
-            var $song = $("<li data-song='"+song.id+"' class='"+divClass+" search_result'><a>"+song.artist+" - "+song.title+"</a></li>");
+            var $song = $("<li data-song='"+song.id+"' data-url='"+song.url+"' class='"+divClass+" search_result'><a>"+song.artist+" - "+song.title+"</a></li>");
             $song.on('click', function() {
               if ($('#chosenSongs').children().length < 5){
-                $('#chosenSongs').append($(this).detach().removeClass('even').addClass('odd').addClass('chosen_result'));
+                var removed = $(this).detach().removeClass('even').addClass('odd').addClass('chosen_result');
+                checkIfUrlIsValid($(this).data('url'), function(result) {
+                 if (result){
+                   $('#chosenSongs').append(removed);
+                 } else{
+                   alert('A música escolhida contém um erro (link quebrado), favor escolher outra');
+                 }
+                });
               }else{
                 alert("O tamanho máximo da playlist deve ser de 5 músicas!");
               }
@@ -160,4 +167,16 @@ function PlaylistClient (config) {
   };
   
   this.init();
+}
+
+function checkIfUrlIsValid (url, callback) {
+  $('#playlistLoading').show();
+  $.get('/check/'+encodeURIComponent(url), function(data) {
+    if (data == 'ok'){
+      callback(true);
+    }else{
+      callback(false);
+    }
+    $('#playlistLoading').hide();
+  });
 }
