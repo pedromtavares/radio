@@ -262,6 +262,14 @@ th.last-play{
 .search_result a{
   font-size:1em !important;
   border: 0 !important;
+  padding: 2px !important;
+}
+
+.search_result img{
+  height:70px;
+  width:70px;
+  float:left;
+  margin: 5px 0 0 5px;
 }
 
 .chosen_result{

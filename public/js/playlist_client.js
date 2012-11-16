@@ -87,7 +87,11 @@ function PlaylistClient (config) {
             }else{
               var divClass = 'odd';
             }
-            var $song = $("<li data-song='"+song.id+"' data-url='"+song.url+"' class='"+divClass+" search_result'><a>"+song.artist+" - "+song.title+"</a></li>");
+            var image = '';
+            if (song.image && song.image.small){
+              image = "<img src='"+song.image.small+"'/>"
+            }
+            var $song = $("<li data-song='"+song.id+"' data-url='"+song.url+"' class='"+divClass+" search_result'>"+image+"<a>"+song.artist+" - "+song.title+"</a></li>");
             $song.on('click', function() {
               if ($('#chosenSongs').children().length < 5){
                 var removed = $(this).detach().removeClass('even').addClass('odd').addClass('chosen_result');
