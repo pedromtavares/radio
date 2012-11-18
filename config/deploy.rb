@@ -77,6 +77,5 @@ end
 before 'deploy', 'deploy:reset_shoutcast'
 before 'deploy:setup', 'deploy:create_deploy_to_with_sudo'
 after 'deploy:setup', 'deploy:write_upstart_script'
-after 'deploy', 'deploy:symlink_keys'
+before 'deploy:restart', 'deploy:symlink_keys'
 after 'deploy', 'deploy:link_modules'
-after 'deploy', 'deploy:restart'
