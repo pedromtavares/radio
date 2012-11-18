@@ -45,36 +45,42 @@ html.no-js(lang='en')
       #container
         section.intro.vcard
           #limit-alert.alert Limite de ouvintes (#{config.listenerLimit}) foi atingido, caso já não esteja ouvindo, favor esperar até um ouvinte sair.
-          #jplayer.jp-jplayer(style="padding-left:100px")
+          #jplayer.jp-jplayer(style="padding-left:150px")
           .jp-audio#jp_container_1
             .jp-type-single
               #jp_interface_1.jp-interface
                 ul.jp-controls
                   li
-                    a.jp-play(href="#", tabindex=1, style="margin-left:-25px") play
+                    a.jp-play(href="javascript:void(0)", tabindex=1) play
                   li
-                    a.jp-pause(href="#", tabindex=1, style="margin-left:-25px") pause
+                    a.jp-pause(href="javascript:void(0)", tabindex=1) pause
                   li
-                    a.jp-stop(href="#", tabindex=1, style="margin-left:-25px") stop
+                    a.jp-stop(href="javascript:void(0)", tabindex=1) stop
                   li
-                    a.jp-mute(href="#", tabindex=1, style="margin-left:-25px") mute
+                    a.jp-mute(href="javascript:void(0)", tabindex=1) mute
                   li
-                    a.jp-unmute(href="#", tabindex=1, style="margin-left:-25px") unmute    
-                .jp-volume-bar(style="margin-left:-30px")
+                    a.jp-unmute(href="javascript:void(0)", tabindex=1) unmute    
+                .jp-volume-bar
                   .jp-volume-bar-value
-                .jp-current-time(style="margin-left:-25px")
+                .stream-loading(style="display:none")
+                  | Carregando...
+                .jp-current-time
               #jp_playlist_1.jp-playlist
                 ul(style="margin-left:-30px")
-                  li#current_track
-                    | Música:
-                    span#track=track
+                  - if (track)
+                    li#current_track
+                      | Música:
+                      span#track=track
                   li#current_dj
-                    | DJ:
-                    span#dj=dj
+                    - if (dj)
+                      | DJ:
+                      span#dj=dj
+                    - else
+                      | Playlist:
+                      span#playlist_name=playlist.name
                     .right
                       span#listeners=listeners 
                       |  ouvinte(s)
-                  li#offline_msg(style="display:none") Não há DJ online nesse momento, tente mais tarde.
           .notice
             | Caso a música não esteja tocando, clique 
             a(href="javascript:void(0)", onclick="window.location.reload()") aqui
@@ -137,6 +143,7 @@ html.no-js(lang='en')
     script(type="text/javascript", src="js/libs/socket.io.js")
     script(type="text/javascript", src="js/libs/jquery.js")
     script(type="text/javascript", src="js/libs/jquery.jplayer.min.js")
+    script(type="text/javascript", src="js/libs/jquery.fancybox.pack.js")
     script(type="text/javascript", src="js/application_mobile.js")
     script(src="js/template/plugins.js")
     script(src="js/template/script.js")

@@ -9,6 +9,7 @@ function RadioClient(){
     self.timeout = false;
     self.config = self.getServerConfigs();
     self.setupPubSub();
+    // self.setupDOM();
     self.startRadio();
   };
   
@@ -53,44 +54,54 @@ function RadioClient(){
   };
     
   this.startRadio = function(){
-    if (self.config.dj == 'false'){
-      self.goOffline();
-    }else{
-      self.goOnline();
-    }
+    self.goOnline();
   };
   
   this.loadPlayer = function(){
-    $("#jplayer").jPlayer("setMedia", {
+    $("#jplayer").jPlayer("setMedia",{
       mp3: "/stream.mp3",
-      oga: "/stream.ogg"
-    });
-  };
+    }).jPlayer("play");
+  }
   
   this.startPlayer = function(){
     $("#jplayer").jPlayer({
-      ready: function(event){
-        self.loadPlayer();
+      ready: function (event) {
+        if (self.config.listenerCount < self.config.listenerLimit){
+          self.loadPlayer();
+        }
       },
       swfPath: "../",
-      supplied: "mp3, oga"
+      supplied: "mp3",
+      loadstart: function(event){
+        $('.stream-loading').show();
+      },
+      playing: function(event){
+        $('.stream-loading').hide();
+      },
+      error: function(event){
+        if (event.jPlayer.error.type != $.jPlayer.error.URL_NOT_SET){
+          $('.stream-loading').hide();
+          self.reloadPlayer();
+        }
+      },
     });
   };
   
   this.stopPlayer = function(){
+    $('.stream-loading').hide();
     $("#jplayer").jPlayer("clearMedia");
   };
+  
+  this.reloadPlayer = function(){
+    self.stopPlayer();
+    self.loadPlayer();
+  }
   
   this.goOnline = function(){
     self.startPlayer();
   };
   
   this.goOffline = function(){
-    $('#offline_msg').show();
-    $('#current_dj').hide();
-    $('#current_track').hide();
-    self.stopPlayer();
-    self.currentTrack = false;
     self.config.dj = 'false';
   };
   
@@ -108,6 +119,17 @@ function RadioClient(){
     }, time * 1000)
     self.currentTrack = track;
   };
+  
+  this.setupDOM = function(){
+    $('#reload').click(self.reloadPlayer);
+
+    $('.jp-stop').click(self.stopPlayer);
+    $('.jp-pause').click(self.stopPlayer);
+    $('.jp-mute').click(self.stopPlayer);
+
+    $('.jp-play').click(self.loadPlayer);
+    $('.jp-unmute').click(self.loadPlayer);
+  }
   
   this.init();
 }

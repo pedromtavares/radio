@@ -38,6 +38,7 @@ module.exports = function(app, pubSub){
     , dj: radio.currentDJ
     , config: {port: app.settings.server.port, listenerLimit: app.settings.server.listenerLimit}
     , listeners: radio.listeners.length + radio.streamListeners
+    , playlist: provider.currentPlaylist
     });
   });
   app.get('/stream.mp3', function(req, res){
