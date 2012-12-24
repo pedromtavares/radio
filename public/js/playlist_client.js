@@ -131,6 +131,7 @@ function PlaylistClient (config) {
         alert('Sua playlist deve conter ao menos uma música.');
         return;
       }
+      $(this).hide();
       $.post('/playlist', {ids: ids, name: name}, function() {
         $.fancybox.close();
         $('ul#searchResults').empty();
