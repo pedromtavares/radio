@@ -69,7 +69,7 @@ namespace :deploy do
 	end
 	
 	task :link_modules, :roles => :app do
-	  sudo "npm install lame"
+    run "cd #{release_path} && npm install lame"
 	end
 
 end
@@ -78,4 +78,4 @@ before 'deploy', 'deploy:reset_shoutcast'
 before 'deploy:setup', 'deploy:create_deploy_to_with_sudo'
 after 'deploy:setup', 'deploy:write_upstart_script'
 before 'deploy:restart', 'deploy:symlink_keys'
-# before 'deploy:restart', 'deploy:link_modules'
+before 'deploy:restart', 'deploy:link_modules'
