@@ -28,7 +28,7 @@ function RadioClient (config) {
         self.reloadPlayer();
         return;
       }
-      if (track && track != ''){
+      if (track && track !== ''){
         self.nextTrack(track);
       }
     });
@@ -44,16 +44,16 @@ function RadioClient (config) {
           $('#limit-alert').slideUp();
         }
         self.timeout = false;
-      }, 1000)
+      }, 1000);
     }
   };
   
   
   this.loadPlayer = function(){
     $("#jplayer").jPlayer("setMedia",{
-      mp3: "/stream.mp3",
+      mp3: "/stream.mp3"
     }).jPlayer("play");
-  }
+  };
   
   this.startPlayer = function(){
     $("#jplayer").jPlayer({
@@ -75,7 +75,7 @@ function RadioClient (config) {
           $('.stream-loading').hide();
           self.reloadPlayer();
         }
-      },
+      }
     });
   };
   
@@ -87,19 +87,20 @@ function RadioClient (config) {
   this.reloadPlayer = function(){
     self.stopPlayer();
     self.loadPlayer();
-  }
+  };
   
   this.nextTrack = function(track){
-    // Don't show the next track immediately since the stream delay is about 15 seconds, so we don't want to spoil out 
-    // what the next track is gonna be 15 seconds before it actually starts. It's ok to show it immediately if 
+    // Don't show the next track immediately since the stream delay is about 15 seconds, so we don't want to spoil out
+    // what the next track is gonna be 15 seconds before it actually starts. It's ok to show it immediately if
     // there was nothing playing (or if you just connected to the stream).
     var current = $('#track').text();
     var time = self.currentTrack ? 10 : 1;
     setTimeout(function() {
       if (current != track){
         $('#recent').click();
+        $('#track').text(track);
       }
-    }, time * 1000)
+    }, time * 1000);
     self.currentTrack = track;
     console.log(track);
   };
@@ -113,7 +114,7 @@ function RadioClient (config) {
 
     $('.jp-play').click(self.loadPlayer);
     $('.jp-unmute').click(self.loadPlayer);
-  }  
+  };
   
   this.init();
 }

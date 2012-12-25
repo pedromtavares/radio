@@ -72,6 +72,27 @@ function PlaylistClient (config) {
       $('#playlistFancybox').show();
       $('#playlistSearch').focus();
     });
+
+    $('#searchResults li').live('click', function() {
+      if ($('#chosenSongs').children().length < 5){
+        var removed = $(this).detach().removeClass('even').addClass('odd').addClass('chosen_result');
+        checkIfUrlIsValid($(this).data('url'), function(result) {
+         if (result){
+           $('#chosenSongs').append(removed);
+           $('#chosenHelp').show();
+         } else{
+           alert('A música escolhida contém um erro (link quebrado), favor escolher outra');
+         }
+        });
+      }else{
+        alert("O tamanho máximo da playlist deve ser de 5 músicas!");
+      }
+    });
+
+    $('#chosenSongs li').live('click', function() {
+      $(this).detach();
+    });
+
     $('#playlistSearch').keypress(function(e){
       if(e.which == 13){
         var query = $(this).val();
@@ -92,20 +113,6 @@ function PlaylistClient (config) {
               image = "<img src='"+song.image.small+"'/>"
             }
             var $song = $("<li data-song='"+song.id+"' data-url='"+song.url+"' class='"+divClass+" search_result'>"+image+"<a>"+song.artist+" - "+song.title+"</a></li>");
-            $song.on('click', function() {
-              if ($('#chosenSongs').children().length < 5){
-                var removed = $(this).detach().removeClass('even').addClass('odd').addClass('chosen_result');
-                checkIfUrlIsValid($(this).data('url'), function(result) {
-                 if (result){
-                   $('#chosenSongs').append(removed);
-                 } else{
-                   alert('A música escolhida contém um erro (link quebrado), favor escolher outra');
-                 }
-                });
-              }else{
-                alert("O tamanho máximo da playlist deve ser de 5 músicas!");
-              }
-            });
             $('#searchResults').append($song);
           });
           $('#playlistLoading').hide();
