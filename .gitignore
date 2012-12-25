@@ -1,4 +1,4 @@
 config/keys.json
 public/system/
 songs/*.mp3
-node_modules/memwatch
+songs/what.txt
