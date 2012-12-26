@@ -1,4 +1,4 @@
-var fs = require('fs')
+var fs = require('fs');
 
 module.exports = function(app, express){
   app.configure(function(){
@@ -14,31 +14,31 @@ module.exports = function(app, express){
   });
 
   app.configure('development', function(){
-    app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     app.set('server', {
-      url: "http://stream.pedromtavares.com:20000"
-    , port: 8000
-    , reconnectTime: 5 // in seconds
-    , twitterInterval: 5 // in seconds
-    , keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8'))
-    , listenerLimit: 100
-    , streamHost: "stream.pedromtavares.com"
-    , streamPort: 20000
+      url: "http://stream.pedromtavares.com:20000",
+      port: 8000,
+      reconnectTime: 5, // in seconds
+      twitterInterval: 5, // in seconds
+      keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8')),
+      listenerLimit: 100,
+      streamHost: "stream.pedromtavares.com",
+      streamPort: 20000
     });
   });
 
   app.configure('production', function(){
-    app.use(express.errorHandler()); 
+    app.use(express.errorHandler());
     app.set('server', {
-      url: "http://stream.pedromtavares.com:10000"
-    , port: 80
-    , host: '173.255.227.12'
-    , reconnectTime: 60 // in seconds (1 min)
-    , twitterInterval: 30 * 60 // in seconds (30 min)
-    , keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8'))
-    , listenerLimit: 100
-    , streamHost: "stream.pedromtavares.com"
-    , streamPort: 10000
+      url: "http://stream.pedromtavares.com:10000",
+      port: 80,
+      host: '173.255.227.12',
+      reconnectTime: 60, // in seconds (1 min)
+      twitterInterval: 30 * 60, // in seconds (30 min)
+      keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8')),
+      listenerLimit: 200,
+      streamHost: "stream.pedromtavares.com",
+      streamPort: 10000
     });
   });
-}
+};

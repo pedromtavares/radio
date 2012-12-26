@@ -1,8 +1,8 @@
-var express = require('express')
-  , form = require('connect-form')
-  , app = module.exports = express.createServer(form({ keepExtensions: true }))
-  , redis = require('redis')
-  , pubSub = redis.createClient();
+var express = require('express'),
+    form = require('connect-form'),
+    app = module.exports = express.createServer(form({ keepExtensions: true })),
+    redis = require('redis'),
+    pubSub = redis.createClient();
     
 require('./config/environment')(app, express);
 require('./config/routes')(app, pubSub);
@@ -14,10 +14,10 @@ setTimeout(function() {
   // after reserving priviled port, set process to run on a less privileged user
   if (app.settings.server.host){
     process.setgid(50);
-    process.setuid(1000); 
+    process.setuid(1000);
     console.log("Process now running under user: " + process.getuid());
   }
-}, 3000)
+}, 3000);
 
 process.addListener('uncaughtException', function (err, stack) {
   console.log('------------------------');
