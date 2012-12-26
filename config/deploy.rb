@@ -69,7 +69,7 @@ namespace :deploy do
 	end
 	
 	task :link_modules, :roles => :app do
-    run "cd #{release_path} && npm install lame"
+    run "cd #{release_path} && npm install lame && npm install memwatch"
 	end
 
 end
