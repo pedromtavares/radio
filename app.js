@@ -1,4 +1,7 @@
-// require('nodetime').profile();
+require('nodetime').profile({
+    accountKey: '6fa8b29de58b4f311472c381b9cf04593e1d4082',
+    appName: 'Radio'
+  });
 var express = require('express'),
     form = require('connect-form'),
     app = module.exports = express.createServer(form({ keepExtensions: true })),
