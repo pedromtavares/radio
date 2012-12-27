@@ -1,3 +1,4 @@
+// require('nodetime').profile();
 var express = require('express'),
     form = require('connect-form'),
     app = module.exports = express.createServer(form({ keepExtensions: true })),
