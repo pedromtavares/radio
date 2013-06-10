@@ -93,7 +93,7 @@ module.exports = function(app, pubSub){
   });
   app.post('/playlist', function(req, res) {
     provider.createPlaylist(req.body.name, req.body.ids, false, function() {
-      provider.nextPlaylist();
+      provider.jumpPlaylist();
       res.send('done');
     });
   });
