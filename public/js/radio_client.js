@@ -12,7 +12,9 @@ function RadioClient (config) {
     self.timeout = false;
     self.setupPubSub();
     self.setupDOM();
-    self.startPlayer();
+    setTimeout(function() {
+     self.startPlayer(); 
+    }, 3000);
   };
   
   this.setupPubSub = function(){
