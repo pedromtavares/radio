@@ -4,12 +4,10 @@ require('nodetime').profile({
   });
 var express = require('express'),
     form = require('connect-form'),
-    app = module.exports = express.createServer(form({ keepExtensions: true })),
-    redis = require('redis'),
-    pubSub = redis.createClient();
+    app = module.exports = express.createServer(form({ keepExtensions: true }));
     
 require('./config/environment')(app, express);
-require('./config/routes')(app, pubSub);
+require('./config/routes')(app);
 
 app.listen(app.settings.server.port, app.settings.server.host);
 

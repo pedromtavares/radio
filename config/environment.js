@@ -2,15 +2,10 @@ var fs = require('fs');
 
 module.exports = function(app, express){
   app.configure(function(){
-    app.set('views', __dirname + '/../views');
-    app.set('view engine', 'jade');
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(app.router);
     app.use(express.static(__dirname + '/../public'));
-    app.set('view options', {
-      layout: false
-    });
   });
 
   app.configure('development', function(){
@@ -23,7 +18,9 @@ module.exports = function(app, express){
       keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8')),
       listenerLimit: 100,
       streamHost: "stream.pedromtavares.com",
-      streamPort: 20000
+      streamPort: 20000,
+      siteUrl: 'http://lvh.me:3000',
+      apiUrl: 'http://ex.fm/api/v3'
     });
   });
 
@@ -38,7 +35,9 @@ module.exports = function(app, express){
       keys : JSON.parse(fs.readFileSync(process.cwd()+'/config/keys.json', encoding='utf8')),
       listenerLimit: 200,
       streamHost: "stream.pedromtavares.com",
-      streamPort: 10000
+      streamPort: 10000,
+      siteUrl: 'http://mixradio.fm',
+      apiUrl: 'http://ex.fm/api/v3'
     });
   });
 };

@@ -4,10 +4,10 @@ var fs = require('fs'),
     Decoder = require('../lib/decoder'),
     Provider = require('../lib/provider');
  
-module.exports = function(app, pubSub){
-  var radio = new Radio(app, pubSub),
+module.exports = function(app){
+  var radio = new Radio(app),
       decoder = new Decoder(app, radio),
-      provider = new Provider(app, decoder, pubSub),
+      provider = new Provider(app, decoder),
       streamer = new Streamer(app, radio, decoder, provider);
   app.get('/', function(req, res){
     res.redirect('http://mixradio.fm');
@@ -16,7 +16,11 @@ module.exports = function(app, pubSub){
     streamer.streamResponse(req, res);
   });
   app.get('/track', function(req, res){
-    res.send(radio.currentTrack);
+    if (radio.currentTrack){
+      res.send(radio.currentTrack);
+    }else{
+      res.json(provider.currentSong);
+    }
   });
   app.get('/dj', function(req, res){
     res.send(radio.currentDJ);
