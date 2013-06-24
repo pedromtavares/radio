@@ -13,7 +13,7 @@ default_run_options[:pty] = true
 
 set :node_env, "production"
 # set :branch, "pre-exfm"
-set :branch, "master"
+set :branch, "api"
 
 role :app, "173.255.227.12"
 
