@@ -10,7 +10,6 @@ var express = require('express'),
     
 require('./config/environment')(app, express);
 require('./config/routes')(app, pubSub);
-require('./helpers/application_helper')(app);
 
 app.listen(app.settings.server.port, app.settings.server.host);
 

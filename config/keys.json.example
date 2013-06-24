@@ -2,5 +2,6 @@
   "consumerToken" : "put",
   "consumerSecret" : "your",
   "accessToken" : "keys",
-  "accessSecret": "here!"
+  "accessSecret": "here!",
+  "token": "extra"
 }
