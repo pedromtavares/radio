@@ -29,7 +29,7 @@ module.exports = function(app){
     res.json(provider.currentPlaylist);
   });
   app.post('/playlist', function(req, res) {
-    provider.createPlaylist(req.body.name, req.body.ids, req.body.user_id, req.body.automatic, function() {
+    provider.createPlaylist(req.body.name, req.body.ids, req.body.user_id, req.body.automatic, req.body.uid, function() {
       provider.jumpPlaylist();
       res.send('done');
     });
