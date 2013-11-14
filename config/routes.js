@@ -30,7 +30,11 @@ module.exports = function(app){
   });
   app.post('/playlist', function(req, res) {
     provider.createPlaylist(req.body.name, req.body.ids, req.body.user_id, req.body.automatic, req.body.uid, function() {
-      provider.jumpPlaylist();
+      if (req.body.automatic){
+        provider.start(true);
+      }else{
+        provider.jumpPlaylist();
+      }  
       res.send('done');
     });
   });
