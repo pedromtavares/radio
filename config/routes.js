@@ -29,8 +29,8 @@ module.exports = function(app){
     res.json(provider.currentPlaylist);
   });
   app.post('/playlist', function(req, res) {
-    provider.createPlaylist(req.body.name, JSON.parse(req.body.songs), req.body.user_id, req.body.automatic, req.body.uid, function() {
-      if (req.body.automatic){
+    provider.createPlaylist(req.body.name, JSON.parse(req.body.songs), req.body.user_id, JSON.parse(req.body.automatic), req.body.uid, function(playlist) {
+      if (playlist.automatic){
         provider.start(true);
       }else{
         provider.jumpPlaylist();
