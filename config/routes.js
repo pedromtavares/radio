@@ -48,7 +48,7 @@ module.exports = function(app){
       }else{
         res.send('bad');
       }
-    });
+    }, true);
   });
   app.get('/search/:query', function(req, res){
     // res.json([{url: 'http://www.tumblr.com/audio_file/alikhandro/9733034154/tumblr_lqcb2jm1pm1r15jcw?plead=please-dont-download-this-or-our-lawyers-wont-let-us-host-audio', title: 'Test Bad Track', artist: "Test Bad"}, {url: 'http://a.tumblr.com/tumblr_ltdvr0q0OW1r2bzqlo1.mp3', title: 'Test Good Track', artist: "Test Good"}]);
