@@ -72,7 +72,7 @@ namespace :deploy do
     run "cd #{release_path} && npm install lame && npm install memwatch && npm install nodetime"
 	end
 	
-	task :create_songs_fodler, :roles => :app do
+	task :create_songs_folder, :roles => :app do
 	  run "cd #{release_path} && mkdir songs"
 	end
 
@@ -83,3 +83,4 @@ before 'deploy:setup', 'deploy:create_deploy_to_with_sudo'
 after 'deploy:setup', 'deploy:write_upstart_script'
 before 'deploy:restart', 'deploy:symlink_keys'
 before 'deploy:restart', 'deploy:link_modules'
+before 'deploy:restart', 'deploy:create_songs_folder'
