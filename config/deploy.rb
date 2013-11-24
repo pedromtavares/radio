@@ -69,7 +69,7 @@ namespace :deploy do
 	end
 	
 	task :link_modules, :roles => :app do
-    run "cd #{release_path} && npm install lame && npm install memwatch && npm install nodetime"
+    run "cd #{release_path} && npm install lame"
 	end
 	
 	task :create_songs_folder, :roles => :app do
